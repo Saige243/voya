@@ -20,6 +20,7 @@
     "@trpc/client": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
+    "dotenv": "^16.4.5",
     "geist": "^1.3.0",
     "next": "^14.2.1",
     "next-auth": "^4.24.6",
