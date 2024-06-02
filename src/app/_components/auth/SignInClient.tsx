@@ -6,6 +6,8 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
+import { Button } from "~/app/_components/Button";
+import { Card } from "../Card";
 
 export default function SignInClient({
   providers,
@@ -21,15 +23,29 @@ export default function SignInClient({
     return null;
   }
 
-  return (
+  const mappedProviders = (
     <>
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
-          <button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
+          <Button
+            onClick={() => signIn(provider.id)}
+            buttonText={`Sign in with ${provider.name}`}
+            className="btn-primary w-full"
+          />
         </div>
       ))}
     </>
+  );
+
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center">
+      <Card
+        title="Sign in"
+        description="Sign in to access your account."
+        buttonText="Sign in"
+      >
+        {mappedProviders}
+      </Card>
+    </div>
   );
 }
