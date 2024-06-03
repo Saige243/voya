@@ -9,6 +9,8 @@ import {
 import { Button } from "~/app/_components/Button";
 import { Card } from "../Card";
 import { TextInput } from "../TextInput";
+import { Toast } from "~/app/_components/Toast";
+import { useState } from "react";
 
 export default function SignInClient({
   providers,
@@ -18,25 +20,31 @@ export default function SignInClient({
     ClientSafeProvider
   > | null;
 }) {
-  console.log("PROVIDERS:", providers);
+  const [showToast, setShowToast] = useState(false);
 
   if (!providers) {
     return null;
   }
 
+  const handleSignIn = () => {
+    // Perform sign-in logic here
+    // For example, if sign-in fails, show the alert
+    setShowToast(true);
+  };
+
   const signInForm = (
     <div className="py-4">
-      <form>
-        <TextInput placeholder="Email" className="mb-4" />
-        <TextInput placeholder="Password" className="mb-4" />
-        <Button
-          buttonText="Sign in"
-          className="btn-primary w-full"
-          onClick={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </form>
+      {/* <form> */}
+      <TextInput placeholder="Email" className="mb-4" />
+      <TextInput placeholder="Password" className="mb-4" />
+      <Button
+        buttonText="Sign in"
+        className="btn-primary w-full"
+        onClick={handleSignIn}
+      />
+      {showToast && (
+        <Toast toastText="Sign in failed!" className="" toastType="error" />
+      )}
     </div>
   );
 
