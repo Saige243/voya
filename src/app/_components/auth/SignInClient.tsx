@@ -8,6 +8,7 @@ import {
 } from "next-auth/react";
 import { Button } from "~/app/_components/Button";
 import { Card } from "../Card";
+import { TextInput } from "../TextInput";
 
 export default function SignInClient({
   providers,
@@ -22,6 +23,22 @@ export default function SignInClient({
   if (!providers) {
     return null;
   }
+
+  const signInForm = (
+    <div className="py-4">
+      <form>
+        <TextInput placeholder="Email" className="mb-4" />
+        <TextInput placeholder="Password" className="mb-4" />
+        <Button
+          buttonText="Sign in"
+          className="btn-primary w-full"
+          onClick={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      </form>
+    </div>
+  );
 
   const mappedProviders = (
     <>
@@ -40,11 +57,12 @@ export default function SignInClient({
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <Card
-        title="Sign in"
-        description="Sign in to access your account."
+        title="Sign in to Voya"
+        description="Sign to access your account"
         buttonText="Sign in"
       >
         {mappedProviders}
+        {signInForm}
       </Card>
     </div>
   );
