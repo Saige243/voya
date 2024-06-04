@@ -1,7 +1,7 @@
 import { getProviders, getSession } from "next-auth/react";
 import { authOptions } from "~/server/auth";
 import { redirect } from "next/navigation";
-import SignInClient from "../../_components/auth/SignInClient";
+import AuthClient from "../../_components/auth/AuthClient";
 
 export default async function SignInPage() {
   const session = await getSession();
@@ -12,5 +12,5 @@ export default async function SignInPage() {
 
   const providers = await getProviders();
 
-  return <SignInClient providers={providers} />;
+  return <AuthClient providers={providers} />;
 }

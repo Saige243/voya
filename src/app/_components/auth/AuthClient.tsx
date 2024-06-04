@@ -12,7 +12,7 @@ import { TextInput } from "../TextInput";
 import { Toast } from "~/app/_components/Toast";
 import { useState } from "react";
 
-export default function SignInClient({
+export default function AuthClient({
   providers,
 }: {
   providers: Record<
@@ -21,6 +21,7 @@ export default function SignInClient({
   > | null;
 }) {
   const [showToast, setShowToast] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
 
   if (!providers) {
     return null;
@@ -48,6 +49,23 @@ export default function SignInClient({
     </div>
   );
 
+  const signUpForm = (
+    <div className="py-4">
+      {/* <form> */}
+      <TextInput placeholder="Email" className="mb-4" />
+      <TextInput placeholder="Password" className="mb-4" />
+      <TextInput placeholder="Confirm Password" className="mb-4" />
+      <Button
+        buttonText="Sign Up"
+        className="btn-primary w-full"
+        onClick={handleSignIn}
+      />
+      {showToast && (
+        <Toast toastText="Sign in failed!" className="" toastType="error" />
+      )}
+    </div>
+  );
+
   const mappedProviders = (
     <>
       {Object.values(providers).map((provider) => (
@@ -62,6 +80,18 @@ export default function SignInClient({
     </>
   );
 
+  const toggleAuthButton = (
+    <Button
+      buttonText={
+        isSignIn
+          ? "Don't have an account? Sign Up"
+          : "Already have an account? Sign in"
+      }
+      className="btn-ghost w-full"
+      onClick={() => setIsSignIn(!isSignIn)}
+    />
+  );
+
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <Card
@@ -70,7 +100,8 @@ export default function SignInClient({
         buttonText="Sign in"
       >
         {mappedProviders}
-        {signInForm}
+        {isSignIn ? signInForm : signUpForm}
+        {toggleAuthButton}
       </Card>
     </div>
   );
