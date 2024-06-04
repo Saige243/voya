@@ -1,16 +1,16 @@
 export function Card({
   title,
   description,
-  buttonText,
   children,
+  className,
 }: {
   title: string;
   description: string;
-  buttonText: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="card bg-base-100 w-96 shadow-xl">
+    <div className={`card w-96 bg-base-100 shadow-xl ${className}`}>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p className="pb-4">{description}</p>

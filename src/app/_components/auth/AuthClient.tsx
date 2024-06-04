@@ -97,9 +97,9 @@ export default function AuthClient({
       <Card
         title={isSignIn ? "Sign In to Voya" : "Sign Up for Voya"}
         description={isSignIn ? "Sign in to your account" : "Create an account"}
-        buttonText={isSignIn ? "Sign In" : "Sign Up"}
+        className="w-96"
       >
-        {mappedProviders}
+        <div className="flex space-x-2">{mappedProviders}</div>
         {isSignIn ? signInForm : signUpForm}
         {toggleAuthButton}
       </Card>
