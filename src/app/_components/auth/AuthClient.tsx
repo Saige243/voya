@@ -6,11 +6,14 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
-import { Button } from "~/app/_components/Button";
+import { Button, ImageButton } from "~/app/_components/Button";
 import { Card } from "../Card";
 import { TextInput } from "../TextInput";
 import { Toast } from "~/app/_components/Toast";
 import { useState } from "react";
+
+const providerLogoSrc = (name: string) =>
+  `https://authjs.dev/img/providers/${name}.svg`;
 
 export default function AuthClient({
   providers,
@@ -68,15 +71,22 @@ export default function AuthClient({
 
   const mappedProviders = (
     <>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <Button
-            onClick={() => signIn(provider.id)}
-            buttonText={`Sign in with ${provider.name}`}
-            className="btn-primary w-full"
-          />
-        </div>
-      ))}
+      {Object.values(providers).map((provider) => {
+        console.log("logo src", providerLogoSrc(provider.name));
+        return (
+          <div key={provider.name}>
+            <ImageButton
+              onClick={() => signIn(provider.id)}
+              buttonText={`Sign in with ${provider.name}`}
+              className="btn-primary flex flex-row"
+              src={providerLogoSrc(provider.id)}
+              alt={provider.name}
+              height={24}
+              width={24}
+            />
+          </div>
+        );
+      })}
     </>
   );
 
