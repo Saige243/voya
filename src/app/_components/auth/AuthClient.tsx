@@ -76,7 +76,7 @@ export default function AuthClient({
         return (
           <div key={provider.name}>
             <ImageButton
-              onClick={() => signIn(provider.id)}
+              onClick={() => signIn(provider.id, { callbackUrl: "/" })}
               buttonText={`Sign in with ${provider.name}`}
               className="btn-primary flex flex-row"
               src={providerLogoSrc(provider.id)}
