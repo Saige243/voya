@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <div className="navbar bg-base-100">
@@ -10,7 +12,7 @@ export default function Navbar() {
             <a>Account</a>
           </li>
           <li>
-            <details>
+            <details className="w-42">
               <summary>Menu</summary>
               <ul className="rounded-t-none bg-base-100 p-2">
                 <li>
@@ -20,7 +22,9 @@ export default function Navbar() {
                   <a>Profile</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <Link href={"/api/auth/signout"} className="">
+                    Sign out
+                  </Link>
                 </li>
               </ul>
             </details>

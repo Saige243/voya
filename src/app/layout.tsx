@@ -6,10 +6,6 @@ import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/Navbar";
 import { getServerAuthSession } from "~/server/auth";
 
-export async function fetchSession() {
-  return await getServerAuthSession();
-}
-
 export const metadata = {
   title: "Welcome to Voya",
   description: "Time to Travel",
@@ -21,7 +17,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
+  const session = await getServerAuthSession();
 
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
@@ -33,10 +29,4 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
-
-async function getSession() {
-  const res = await fetchSession();
-
-  return res;
 }
