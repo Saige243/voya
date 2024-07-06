@@ -24,7 +24,9 @@ export default async function RootLayout({
       <body>
         <TRPCReactProvider>
           {session && <Navbar />}
-          {children}
+          <div className="bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+            {children}
+          </div>
         </TRPCReactProvider>
       </body>
     </html>
