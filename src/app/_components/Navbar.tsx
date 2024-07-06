@@ -2,34 +2,37 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl  text-black">Voya</a>
+    <div className="navbar rounded-box">
+      <div className="flex-1 px-2 lg:flex-none">
+        <a className="text-lg font-bold">Voya</a>
       </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <a>Account</a>
-          </li>
-          <li>
-            <details className="w-42">
-              <summary>Menu</summary>
-              <ul className="rounded-t-none bg-base-100 p-2">
-                <li>
-                  <a>Trips</a>
-                </li>
-                <li>
-                  <a>Profile</a>
-                </li>
-                <li>
-                  <Link href={"/api/auth/signout"} className="">
-                    Sign out
-                  </Link>
-                </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
+      <div className="flex flex-1 justify-end px-2">
+        <div className="flex items-stretch">
+          <a className="btn btn-ghost rounded-btn">Account</a>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost rounded-btn"
+            >
+              Menu
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
+            >
+              <li>
+                <a>Profile</a>
+              </li>
+              <li>
+                <a>Settings</a>
+              </li>
+              <li>
+                <a>Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
