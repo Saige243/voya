@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
@@ -7,6 +8,10 @@ import { api } from "~/trpc/server";
 export default async function Dashboard() {
   // const hello = await api.post.hello({ text: ", time to travel" });
   const session = await getServerAuthSession();
+
+  if (!session) {
+    redirect("/");
+  }
 
   const travelPhrases = [
     "Time to explore",
@@ -26,31 +31,12 @@ export default async function Dashboard() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <h3 className="text-xl font-extrabold tracking-tight sm:text-[3rem]">
+        {randomTravelPhrase}
+        {", "}
+        <span className="text-[hsl(280,100%,70%)]">{session?.user?.name}</span>.
+      </h3>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          {randomTravelPhrase}
-          {", "}
-          <span className="text-[hsl(280,100%,70%)]">
-            {session?.user?.name}
-          </span>
-          .
-        </h1>
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {/* {hello ? hello.greeting : "Loading tRPC query..."} */}
-          </p>
-
-          <div className="flex flex-col items-center justify-center gap-4">
-            {!session && (
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
-            )}
-          </div>
-        </div>
         <CrudShowcase />
       </div>
     </main>
