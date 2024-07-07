@@ -1,3 +1,7 @@
+"use client";
+
+import { signOut } from "next-auth/react";
+
 export default function Navbar() {
   return (
     <div className="navbar">
@@ -30,9 +34,9 @@ export default function Navbar() {
                 <a href="/settings">Settings</a>
               </li>
               <li>
-                <a href="/api/auth/signout" className=" ">
+                <button className="" onClick={() => signOut()}>
                   Sign out
-                </a>
+                </button>
               </li>
             </ul>
           </div>
