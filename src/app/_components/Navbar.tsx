@@ -1,10 +1,10 @@
-import Link from "next/link";
-
 export default function Navbar() {
   return (
-    <div className="navbar rounded-box">
+    <div className="navbar">
       <div className="flex-1 px-2 lg:flex-none">
-        <a className="text-lg font-bold">Voya</a>
+        <a href="/dashboard" className="text-lg font-bold">
+          Voya
+        </a>
       </div>
       <div className="flex flex-1 justify-end px-2">
         <div className="flex items-stretch">
@@ -19,18 +19,20 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
+              className="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 text-black shadow"
             >
               <li>
-                <a>Profile</a>
+                <a href="/profile" className=" ">
+                  Profile
+                </a>
               </li>
               <li>
-                <a>Settings</a>
+                <a href="/settings">Settings</a>
               </li>
               <li>
-                <Link href="/api/auth/signout" className=" ">
+                <a href="/api/auth/signout" className=" ">
                   Sign out
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
