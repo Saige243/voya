@@ -6,23 +6,40 @@ async function Profile() {
   const session = await getServerAuthSession();
   console.log("SESSION: ", session);
   return (
-    <div>
-      profile
-      <div>session</div>
-      <Card title="profile" description={""}>
+    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 text-white">
+      <Card
+        title="Profile"
+        description="Set your profile information here"
+        className="text-black"
+      >
+        <div className="flex flex-col items-center">
+          <Avatar
+            alt="avatar"
+            image={session?.user.image ?? ""}
+            width={32}
+            height={32}
+          />
+        </div>
         <div>
-          <Avatar alt="avatar" image={session?.user.image ?? ""} width={24} />
-          <div>
-            <div>name</div>
-            <div>{session?.user?.name}</div>
+          <div className="flex flex-row gap-2">
+            <div>
+              <p className="text-gray-400">Name:</p>
+            </div>
+            <div>
+              <p className="text-black">{session?.user?.name}</p>
+            </div>
           </div>
-          <div>
-            <div>email</div>
-            <div>{session?.user?.email}</div>
+          <div className="flex flex-row gap-2">
+            <div>
+              <p className="text-gray-400">Email:</p>
+            </div>
+            <div>
+              <p className="text-black">{session?.user?.email}</p>
+            </div>
           </div>
         </div>
       </Card>
-    </div>
+    </main>
   );
 }
 
