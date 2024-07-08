@@ -6,13 +6,13 @@ async function Profile() {
   const session = await getServerAuthSession();
   console.log("SESSION: ", session);
   return (
-    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 text-white">
+    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 pt-40 text-white">
       <Card
         title="Profile"
         description="Set your profile information here"
         className="text-black"
       >
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center pb-4">
           <Avatar
             alt="avatar"
             image={session?.user.image ?? ""}
