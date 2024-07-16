@@ -36,10 +36,27 @@ model Trip {
   createdAt      DateTime        @default(now())
   itineraries    Itinerary[]
   accommodations Accommodation[]
+  activities     Activity[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("trips")
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  tripId      Int
+  title       String
+  description String
+  date        DateTime
+  time        DateTime
+  location    String
+  notes       String
+  createdAt   DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@map("activities")
 }
 
 model Accommodation {
