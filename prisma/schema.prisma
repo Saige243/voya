@@ -26,6 +26,21 @@ model Post {
     @@index([name])
 }
 
+model Trip {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("trips")
+}
+
+
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -63,6 +78,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    trips         Trip[]
 }
 
 model VerificationToken {
