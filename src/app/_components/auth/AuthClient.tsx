@@ -43,7 +43,7 @@ export default function AuthClient({
       <TextInput placeholder="Password" className="mb-4" />
       <Button
         buttonText="Sign in"
-        className="btn-primary w-full"
+        className="btn-primary w-full dark:text-white"
         onClick={handleSignIn}
       />
       {showToast && (
@@ -78,7 +78,7 @@ export default function AuthClient({
             <ImageButton
               onClick={() => signIn(provider.id, { callbackUrl: "/dashboard" })}
               buttonText={`Sign in with ${provider.name}`}
-              className="btn-primary flex flex-row"
+              className="btn-primary flex flex-row dark:text-white"
               src={providerLogoSrc(provider.id)}
               alt={provider.name}
               height={24}
@@ -107,7 +107,7 @@ export default function AuthClient({
       <Card
         title={isSignIn ? "Sign In to Voya" : "Sign Up for Voya"}
         description={isSignIn ? "Sign in to your account" : "Create an account"}
-        className="w-96 text-black"
+        className="w-96 text-black dark:text-white"
       >
         <div className="flex space-x-2">{mappedProviders}</div>
         {isSignIn ? signInForm : signUpForm}
