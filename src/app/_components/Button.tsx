@@ -1,23 +1,23 @@
 import Image from "next/image";
 
 export function Button({
-  buttonText,
   onClick,
   className,
+  children,
 }: {
-  buttonText: string;
-  onClick: () => void;
+  children: React.ReactNode;
+  onClick?: () => void;
   className?: string;
 }) {
   return (
     <button className={`btn ${className}`} onClick={onClick}>
-      {buttonText}
+      {children}
     </button>
   );
 }
 
 export function ImageButton({
-  buttonText,
+  children,
   onClick,
   className,
   src,
@@ -25,8 +25,8 @@ export function ImageButton({
   height,
   width,
 }: {
-  buttonText: string;
-  onClick: () => void;
+  children: React.ReactNode;
+  onClick?: () => void;
   className?: string;
   src: string;
   alt: string;
@@ -38,7 +38,7 @@ export function ImageButton({
       <div className="flex items-center text-center">
         <Image src={src} alt={alt} width={width} height={height} />
         <div>
-          <p>{buttonText}</p>
+          <p>{children}</p>
         </div>
       </div>
     </button>
