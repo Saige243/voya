@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
-import { Button } from "../_components/Button";
+import TripShowcase from "~/app/trips/_components/TripShowcase";
 import { travelPhrases } from "~/constants/travel-phrases";
 
 export default async function Dashboard() {
@@ -29,27 +28,5 @@ export default async function Dashboard() {
         <TripShowcase />
       </div>
     </main>
-  );
-}
-
-async function TripShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  const trips = await api.trip.getAll();
-
-  return (
-    <div className="w-full max-w-xs">
-      {trips.length ? (
-        <p className="truncate">Your most recent trip: {trips[0]?.title}</p>
-      ) : (
-        <div className="flex flex-col items-center gap-2">
-          <p>You have no trips yet!</p>
-          <a href="/trips/new">
-            <Button>Create a trip</Button>
-          </a>
-        </div>
-      )}
-    </div>
   );
 }
