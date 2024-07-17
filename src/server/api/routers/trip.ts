@@ -1,0 +1,69 @@
+import { type Trip } from "@prisma/client";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+
+export const tripRouter = createTRPCRouter({
+  create: protectedProcedure
+    .input(
+      z.object({
+        title: z.string().min(1),
+        startDate: z.date(),
+        endDate: z.date(),
+        description: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }): Promise<Trip> => {
+      return ctx.db.trip.create({
+        data: {
+          title: input.title,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          description: input.description,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.trip.findMany({
+      where: { userId: ctx.session.user.id },
+    });
+  }),
+
+  getById: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.trip.findUnique({
+        where: { id: input.id, userId: ctx.session.user.id },
+      });
+    }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        title: z.string().min(1),
+        startDate: z.date(),
+        endDate: z.date(),
+        description: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+      return ctx.db.trip.update({
+        where: { id },
+        data: {
+          ...data,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  delete: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.trip.delete({
+        where: { id: input },
+      });
+    }),
+});
