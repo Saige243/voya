@@ -5,7 +5,6 @@ import TripShowcase from "~/app/trips/_components/TripShowcase";
 import { travelPhrases } from "~/constants/travel-phrases";
 
 export default async function Dashboard() {
-  // const hello = await api.post.hello({ text: ", time to travel" });
   const session = await getServerAuthSession();
 
   if (!session) {
