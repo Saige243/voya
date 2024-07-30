@@ -26,6 +26,9 @@ export default function Navbar() {
               className="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 text-black shadow dark:text-white"
             >
               <li>
+                <a href="/trips" className=" ">
+                  My Trips
+                </a>
                 <a href="/profile" className=" ">
                   Profile
                 </a>

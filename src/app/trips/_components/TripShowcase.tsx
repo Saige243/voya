@@ -3,11 +3,17 @@ import { Button } from "../../_components/Button";
 
 export default async function TripShowcase() {
   const trips = await api.trip.getAll();
+  const upcomingTrip = trips[0];
 
   return (
     <div className="w-full max-w-xs">
       {trips.length ? (
-        <p className="truncate">Your most recent trip: {trips[0]?.title}</p>
+        <>
+          <p className="truncate">Your next trip: {upcomingTrip?.title}</p>
+          <a href={`/trips/${upcomingTrip?.id}`}>
+            <Button>{upcomingTrip?.title}</Button>
+          </a>
+        </>
       ) : (
         <div className="flex flex-col items-center gap-2">
           <p>You have no trips yet!</p>

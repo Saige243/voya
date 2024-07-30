@@ -1,7 +1,6 @@
 import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
-import { raw } from "@prisma/client/runtime/library";
 
 const NewTripForm = ({ userId }: { userId: string }) => {
   const route = api.trip.create;
