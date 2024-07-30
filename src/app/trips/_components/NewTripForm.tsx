@@ -1,73 +1,58 @@
-"use client";
-
-import React, { useState } from "react";
 import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 
 const NewTripForm = ({ userId }: { userId: string }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  async function createTrip(formData: FormData) {
+    "use server";
 
-  const createTrip = api.trip.create;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Creating trip...", { title, description, startDate, endDate });
-    // const newTrip = {
-    //   title,
-    //   description,
-    //   startDate: new Date(startDate),
-    //   endDate: new Date(endDate),
-    // };
-    // try {
-    //   await createTrip(newTrip);
-    //   redirect("/trips");
-    // } catch (error) {
-    //   console.error("Failed to create trip:", error);
-    // }
-  };
+    const rawFormData = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      startDate: formData.get("startDate"),
+      endDate: formData.get("endDate"),
+    };
+    return console.log("form data:", rawFormData);
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="text-black">
+    <form action={createTrip} className="text-black">
       <div>
         <label htmlFor="title">Title:</label>
         <input
+          name="title"
           type="text"
           id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          defaultValue="title"
           required
         />
       </div>
       <div>
         <label htmlFor="description">Description:</label>
         <textarea
+          name="description"
           id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          defaultValue="description"
           required
         />
       </div>
       <div>
         <label htmlFor="startDate">Start Date:</label>
         <input
+          name="startDate"
           type="date"
           id="startDate"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          defaultValue="startDate"
           required
         />
       </div>
       <div>
         <label htmlFor="endDate">End Date:</label>
         <input
+          name="endDate"
           type="date"
           id="endDate"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+          defaultValue="endDate"
           required
         />
       </div>
