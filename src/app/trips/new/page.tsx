@@ -1,4 +1,3 @@
-// pages/new-trip.jsx
 import { getServerAuthSession } from "~/server/auth";
 import NewTripForm from "../_components/NewTripForm";
 
@@ -8,7 +7,7 @@ export default async function NewTrip() {
 
   return (
     <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 text-white">
-      <NewTripForm userId={1} />
+      <NewTripForm userId={session.user.id} />
     </main>
   );
 }

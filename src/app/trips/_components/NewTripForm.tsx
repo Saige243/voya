@@ -1,40 +1,37 @@
 "use client";
 
 import React, { useState } from "react";
+import { Button } from "~/app/_components/Button";
+import { api } from "~/trpc/server";
+import { redirect } from "next/navigation";
 
-const NewTripForm = ({ userId }: { userId: number }) => {
+const NewTripForm = ({ userId }: { userId: string }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const createTrip = api.trip.create;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newTrip = {
-      title,
-      description,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
-      userId,
-    };
-
-    const response = await fetch("/api/trip", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTrip),
-    });
-
-    if (response.ok) {
-      console.log("New trip created");
-    } else {
-      console.error("Failed to create new trip");
-    }
+    console.log("Creating trip...", { title, description, startDate, endDate });
+    // const newTrip = {
+    //   title,
+    //   description,
+    //   startDate: new Date(startDate),
+    //   endDate: new Date(endDate),
+    // };
+    // try {
+    //   await createTrip(newTrip);
+    //   redirect("/trips");
+    // } catch (error) {
+    //   console.error("Failed to create trip:", error);
+    // }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="text-black">
       <div>
         <label htmlFor="title">Title:</label>
         <input
@@ -46,7 +43,6 @@ const NewTripForm = ({ userId }: { userId: number }) => {
         />
       </div>
       <div>
-        ``
         <label htmlFor="description">Description:</label>
         <textarea
           id="description"
@@ -75,7 +71,7 @@ const NewTripForm = ({ userId }: { userId: number }) => {
           required
         />
       </div>
-      <button type="submit">Create Trip</button>
+      <Button type="submit">Create Trip</Button>
     </form>
   );
 };
