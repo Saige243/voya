@@ -6,8 +6,6 @@ export default async function Page({ params }: { params: { id: string } }) {
     const { id } = params;
     const tripId = parseInt(id);
 
-    console.log("IDDDD", tripId);
-
     const trip = await api.trip.getById({ id: tripId });
     try {
       console.log("trip", trip);

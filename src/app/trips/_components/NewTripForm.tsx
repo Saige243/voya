@@ -3,8 +3,6 @@ import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 
 const NewTripForm = ({ userId }: { userId: string }) => {
-  const route = api.trip.create;
-
   async function createTrip(formData: FormData) {
     "use server";
 
@@ -15,12 +13,10 @@ const NewTripForm = ({ userId }: { userId: string }) => {
       description: formData.get("description"),
       userId: userId,
     };
-    console.log("form data:", rawFormData);
-
-    const { mutate } = api.trip.create;
 
     try {
-      await api.trip.create(rawFormData);
+      const trip = await api.trip.create(rawFormData);
+      redirect(`/trips/${trip.id}`);
     } catch (error) {
       console.error("Error creating trip", error);
     }
