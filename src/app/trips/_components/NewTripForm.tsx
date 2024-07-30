@@ -1,18 +1,30 @@
 import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
+import { raw } from "@prisma/client/runtime/library";
 
 const NewTripForm = ({ userId }: { userId: string }) => {
+  const route = api.trip.create;
+
   async function createTrip(formData: FormData) {
     "use server";
 
     const rawFormData = {
       title: formData.get("title"),
+      startDate: new Date(formData.get("startDate") as string),
+      endDate: new Date(formData.get("endDate") as string),
       description: formData.get("description"),
-      startDate: formData.get("startDate"),
-      endDate: formData.get("endDate"),
+      userId: userId,
     };
-    return console.log("form data:", rawFormData);
+    console.log("form data:", rawFormData);
+
+    const { mutate } = api.trip.create;
+
+    try {
+      await api.trip.create(rawFormData);
+    } catch (error) {
+      console.error("Error creating trip", error);
+    }
   }
 
   return (

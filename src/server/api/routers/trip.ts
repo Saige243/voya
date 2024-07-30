@@ -13,7 +13,7 @@ export const tripRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }): Promise<Trip> => {
-      return ctx.db.trip.create({
+      const trip = ctx.db.trip.create({
         data: {
           title: input.title,
           startDate: input.startDate,
@@ -22,12 +22,14 @@ export const tripRouter = createTRPCRouter({
           userId: ctx.session.user.id,
         },
       });
+      return trip;
     }),
 
   getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.trip.findMany({
+    const allTrips = ctx.db.trip.findMany({
       where: { userId: ctx.session.user.id },
     });
+    return allTrips;
   }),
 
   getById: protectedProcedure
