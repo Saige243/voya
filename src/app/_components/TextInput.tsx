@@ -7,9 +7,9 @@ export function TextInput({
   required,
 }: {
   placeholder?: string;
-  className: string;
-  name: string;
-  id: string;
+  className?: string;
+  name?: string;
+  id?: string;
   defaultValue?: string;
   required?: boolean;
 }) {

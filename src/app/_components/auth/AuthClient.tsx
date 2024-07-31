@@ -55,7 +55,6 @@ export default function AuthClient({
 
   const signUpForm = (
     <div className="py-4">
-      {/* <form> */}
       <TextInput placeholder="Email" className="mb-4" />
       <TextInput placeholder="Password" className="mb-4" />
       <TextInput placeholder="Confirm Password" className="mb-4" />

@@ -9,12 +9,17 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     "use server";
 
     const rawFormData = {
-      title: formData.get("title"),
+      title: formData.get("title") as string,
       startDate: new Date(formData.get("startDate") as string),
       endDate: new Date(formData.get("endDate") as string),
-      description: formData.get("description"),
+      description: formData.get("description") as string,
       userId: userId,
     };
+
+    if (!rawFormData.title || !rawFormData.description) {
+      console.error("Title and description are required");
+      return;
+    }
 
     try {
       const trip = await api.trip.create(rawFormData);
