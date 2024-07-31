@@ -1,6 +1,8 @@
 import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
+import { Label } from "~/app/_components/Label";
+import { TextInput } from "~/app/_components/TextInput";
 
 const NewTripForm = ({ userId }: { userId: string }) => {
   async function createTrip(formData: FormData) {
@@ -23,47 +25,52 @@ const NewTripForm = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <form action={createTrip} className="text-black">
+    <form action={createTrip} className="flex flex-col gap-3 text-black">
       <div>
-        <label htmlFor="title">Title:</label>
-        <input
+        <Label htmlFor="title">Title:</Label>
+        <TextInput
           name="title"
-          type="text"
           id="title"
           defaultValue="title"
-          required
+          required={true}
+          className="w-full dark:bg-white"
         />
       </div>
       <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
+        <Label htmlFor="description">Description:</Label>
+        <TextInput
           name="description"
           id="description"
           defaultValue="description"
           required
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
-        <label htmlFor="startDate">Start Date:</label>
+        <Label htmlFor="startDate">Start Date:</Label>
         <input
           name="startDate"
           type="date"
           id="startDate"
           defaultValue="startDate"
           required
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
-        <label htmlFor="endDate">End Date:</label>
+        <Label htmlFor="endDate">End Date:</Label>
         <input
           name="endDate"
           type="date"
           id="endDate"
           defaultValue="endDate"
           required
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
-      <Button type="submit">Create Trip</Button>
+      <Button type="submit" className="mt-4">
+        Create Trip
+      </Button>
     </form>
   );
 };

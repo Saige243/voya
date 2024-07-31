@@ -42,10 +42,11 @@ export default function AuthClient({
       <TextInput placeholder="Email" className="mb-4" />
       <TextInput placeholder="Password" className="mb-4" />
       <Button
-        buttonText="Sign in"
         className="btn-primary w-full dark:text-white"
         onClick={handleSignIn}
-      />
+      >
+        Sign in
+      </Button>
       {showToast && (
         <Toast toastText="Sign in failed!" className="" toastType="error" />
       )}
@@ -58,11 +59,9 @@ export default function AuthClient({
       <TextInput placeholder="Email" className="mb-4" />
       <TextInput placeholder="Password" className="mb-4" />
       <TextInput placeholder="Confirm Password" className="mb-4" />
-      <Button
-        buttonText="Sign Up"
-        className="btn-primary w-full"
-        onClick={handleSignIn}
-      />
+      <Button className="btn-primary w-full text-white" onClick={handleSignIn}>
+        Sign Up
+      </Button>
       {showToast && (
         <Toast toastText="Sign in failed!" className="" toastType="error" />
       )}
@@ -77,13 +76,14 @@ export default function AuthClient({
           <div key={provider.name}>
             <ImageButton
               onClick={() => signIn(provider.id, { callbackUrl: "/dashboard" })}
-              buttonText={`Sign in with ${provider.name}`}
               className="btn-primary flex flex-row dark:text-white"
               src={providerLogoSrc(provider.id)}
               alt={provider.name}
               height={24}
               width={24}
-            />
+            >
+              {`Sign in with ${provider.name}`}
+            </ImageButton>
           </div>
         );
       })}
@@ -91,15 +91,11 @@ export default function AuthClient({
   );
 
   const toggleAuthButton = (
-    <Button
-      buttonText={
-        isSignIn
-          ? "Don't have an account? Sign Up"
-          : "Already have an account? Sign in"
-      }
-      className="btn-ghost w-full"
-      onClick={() => setIsSignIn(!isSignIn)}
-    />
+    <Button className="btn-ghost w-full" onClick={() => setIsSignIn(!isSignIn)}>
+      {isSignIn
+        ? "Don't have an account? Sign Up"
+        : "Already have an account? Sign in"}
+    </Button>
   );
 
   return (
