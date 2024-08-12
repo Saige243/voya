@@ -24,6 +24,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
 
     try {
       const trip = await api.trip.create(rawFormData);
+      console.log("Created trip", trip);
       redirect(`/trips/${trip.id}`);
     } catch (error) {
       console.error("Error creating trip", error);
@@ -37,7 +38,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
         <TextInput
           name="title"
           id="title"
-          defaultValue="title"
+          placeholder="title"
           required={true}
           className="w-full dark:bg-white"
         />
@@ -47,7 +48,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
         <TextInput
           name="destination"
           id="destination"
-          defaultValue="destination"
+          placeholder="destination"
           required
           className="input input-bordered w-full dark:bg-white"
         />
@@ -57,7 +58,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
         <TextInput
           name="description"
           id="description"
-          defaultValue="description"
+          placeholder="description"
           required
           className="input input-bordered w-full dark:bg-white"
         />
@@ -68,7 +69,6 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="startDate"
           type="date"
           id="startDate"
-          defaultValue="startDate"
           required
           className="input input-bordered w-full dark:bg-white"
         />
@@ -79,7 +79,6 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="endDate"
           type="date"
           id="endDate"
-          defaultValue="endDate"
           required
           className="input input-bordered w-full dark:bg-white"
         />
