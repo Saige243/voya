@@ -7,6 +7,7 @@ export const tripRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string().min(1),
+        destination: z.string().min(1),
         startDate: z.date(),
         endDate: z.date(),
         description: z.string(),
@@ -16,6 +17,7 @@ export const tripRouter = createTRPCRouter({
       const trip = ctx.db.trip.create({
         data: {
           title: input.title,
+          destination: input.destination,
           startDate: input.startDate,
           endDate: input.endDate,
           description: input.description,
@@ -45,6 +47,7 @@ export const tripRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string().min(1),
+        destination: z.string().min(1),
         startDate: z.date(),
         endDate: z.date(),
         description: z.string().optional(),

@@ -16,6 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const trip = await getTrip();
+  console.log("Trip", trip);
 
   return (
     <main className="flex min-h-screen justify-center">

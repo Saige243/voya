@@ -10,6 +10,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
 
     const rawFormData = {
       title: formData.get("title") as string,
+      destination: formData.get("destination") as string,
       startDate: new Date(formData.get("startDate") as string),
       endDate: new Date(formData.get("endDate") as string),
       description: formData.get("description") as string,
@@ -39,6 +40,16 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           defaultValue="title"
           required={true}
           className="w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="destination">Destination:</Label>
+        <TextInput
+          name="destination"
+          id="destination"
+          defaultValue="destination"
+          required
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
