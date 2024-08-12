@@ -3,7 +3,6 @@ import TripCard from "./_components/TripCard";
 
 export default async function Trips() {
   const trips = await api.trip.getAll();
-  console.log("Trips", trips);
 
   const MappedTrips = trips.map((trip) => {
     return <TripCard key={trip.id} {...trip} />;
@@ -14,7 +13,9 @@ export default async function Trips() {
       <div className="flex justify-center">
         <h1>My Trips</h1>
       </div>
-      <div className="flex flex-wrap justify-center gap-4">{MappedTrips}</div>
+      <div className="flex flex-wrap justify-center gap-4 p-8">
+        {MappedTrips}
+      </div>
     </main>
   );
 }
