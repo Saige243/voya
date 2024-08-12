@@ -27,9 +27,11 @@ export default async function Page({ params }: { params: { id: string } }) {
     const tripId = parseInt(id);
     try {
       await api.trip.delete(tripId);
-      redirect(`/trips`);
     } catch (error) {
       console.error("Error deleting trip", error);
+    } finally {
+      console.log("Deleted trip");
+      redirect("/trips");
     }
   }
 

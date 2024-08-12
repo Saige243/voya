@@ -22,13 +22,15 @@ const NewTripForm = ({ userId }: { userId: string }) => {
       return;
     }
 
-    try {
-      const trip = await api.trip.create(rawFormData);
-      console.log("Created trip", trip);
-      redirect(`/trips/${trip.id}`);
-    } catch (error) {
-      console.error("Error creating trip", error);
+    const trip = await api.trip.create(rawFormData);
+    console.log("Created trip", trip);
+
+    if (!trip) {
+      console.error("Error creating trip");
+      return;
     }
+
+    redirect(`/trips/${trip.id}`);
   }
 
   return (
