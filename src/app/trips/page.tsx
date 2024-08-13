@@ -1,9 +1,16 @@
 import { api } from "~/trpc/server";
 import TripCard from "./_components/TripCard";
+import { redirect } from "next/navigation";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function Trips() {
-  const trips = await api.trip.getAll();
+  const session = await getServerAuthSession();
 
+  if (!session) {
+    redirect("/");
+  }
+
+  const trips = await api.trip.getAll();
   const MappedTrips = trips.map((trip) => {
     return <TripCard key={trip.id} {...trip} />;
   });

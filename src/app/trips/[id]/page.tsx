@@ -1,8 +1,14 @@
 import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const session = await getServerAuthSession();
+
+  if (!session) {
+    redirect("/");
+  }
   async function getTrip() {
     "use server";
     const { id } = params;
