@@ -2,10 +2,10 @@ import { Button } from "~/app/_components/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
+import { Icon } from "~/app/_components/Icon";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
-
   if (!session) {
     redirect("/");
   }
@@ -24,13 +24,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const trip = await getTrip();
-  console.log("Trip", trip);
 
   async function deleteTrip() {
     "use server";
 
     const { id } = params;
     const tripId = parseInt(id);
+
     try {
       await api.trip.delete(tripId);
     } catch (error) {
@@ -41,18 +41,31 @@ export default async function Page({ params }: { params: { id: string } }) {
     }
   }
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <h1>My Trip: {trip?.title}</h1>
-      <p>Destination: {trip?.destination}</p>
-      <p>{trip?.description}</p>
-      <p>Start Date: {trip?.startDate?.toString()}</p>
-      <p>End Date: {trip?.endDate.toString()}</p>
-      <div className="pt-20">
+  const tripInfo = (
+    <div className="flex w-1/2 flex-row justify-between">
+      <div>
+        <h1>My Trip: {trip?.title}</h1>
+        <p>Destination: {trip?.destination}</p>
+        <p>{trip?.description}</p>
+        <p>Start Date: {trip?.startDate?.toString()}</p>
+        <p>End Date: {trip?.endDate.toString()}</p>
+      </div>
+      <div className="flex flex-row justify-end">
+        <Button className="border-none  bg-transparent">
+          <Icon name="Pencil" color="white" size="20" />
+        </Button>
         <form action={deleteTrip}>
-          <Button>Delete Trip</Button>
+          <Button className="border-none  bg-transparent">
+            <Icon name="Trash" color="red" size="20" />
+          </Button>
         </form>
       </div>
+    </div>
+  );
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center pb-40">
+      {tripInfo}
     </main>
   );
 }

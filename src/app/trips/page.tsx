@@ -2,6 +2,7 @@ import { api } from "~/trpc/server";
 import TripCard from "./_components/TripCard";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
+import { Button } from "~/app/_components/Button";
 
 export default async function Trips() {
   const session = await getServerAuthSession();
@@ -17,12 +18,24 @@ export default async function Trips() {
 
   return (
     <main className="flex min-h-screen flex-col">
-      <div className="flex justify-center">
-        <h1>My Trips</h1>
-      </div>
-      <div className="flex flex-wrap justify-center gap-4 p-8">
-        {MappedTrips}
-      </div>
+      <h1 className="pb-20 text-center">My Trips:</h1>
+      {trips.length > 0 ? (
+        <>
+          <div className="flex justify-center">
+            <h1>My Trips</h1>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 p-8">
+            {MappedTrips}
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col items-center gap-2">
+          <p>You have no trips yet!</p>
+          <a href="/trips/new">
+            <Button>Create a trip</Button>
+          </a>
+        </div>
+      )}
     </main>
   );
 }
