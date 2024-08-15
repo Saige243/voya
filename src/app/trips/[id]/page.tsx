@@ -9,6 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!session) {
     redirect("/");
   }
+
   async function getTrip() {
     "use server";
     const { id } = params;
@@ -51,9 +52,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         <p>End Date: {trip?.endDate.toString()}</p>
       </div>
       <div className="flex flex-row justify-end">
-        <Button className="border-none  bg-transparent">
-          <Icon name="Pencil" color="white" size="20" />
-        </Button>
+        <a href={`/trips/${trip?.id}/edit`}>
+          <Button className="border-none  bg-transparent">
+            <Icon name="Pencil" color="white" size="20" />
+          </Button>
+        </a>
         <form action={deleteTrip}>
           <Button className="border-none  bg-transparent">
             <Icon name="Trash" color="red" size="20" />

@@ -4,8 +4,8 @@ export function Card({
   children,
   className,
 }: {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   children: React.ReactNode;
   className?: string;
 }) {
