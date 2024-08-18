@@ -46,10 +46,10 @@ export const tripRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        title: z.string().min(1),
-        destination: z.string().min(1),
-        startDate: z.date(),
-        endDate: z.date(),
+        title: z.string().min(1).optional(),
+        destination: z.string().min(1).optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
         description: z.string().optional(),
       }),
     )

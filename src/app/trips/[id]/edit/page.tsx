@@ -32,7 +32,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex min-h-screen flex-col items-center ">
       <h1 className="pb-20 text-center">Edit: {trip?.title}</h1>
       <Card>
         <EditTripForm trip={trip} userId={session.user.id} />

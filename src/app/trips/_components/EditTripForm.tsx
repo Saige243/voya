@@ -19,13 +19,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       userId: userId,
     };
 
-    if (!rawFormData.title || !rawFormData.description) {
-      console.error("Title and description are required");
-      return;
-    }
-
     const updatedTrip = await api.trip.update(rawFormData);
-    console.log("Created trip", trip);
+    console.log("UPDATED TRIP------------------->", updatedTrip);
 
     if (!updatedTrip) {
       console.error("Error creating trip");
@@ -42,8 +37,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           name="title"
           id="title"
-          placeholder="title"
-          required={true}
+          defaultValue={trip.title}
+          placeholder={trip.title}
           className="w-full dark:bg-white"
         />
       </div>
@@ -52,8 +47,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           name="destination"
           id="destination"
-          placeholder="destination"
-          required
+          defaultValue={trip.destination}
+          placeholder={trip.destination}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -62,8 +57,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           name="description"
           id="description"
-          placeholder="description"
-          required
+          defaultValue={trip.description}
+          placeholder={trip.description}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -73,7 +68,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           name="startDate"
           type="date"
           id="startDate"
-          required
+          defaultValue={trip.startDate.toISOString().split("T")[0]}
+          placeholder={trip.startDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -83,7 +79,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           name="endDate"
           type="date"
           id="endDate"
-          required
+          defaultValue={trip.endDate.toISOString().split("T")[0]}
+          placeholder={trip.endDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
