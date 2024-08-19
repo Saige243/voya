@@ -3,6 +3,7 @@ import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/app/_components/Icon";
+import ItineraryBlock from "../_components/ItineraryBlock";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -69,6 +70,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
       {tripInfo}
+      <ItineraryBlock itineraries={trip?.itineraries} />
     </main>
   );
 }

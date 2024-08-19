@@ -46,6 +46,7 @@ model Trip {
 
 model Activity {
   id          Int      @id @default(autoincrement())
+  itineraryId Int?     
   tripId      Int
   title       String
   description String
@@ -55,6 +56,7 @@ model Activity {
   notes       String
   createdAt   DateTime @default(now())
 
+  itinerary Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: SetNull)
   trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   @@map("activities")
@@ -80,7 +82,6 @@ model Accommodation {
 model Itinerary {
   id        Int      @id @default(autoincrement())
   tripId    Int
-  title     String
   date      DateTime
   time      DateTime
   location  String
@@ -90,6 +91,7 @@ model Itinerary {
   trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   @@map("itineraries")
+  Activity Activity[]
 }
 
 // Necessary for Next auth

@@ -20,7 +20,6 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     };
 
     const updatedTrip = await api.trip.update(rawFormData);
-    console.log("UPDATED TRIP------------------->", updatedTrip);
 
     if (!updatedTrip) {
       console.error("Error creating trip");
