@@ -34,9 +34,16 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   return (
     <main className="flex min-h-screen flex-col items-center ">
       <h1 className="pb-20 text-center">Edit: {trip?.title}</h1>
-      <Card>
-        <EditTripForm trip={trip} userId={session.user.id} />
-      </Card>
+      <div className="flex space-x-4">
+        <Card>
+          <h2 className="pb-2 text-xl font-bold">Trip Details:</h2>
+          <EditTripForm trip={trip} userId={session.user.id} />
+        </Card>
+        <Card>
+          <h2 className="pb-2 text-xl font-bold">Trip Itinerary:</h2>
+          <EditTripForm trip={trip} userId={session.user.id} />
+        </Card>
+      </div>
     </main>
   );
 }
