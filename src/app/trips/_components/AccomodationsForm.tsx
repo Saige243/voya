@@ -1,0 +1,112 @@
+import { Button } from "~/app/_components/Button";
+import { api } from "~/trpc/server";
+import { redirect } from "next/navigation";
+import { Label } from "~/app/_components/Label";
+import { TextInput } from "~/app/_components/TextInput";
+import { type Trip } from "@prisma/client";
+
+const AccomodationsForm = ({
+  trip,
+  userId,
+}: {
+  trip: Trip;
+  userId: string;
+}) => {
+  async function addAccomodation(formData: FormData) {
+    "use server";
+
+    const rawFormData = {
+      id: trip.id,
+      title: formData.get("title") as string,
+      destination: formData.get("destination") as string,
+      startDate: new Date(formData.get("startDate") as string),
+      endDate: new Date(formData.get("endDate") as string),
+      description: formData.get("description") as string,
+      userId: userId,
+    };
+
+    const updatedTrip = await api.trip.update(rawFormData);
+
+    if (!updatedTrip) {
+      console.error("Error creating trip");
+      return;
+    }
+
+    redirect(`/trips/${updatedTrip.id}`);
+  }
+
+  return (
+    <form action={addAccomodation} className="flex flex-col gap-3 text-black">
+      <div>
+        <Label htmlFor="name">Name:</Label>
+        <TextInput
+          name="name"
+          id="name"
+          placeholder={"Hotel Name, Airbnb, etc."}
+          className="w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="location">Location:</Label>
+        <TextInput
+          name="location"
+          id="location"
+          placeholder={"City, State, Country"}
+          className="w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="checkIn">Check-In Date:</Label>
+        <input
+          name="checkIn"
+          type="date"
+          id="checkIn"
+          placeholder={"YYYY-MM-DD"}
+          className="input input-bordered w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="checkOut">Check-Out Date:</Label>
+        <input
+          name="checkOut"
+          type="date"
+          id="checkOut"
+          placeholder={"YYYY-MM-DD"}
+          className="input input-bordered w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="notes">Notes:</Label>
+        <TextInput
+          name="notes"
+          id="notes"
+          placeholder={"Any additional notes"}
+          className="w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="phoneNumber">Phone Number:</Label>
+        <TextInput
+          name="phoneNumber"
+          id="phoneNumber"
+          placeholder={"(123) 456-7890"}
+          className="w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="website">Website:</Label>
+        <TextInput
+          name="website"
+          id="website"
+          placeholder={"www.hotel.com"}
+          className="w-full dark:bg-white"
+        />
+      </div>
+      <Button type="submit" className="mt-4">
+        Save Stay
+      </Button>
+    </form>
+  );
+};
+
+export default AccomodationsForm;
