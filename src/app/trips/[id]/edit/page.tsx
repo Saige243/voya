@@ -37,11 +37,15 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
       <h1 className="pb-20 text-center">Edit: {trip?.title}</h1>
       <div className="flex space-x-4">
         <Card>
-          <h2 className="pb-2 text-xl font-bold text-black">Trip Details:</h2>
+          <h2 className="pb-2 text-xl font-bold dark:text-white">
+            Trip Details:
+          </h2>
           <EditTripForm trip={trip} userId={session.user.id} />
         </Card>
         <Card>
-          <h2 className="pb-2 text-xl font-bold text-black">Accomodations:</h2>
+          <h2 className="pb-2 text-xl font-bold dark:text-white">
+            Accomodations:
+          </h2>
           <AccomodationsForm trip={trip} userId={session.user.id} />
         </Card>
       </div>
