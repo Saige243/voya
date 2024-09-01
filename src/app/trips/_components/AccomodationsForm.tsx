@@ -17,13 +17,17 @@ const AccomodationsForm = ({
 
     const rawFormData = {
       id: trip.id,
-      title: formData.get("title") as string,
-      destination: formData.get("destination") as string,
-      startDate: new Date(formData.get("startDate") as string),
-      endDate: new Date(formData.get("endDate") as string),
-      description: formData.get("description") as string,
+      name: formData.get("name") as string,
+      location: formData.get("location") as string,
+      checkIn: new Date(formData.get("checkIn") as string),
+      checkOut: new Date(formData.get("checkOut") as string),
+      notes: formData.get("notes") as string,
+      phoneNumber: formData.get("phoneNumber") as string,
+      website: formData.get("website") as string,
       userId: userId,
     };
+
+    // console.log("rawFormData", rawFormData);
 
     const updatedTrip = await api.trip.update(rawFormData);
 
@@ -72,7 +76,9 @@ const AccomodationsForm = ({
           type="date"
           id="checkOut"
           placeholder={"YYYY-MM-DD"}
+          color="black"
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <div>
