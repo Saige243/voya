@@ -13,6 +13,7 @@ export const accommodationRouter = createTRPCRouter({
         notes: z.string(),
         phoneNumber: z.string(),
         website: z.string(),
+        tripId: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }): Promise<Accommodation> => {
@@ -25,25 +26,29 @@ export const accommodationRouter = createTRPCRouter({
           notes: input.notes,
           phoneNumber: input.phoneNumber,
           website: input.website,
-          userId: ctx.session.user.id,
+          tripId: input.tripId,
         },
       });
       return accommodation;
     }),
 
-  getAll: protectedProcedure.query(({ ctx }) => {
-    const allAccommodations = ctx.db.accommodation.findMany({
-      where: { userId: ctx.session.user.id },
-    });
-    return allAccommodations;
-  }),
+  getall: protectedProcedure
+    .input(z.object({ tripId: z.number() }))
+    .query(({ ctx, input }) => {
+      const allAccommodations = ctx.db.accommodation.findMany({
+        where: { tripId: input.tripId },
+      });
+      return allAccommodations;
+    }),
 
   getById: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ ctx, input }) => {
-      return ctx.db.accommodation.findUnique({
-        where: { id: input.id, userId: ctx.session.user.id },
+      const accommodation = await ctx.db.accommodation.findUnique({
+        where: { id: input.id },
       });
+
+      return accommodation;
     }),
 
   update: protectedProcedure
