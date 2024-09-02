@@ -5,18 +5,18 @@ import { Label } from "~/app/_components/Label";
 import { TextInput } from "~/app/_components/TextInput";
 import { type Trip } from "@prisma/client";
 
-const AccomodationsForm = ({
+const AccommodationsForm = ({
   trip,
   userId,
 }: {
   trip: Trip;
   userId: string;
 }) => {
-  async function addAccomodation(formData: FormData) {
+  async function addAccommodation(formData: FormData) {
     "use server";
 
     const rawFormData = {
-      id: trip.id,
+      tripId: trip.id,
       name: formData.get("name") as string,
       location: formData.get("location") as string,
       checkIn: new Date(formData.get("checkIn") as string),
@@ -29,18 +29,18 @@ const AccomodationsForm = ({
 
     // console.log("rawFormData", rawFormData);
 
-    const updatedTrip = await api.trip.update(rawFormData);
+    const addedAccommodation = await api.accommodation.create(rawFormData);
 
-    if (!updatedTrip) {
-      console.error("Error creating trip");
+    if (!addedAccommodation) {
+      console.error("Error adding Accommodation");
       return;
     }
 
-    redirect(`/trips/${updatedTrip.id}`);
+    redirect(`/trips/${trip.id}`);
   }
 
   return (
-    <form action={addAccomodation} className="flex flex-col gap-3 text-black">
+    <form action={addAccommodation} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="name">Name:</Label>
         <TextInput
@@ -115,4 +115,4 @@ const AccomodationsForm = ({
   );
 };
 
-export default AccomodationsForm;
+export default AccommodationsForm;

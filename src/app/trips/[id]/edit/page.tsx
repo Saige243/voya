@@ -3,7 +3,7 @@ import { Card } from "../../../_components/Card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../_components/EditTripForm";
-import AccomodationsForm from "../../_components/AccomodationsForm";
+import AccommodationsForm from "../../_components/AccommodationsForm";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -44,9 +44,9 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
         </Card>
         <Card>
           <h2 className="pb-2 text-xl font-bold dark:text-white">
-            Accomodations:
+            Accommodations:
           </h2>
-          <AccomodationsForm trip={trip} userId={session.user.id} />
+          <AccommodationsForm trip={trip} userId={session.user.id} />
         </Card>
       </div>
     </main>
