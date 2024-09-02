@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/app/_components/Icon";
 import ItineraryBlock from "../_components/ItineraryBlock";
+import { type Accommodation } from "@prisma/client";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -43,6 +44,23 @@ export default async function Page({ params }: { params: { id: string } }) {
     }
   }
 
+  async function getAccommodations(): Promise<Accommodation[]> {
+    "use server";
+    const { id } = params;
+    const tripId = parseInt(id);
+
+    try {
+      const accommodations = await api.accommodation.getAll({ tripId });
+      console.log("accommodations", accommodations);
+      return accommodations;
+    } catch (error) {
+      console.error("Error fetching accommodations:", error);
+      throw new Error("No accommodations found");
+    }
+  }
+
+  const accommodations = await getAccommodations();
+
   const tripInfo = (
     <div className="flex w-1/2 flex-row justify-between">
       <div>
@@ -67,9 +85,35 @@ export default async function Page({ params }: { params: { id: string } }) {
     </div>
   );
 
+  const accomodationsInfo = (
+    <>
+      {accommodations.length > 0 ? (
+        <div>
+          <h2>Itinerary</h2>
+          <ul>
+            {accommodations.map((acc) => (
+              <li key={acc.id}>
+                <p>{acc.name}</p>
+                <p>{acc.location}</p>
+                <p>{acc.checkIn.toString()}</p>
+                <p>{acc.checkOut.toString()}</p>
+                <p>{acc.notes}</p>
+                <p>{acc.phoneNumber}</p>
+                <p>{acc.website}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>No accommodations</p>
+      )}
+    </>
+  );
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
       {tripInfo}
+      {accomodationsInfo}
       <ItineraryBlock itineraries={trip?.itineraries} />
     </main>
   );

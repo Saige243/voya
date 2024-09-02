@@ -27,7 +27,7 @@ const AccommodationsForm = ({
       userId: userId,
     };
 
-    // console.log("rawFormData", rawFormData);
+    console.log("accomodation form data ======>", rawFormData);
 
     const addedAccommodation = await api.accommodation.create(rawFormData);
 

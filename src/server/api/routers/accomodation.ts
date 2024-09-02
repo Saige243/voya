@@ -32,7 +32,7 @@ export const accommodationRouter = createTRPCRouter({
       return accommodation;
     }),
 
-  getall: protectedProcedure
+  getAll: protectedProcedure
     .input(z.object({ tripId: z.number() }))
     .query(({ ctx, input }) => {
       const allAccommodations = ctx.db.accommodation.findMany({
