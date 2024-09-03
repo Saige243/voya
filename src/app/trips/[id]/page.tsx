@@ -62,9 +62,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   const accommodations = await getAccommodations();
 
   const tripInfo = (
-    <div className="flex w-1/2 flex-row justify-between">
+    <div className="flex w-1/2 flex-row justify-between py-2">
       <div>
-        <h1>My Trip: {trip?.title}</h1>
+        <h1 className="pb-1 font-bold">My Trip: {trip?.title}</h1>
         <p>Destination: {trip?.destination}</p>
         <p>{trip?.description}</p>
         <p>Start Date: {trip?.startDate?.toString()}</p>
@@ -88,21 +88,35 @@ export default async function Page({ params }: { params: { id: string } }) {
   const accomodationsInfo = (
     <>
       {accommodations.length > 0 ? (
-        <div>
-          <h2>Itinerary</h2>
-          <ul>
-            {accommodations.map((acc) => (
-              <li key={acc.id}>
-                <p>{acc.name}</p>
-                <p>{acc.location}</p>
-                <p>{acc.checkIn.toString()}</p>
-                <p>{acc.checkOut.toString()}</p>
-                <p>{acc.notes}</p>
-                <p>{acc.phoneNumber}</p>
-                <p>{acc.website}</p>
-              </li>
-            ))}
-          </ul>
+        <div className="flex w-1/2 flex-row justify-between py-2">
+          <div>
+            <h2 className="pb-1 font-bold">Accommodations:</h2>
+            <ul>
+              {accommodations.map((acc) => (
+                <li key={acc.id}>
+                  <p>Name: {acc.name}</p>
+                  <p>Location: {acc.location}</p>
+                  <p>Check in date: {acc.checkIn.toString()}</p>
+                  <p>Check out date: {acc.checkOut.toString()}</p>
+                  <p>Notes: {acc.notes}</p>
+                  <p> Phone number: {acc.phoneNumber}</p>
+                  <p>Website: {acc.website}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-row justify-end">
+            <a href={`/trips/${trip?.id}/edit`}>
+              <Button className="border-none  bg-transparent">
+                <Icon name="Pencil" color="white" size="20" />
+              </Button>
+            </a>
+            <form action={deleteTrip}>
+              <Button className="border-none  bg-transparent">
+                <Icon name="Trash" color="red" size="20" />
+              </Button>
+            </form>
+          </div>
         </div>
       ) : (
         <p>No accommodations</p>
