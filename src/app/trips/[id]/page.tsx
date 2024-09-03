@@ -153,7 +153,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         {tripInfo}
         {accomodationsInfo}
       </div>
-      <ItineraryBlock itineraries={trip?.itineraries} />
+      <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
     </main>
   );
 }

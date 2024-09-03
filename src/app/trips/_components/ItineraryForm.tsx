@@ -11,6 +11,7 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
 
     const itineraryData = {
       tripId: trip.id,
+      title: formData.get("title") as string,
       date: new Date(formData.get("date") as string),
       time: new Date(formData.get("time") as string),
       location: formData.get("location") as string,
@@ -38,6 +39,16 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
           type="date"
           id="date"
           placeholder={"YYYY-MM-DD"}
+          className="input input-bordered w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="title">Title:</Label>
+        <input
+          name="title"
+          type="title"
+          id="title"
+          placeholder="Annivarsary trip"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
