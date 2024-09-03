@@ -5,6 +5,8 @@ import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/app/_components/Icon";
 import ItineraryBlock from "../_components/ItineraryBlock";
 import { type Accommodation } from "@prisma/client";
+import { Label } from "~/app/_components/Label";
+import { format } from "date-fns";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -94,13 +96,34 @@ export default async function Page({ params }: { params: { id: string } }) {
             <ul>
               {accommodations.map((acc) => (
                 <li key={acc.id}>
-                  <p>Name: {acc.name}</p>
-                  <p>Location: {acc.location}</p>
-                  <p>Check in date: {acc.checkIn.toString()}</p>
-                  <p>Check out date: {acc.checkOut.toString()}</p>
-                  <p>Notes: {acc.notes}</p>
-                  <p> Phone number: {acc.phoneNumber}</p>
-                  <p>Website: {acc.website}</p>
+                  <div>
+                    <Label htmlFor="name">Name:</Label>
+                    <p>{acc.name}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="location">Location:</Label>
+                    <p>{acc.location}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="check-in-date">Check In Date:</Label>
+                    <p>{format(acc.checkIn.toString(), "MMM dd")}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="check-out-date">Check Out Date:</Label>
+                    <p>{format(acc.checkOut.toString(), "MMM dd")}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="notes">Notes:</Label>
+                    <p>{acc.notes}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="phone-number">Phone Number:</Label>
+                    <p>{acc.phoneNumber}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="website">Website:</Label>
+                    <p>{acc.website}</p>
+                  </div>
                 </li>
               ))}
             </ul>
