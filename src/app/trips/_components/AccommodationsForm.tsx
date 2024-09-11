@@ -14,7 +14,6 @@ const AccommodationsForm = ({
 }) => {
   async function addAccommodation(formData: FormData) {
     "use server";
-    console.log("formData ======>", formData);
 
     const rawFormData = {
       tripId: trip.id,
