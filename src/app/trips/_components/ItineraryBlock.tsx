@@ -5,7 +5,7 @@ function ItineraryBlock({
   trip,
   itineraries,
 }: {
-  trip: Trip;
+  trip: Trip | null;
   itineraries: Itinerary[];
 }) {
   return (
@@ -39,7 +39,7 @@ function ItineraryBlock({
         <div className="text-center">
           <p className="text-gray-600">No itineraries!</p>
           <a
-            href={`/trips/${trip.id}/edit`}
+            href={`/trips/${trip?.id}/edit`}
             className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
             Add Itinerary
