@@ -106,7 +106,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   </div>
                   <div>
                     <Label htmlFor="check-in-date">Check In Date:</Label>
-                    <p>{format(acc.checkIn.toString(), "MMM dd")}</p>
+                    <p>{format(new Date(acc.checkIn), "MMM dd")}</p>
                   </div>
                   <div>
                     <Label htmlFor="check-out-date">Check Out Date:</Label>
