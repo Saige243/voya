@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <p>Start Date: {trip?.startDate?.toString()}</p>
         <p>End Date: {trip?.endDate.toString()}</p>
       </div>
-      <div className="flex flex-row justify-end">
+      <div className="justify-end">
         <a href={`/trips/${trip?.id}/edit`}>
           <Button className="border-none  bg-transparent">
             <Icon name="Pencil" color="white" size="20" />
