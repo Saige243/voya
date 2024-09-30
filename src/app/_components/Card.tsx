@@ -11,7 +11,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`card h-fit w-fit bg-base-100 shadow-xl dark:text-white ${className}`}
+      className={`card h-fit bg-base-100 shadow-xl dark:text-white ${className}`}
     >
       <div className="card-body">
         <h2 className="card-title dark:text-white">{title}</h2>

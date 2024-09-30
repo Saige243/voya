@@ -40,9 +40,19 @@ export function ImageButton({
   type?: "button" | "submit" | "reset";
 }) {
   return (
-    <button className={`btn ${className}`} onClick={onClick} type={type}>
-      <div className="flex items-center text-center">
-        <Image src={src} alt={alt} width={width} height={height} />
+    <button
+      className={`btn w-full  ${className}`}
+      onClick={onClick}
+      type={type}
+    >
+      <div className="flex items-center  text-center">
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className="mr-2"
+        />
         <div>
           <p>{children}</p>
         </div>

@@ -6,7 +6,7 @@ function ItineraryBlock({
   itineraries,
 }: {
   trip: Trip | null;
-  itineraries: Itinerary[];
+  itineraries: Itinerary[] | null;
 }) {
   return (
     <div className="py-4">

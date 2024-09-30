@@ -104,7 +104,7 @@ export default function AuthClient({
         description={isSignIn ? "Sign in to your account" : "Create an account"}
         className="w-96 text-black dark:text-white"
       >
-        <div className="flex space-x-2">{mappedProviders}</div>
+        <div className="flex justify-between space-x-2">{mappedProviders}</div>
         {isSignIn ? signInForm : signUpForm}
         {toggleAuthButton}
       </Card>
