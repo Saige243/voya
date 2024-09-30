@@ -5,44 +5,43 @@ import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/app/_components/Icon";
 import ItineraryBlock from "../_components/ItineraryBlock";
 import { type Accommodation } from "@prisma/client";
-import { Label } from "~/app/_components/Label";
+import AccommodationList from "../_components/AccommodationList";
 import { format } from "date-fns";
+import { Label } from "~/app/_components/Label";
 
+// Main page component
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
   if (!session) {
     redirect("/");
   }
 
+  // Fetch the trip details
   async function getTrip() {
-    "use server";
+    "use server"; // Ensure this function runs on the server
     const { id } = params;
     const tripId = parseInt(id);
 
     const trip = await api.trip.getById({ id: tripId });
-    try {
-      console.log("trip", trip);
-      return trip;
-    } catch (error) {
+    if (!trip) {
       throw new Error("Trip not found");
     }
+    return trip;
   }
 
   const trip = await getTrip();
 
+  // Handle trip deletion
   async function deleteTrip() {
-    "use server";
-
+    "use server"; // Ensure this function runs on the server
     const { id } = params;
     const tripId = parseInt(id);
 
     try {
       await api.trip.delete(tripId);
+      redirect("/trips");
     } catch (error) {
       console.error("Error deleting trip", error);
-    } finally {
-      console.log("Deleted trip");
-      redirect("/trips");
     }
   }
 
@@ -53,7 +52,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     try {
       const accommodations = await api.accommodation.getAll({ tripId });
-      console.log("accommodations", accommodations);
       return accommodations;
     } catch (error) {
       console.error("Error fetching accommodations:", error);
@@ -64,94 +62,69 @@ export default async function Page({ params }: { params: { id: string } }) {
   const accommodations = await getAccommodations();
 
   const tripInfo = (
-    <div className="flex w-1/2 flex-row justify-between py-2">
-      <div>
-        <h1 className="pb-1 font-bold">My Trip: {trip?.title}</h1>
-        <p>Destination: {trip?.destination}</p>
-        <p>{trip?.description}</p>
-        <p>Start Date: {trip?.startDate?.toString()}</p>
-        <p>End Date: {trip?.endDate.toString()}</p>
-      </div>
-      <div className="justify-end">
-        <a href={`/trips/${trip?.id}/edit`}>
-          <Button className="border-none  bg-transparent">
-            <Icon name="Pencil" color="white" size="20" />
-          </Button>
-        </a>
-        <form action={deleteTrip}>
-          <Button className="border-none  bg-transparent">
-            <Icon name="Trash" color="red" size="20" />
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
+    <div>
+      <h2 className="pb-4 text-xl font-bold">Details:</h2>
 
-  const accomodationsInfo = (
-    <>
-      {accommodations.length > 0 ? (
-        <div className="flex w-1/2 flex-row justify-between py-2">
+      <div className="mb-6 w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-lg">
+        <div className="flex items-start justify-between">
           <div>
-            <h2 className="pb-1 font-bold">Accommodations:</h2>
-            <ul>
-              {accommodations.map((acc) => (
-                <li key={acc.id}>
-                  <div>
-                    <Label htmlFor="name">Name:</Label>
-                    <p>{acc.name}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="location">Location:</Label>
-                    <p>{acc.location}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="check-in-date">Check In Date:</Label>
-                    <p>{format(new Date(acc.checkIn), "MMM dd")}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="check-out-date">Check Out Date:</Label>
-                    <p>{format(acc.checkOut.toString(), "MMM dd")}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="notes">Notes:</Label>
-                    <p>{acc.notes}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="phone-number">Phone Number:</Label>
-                    <p>{acc.phoneNumber}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="website">Website:</Label>
-                    <p>{acc.website}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <h1 className="pb-2 text-2xl font-bold text-white">
+              My Trip: {trip?.title}
+            </h1>
+            <div className="mb-2">
+              <Label htmlFor="destination">Destination:</Label>
+              <p className="text-sm text-gray-400">{trip?.destination}</p>
+            </div>
+            <div className="mb-2">
+              <Label htmlFor="description">Description:</Label>
+              <p className="text-sm text-gray-400">{trip?.description}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="start-date">Start Date:</Label>
+                <p className="text-sm text-gray-400">
+                  {trip?.startDate
+                    ? format(new Date(trip.startDate), "MMM dd, yyyy")
+                    : "N/A"}
+                </p>
+              </div>
+              <div>
+                <Label htmlFor="end-date">End Date:</Label>
+                <p className="text-sm text-gray-400">
+                  {trip?.endDate
+                    ? format(new Date(trip.endDate), "MMM dd, yyyy")
+                    : "N/A"}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-row justify-end">
+          <div className="flex items-center space-x-2">
             <a href={`/trips/${trip?.id}/edit`}>
-              <Button className="border-none  bg-transparent">
+              <Button className="border-none bg-transparent">
                 <Icon name="Pencil" color="white" size="20" />
               </Button>
             </a>
             <form action={deleteTrip}>
-              <Button className="border-none  bg-transparent">
+              <Button className="border-none bg-transparent">
                 <Icon name="Trash" color="red" size="20" />
               </Button>
             </form>
           </div>
         </div>
-      ) : (
-        <p>No accommodations</p>
-      )}
-    </>
+      </div>
+    </div>
   );
 
+  // Return the rendered main content
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex">
-        {tripInfo}
-        {accomodationsInfo}
+      <div className="flex space-x-6">
+        <div>{tripInfo}</div>
+        <AccommodationList
+          tripId={trip?.id}
+          accommodations={accommodations}
+          deleteTrip={deleteTrip}
+        />
       </div>
       <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
     </main>

@@ -27,7 +27,7 @@ const AccommodationsForm = ({
       userId: userId,
     };
 
-    console.log("accomodation form data ======>", rawFormData);
+    console.log("accommodation form data ======>", rawFormData);
 
     const addedAccommodation = await api.accommodation.create(rawFormData);
 
@@ -40,74 +40,95 @@ const AccommodationsForm = ({
   }
 
   return (
-    <form action={addAccommodation} className="flex flex-col gap-3 text-black">
-      <div>
-        <Label htmlFor="name">Name:</Label>
-        <TextInput
-          name="name"
-          id="name"
-          placeholder={"Hotel Name, Airbnb, etc."}
-          className="w-full dark:bg-white"
-        />
+    <form action={addAccommodation} className="flex flex-col gap-6 text-black">
+      <div className="grid gap-4">
+        <div>
+          <Label htmlFor="name" className="block text-sm text-gray-500">
+            Name:
+          </Label>
+          <TextInput
+            name="name"
+            id="name"
+            placeholder="Hotel Name, Airbnb, etc."
+            className="mt-1 w-full dark:bg-white"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="location" className="block text-sm text-gray-500">
+            Location:
+          </Label>
+          <TextInput
+            name="location"
+            id="location"
+            placeholder="City, State, Country"
+            className="mt-1 w-full dark:bg-white"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="checkIn" className="block text-sm text-gray-500">
+              Check-In Date:
+            </Label>
+            <input
+              name="checkIn"
+              type="date"
+              id="checkIn"
+              className="input input-bordered mt-1 w-full dark:bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor="checkOut" className="block text-sm text-gray-500">
+              Check-Out Date:
+            </Label>
+            <input
+              name="checkOut"
+              type="date"
+              id="checkOut"
+              className="input input-bordered mt-1 w-full dark:bg-white"
+              style={{ colorScheme: "light" }}
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="notes" className="block text-sm text-gray-500">
+            Notes:
+          </Label>
+          <TextInput
+            name="notes"
+            id="notes"
+            placeholder="Any additional notes"
+            className="mt-1 w-full dark:bg-white"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="phoneNumber" className="block text-sm text-gray-500">
+            Phone Number:
+          </Label>
+          <TextInput
+            name="phoneNumber"
+            id="phoneNumber"
+            placeholder="(123) 456-7890"
+            className="mt-1 w-full dark:bg-white"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="website" className="block text-sm text-gray-500">
+            Website:
+          </Label>
+          <TextInput
+            name="website"
+            id="website"
+            placeholder="www.hotel.com"
+            className="mt-1 w-full dark:bg-white"
+          />
+        </div>
       </div>
-      <div>
-        <Label htmlFor="location">Location:</Label>
-        <TextInput
-          name="location"
-          id="location"
-          placeholder={"City, State, Country"}
-          className="w-full dark:bg-white"
-        />
-      </div>
-      <div>
-        <Label htmlFor="checkIn">Check-In Date:</Label>
-        <input
-          name="checkIn"
-          type="date"
-          id="checkIn"
-          placeholder={"YYYY-MM-DD"}
-          className="input input-bordered w-full dark:bg-white"
-        />
-      </div>
-      <div>
-        <Label htmlFor="checkOut">Check-Out Date:</Label>
-        <input
-          name="checkOut"
-          type="date"
-          id="checkOut"
-          placeholder={"YYYY-MM-DD"}
-          color="black"
-          className="input input-bordered w-full dark:bg-white"
-          style={{ colorScheme: "light" }}
-        />
-      </div>
-      <div>
-        <Label htmlFor="notes">Notes:</Label>
-        <TextInput
-          name="notes"
-          id="notes"
-          placeholder={"Any additional notes"}
-          className="w-full dark:bg-white"
-        />
-      </div>
-      <div>
-        <Label htmlFor="phoneNumber">Phone Number:</Label>
-        <TextInput
-          name="phoneNumber"
-          id="phoneNumber"
-          placeholder={"(123) 456-7890"}
-          className="w-full dark:bg-white"
-        />
-      </div>
-      <div>
-        <Label htmlFor="website">Website:</Label>
-        <TextInput
-          name="website"
-          id="website"
-          placeholder={"www.hotel.com"}
-          className="w-full dark:bg-white"
-        />
-      </div>
+
       <Button type="submit" className="mt-4">
         Save Stay
       </Button>
