@@ -18,7 +18,7 @@ export default function AccommodationList({
 }: AccommodationListProps) {
   return (
     <div className="w-full">
-      <h2 className="pb-3 text-xl font-bold">Accommodations</h2>
+      <h2 className="pb-4 text-xl font-bold">Accommodations</h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {accommodations.map((acc) => (
           <div
