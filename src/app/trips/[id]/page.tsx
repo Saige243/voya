@@ -65,10 +65,10 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div>
       <h2 className="pb-4 text-xl font-bold">Details:</h2>
 
-      <div className="mb-6 w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-lg">
+      <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="pb-2 text-2xl font-bold text-white">
+            <h1 className="pb-2 text-2xl font-bold dark:text-white">
               My Trip: {trip?.title}
             </h1>
             <div className="mb-2">
@@ -98,10 +98,10 @@ export default async function Page({ params }: { params: { id: string } }) {
               </div>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col items-center space-y-2">
             <a href={`/trips/${trip?.id}/edit`}>
               <Button className="border-none bg-transparent">
-                <Icon name="Pencil" color="white" size="20" />
+                <Icon name="Pencil" color="black" size="20" />
               </Button>
             </a>
             <form action={deleteTrip}>
