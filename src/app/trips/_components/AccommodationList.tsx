@@ -23,41 +23,40 @@ export default function AccommodationList({
         {accommodations.map((acc) => (
           <div
             key={acc.id}
-            className="rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-lg"
+            className="rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
           >
-            <div className="mb-2 flex justify-between">
+            <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold">{acc.name}</h3>
-              <a href={`/trips/${tripId}/edit`}>
-                <Button className="border-none bg-transparent">
-                  <Icon name="Pencil" color="white" size="20" />
-                </Button>
-              </a>
             </div>
             <p className="mb-2 text-sm text-gray-400">{acc.location}</p>
-            <div className="mb-2 grid grid-cols-2 gap-2">
+            <div className="mb-4 grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="check-in-date">Check-In:</Label>
-                <p>{format(new Date(acc.checkIn), "MMM dd, yyyy")}</p>
+                <p className="text-sm text-gray-400">
+                  {format(new Date(acc.checkIn), "MMM dd, yyyy")}
+                </p>
               </div>
               <div>
                 <Label htmlFor="check-out-date">Check-Out:</Label>
-                <p>{format(new Date(acc.checkOut), "MMM dd, yyyy")}</p>
+                <p className="text-sm text-gray-400">
+                  {format(new Date(acc.checkOut), "MMM dd, yyyy")}
+                </p>
               </div>
             </div>
             {acc.notes && (
-              <div className="mb-2">
+              <div className="mb-4">
                 <Label htmlFor="notes">Notes:</Label>
-                <p>{acc.notes}</p>
+                <p className="text-sm text-gray-400">{acc.notes}</p>
               </div>
             )}
             {acc.phoneNumber && (
-              <div className="mb-2">
+              <div className="mb-4">
                 <Label htmlFor="phone-number">Phone:</Label>
-                <p>{acc.phoneNumber}</p>
+                <p className="text-sm text-gray-400">{acc.phoneNumber}</p>
               </div>
             )}
             {acc.website && (
-              <div className="mb-2">
+              <div className="mb-4">
                 <Label htmlFor="website">Website: </Label>
                 <a
                   href={acc.website}
@@ -69,7 +68,12 @@ export default function AccommodationList({
                 </a>
               </div>
             )}
-            <div className="mt-4 flex justify-end">
+            <div className="flex justify-end">
+              <a href={`/trips/${tripId}/edit`}>
+                <Button className="border-none bg-transparent">
+                  <Icon name="Pencil" color="black" size="20" />
+                </Button>
+              </a>
               <form action={deleteTrip}>
                 <Button className="border-none bg-transparent">
                   <Icon name="Trash" color="red" size="20" />

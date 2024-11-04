@@ -61,10 +61,24 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const accommodations = await getAccommodations();
 
+  const editButtons = (
+    <div className="flex items-center space-x-2">
+      <a href={`/trips/${trip?.id}/edit`}>
+        <Button className="border-none bg-transparent">
+          <Icon name="Pencil" color="black" size="20" />
+        </Button>
+      </a>
+      <form action={deleteTrip}>
+        <Button className="border-none bg-transparent">
+          <Icon name="Trash" color="red" size="20" />
+        </Button>
+      </form>
+    </div>
+  );
+
   const tripInfo = (
     <div>
       <h2 className="pb-4 text-xl font-bold">Details:</h2>
-
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-start justify-between">
           <div>
@@ -96,26 +110,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                     : "N/A"}
                 </p>
               </div>
+              {editButtons}
             </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <a href={`/trips/${trip?.id}/edit`}>
-              <Button className="border-none bg-transparent">
-                <Icon name="Pencil" color="black" size="20" />
-              </Button>
-            </a>
-            <form action={deleteTrip}>
-              <Button className="border-none bg-transparent">
-                <Icon name="Trash" color="red" size="20" />
-              </Button>
-            </form>
           </div>
         </div>
       </div>
     </div>
   );
 
-  // Return the rendered main content
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
       <div className="flex space-x-6">
