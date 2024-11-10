@@ -9,16 +9,14 @@ import AccommodationList from "../_components/AccommodationList";
 import { format } from "date-fns";
 import { Label } from "~/app/_components/ui/Label";
 
-// Main page component
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
   if (!session) {
     redirect("/");
   }
 
-  // Fetch the trip details
   async function getTrip() {
-    "use server"; // Ensure this function runs on the server
+    "use server";
     const { id } = params;
     const tripId = parseInt(id);
 
@@ -31,9 +29,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const trip = await getTrip();
 
-  // Handle trip deletion
   async function deleteTrip() {
-    "use server"; // Ensure this function runs on the server
+    "use server";
     const { id } = params;
     const tripId = parseInt(id);
 

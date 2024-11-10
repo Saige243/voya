@@ -29,7 +29,7 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     redirect(`/trips/${updatedTrip.id}`);
   }
 
-  return (
+  const editTripForm = (
     <form action={updateTrip} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
@@ -88,6 +88,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       </Button>
     </form>
   );
+
+  return <div className="flex flex-col gap-4">{editTripForm}</div>;
 };
 
 export default EditTripForm;

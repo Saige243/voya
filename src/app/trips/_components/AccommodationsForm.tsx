@@ -27,8 +27,6 @@ const AccommodationsForm = ({
       userId: userId,
     };
 
-    console.log("accommodation form data ======>", rawFormData);
-
     const addedAccommodation = await api.accommodation.create(rawFormData);
 
     if (!addedAccommodation) {
@@ -135,7 +133,7 @@ const AccommodationsForm = ({
     </form>
   );
 
-  return <div className="flex flex-col gap-6">{accomodationForm}</div>;
+  return <div className="flex flex-col gap-4">{accomodationForm}</div>;
 };
 
 export default AccommodationsForm;
