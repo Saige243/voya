@@ -1,4 +1,3 @@
-// AccommodationList.tsx
 import { type Accommodation } from "@prisma/client";
 import { Label } from "~/app/_components/ui/Label";
 import { format } from "date-fns";

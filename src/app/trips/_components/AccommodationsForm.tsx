@@ -39,7 +39,7 @@ const AccommodationsForm = ({
     redirect(`/trips/${trip.id}`);
   }
 
-  return (
+  const accomodationForm = (
     <form action={addAccommodation} className="flex flex-col gap-6 text-black">
       <div className="grid gap-4">
         <div>
@@ -134,6 +134,8 @@ const AccommodationsForm = ({
       </Button>
     </form>
   );
+
+  return <div className="flex flex-col gap-6">{accomodationForm}</div>;
 };
 
 export default AccommodationsForm;
