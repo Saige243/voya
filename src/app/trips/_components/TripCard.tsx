@@ -1,6 +1,6 @@
 import React from "react";
 import { type Trip } from "@prisma/client";
-import { Card } from "~/app/_components/Card";
+import { Card } from "~/app/_components/ui/Card";
 
 function TripCard(trip: Trip) {
   return (

@@ -1,8 +1,8 @@
-import { Button } from "~/app/_components/Button";
+import { Button } from "~/app/_components/ui/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
-import { Label } from "~/app/_components/Label";
-import { TextInput } from "~/app/_components/TextInput";
+import { Label } from "~/app/_components/ui/Label";
+import { TextInput } from "~/app/_components/ui/TextInput";
 import { type Trip } from "@prisma/client";
 
 const AccommodationsForm = ({

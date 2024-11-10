@@ -2,7 +2,7 @@ import { api } from "~/trpc/server";
 import TripCard from "./_components/TripCard";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { Button } from "~/app/_components/Button";
+import { Button } from "~/app/_components/ui/Button";
 
 export default async function Trips() {
   const session = await getServerAuthSession();

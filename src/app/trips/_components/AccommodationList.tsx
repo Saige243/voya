@@ -1,9 +1,9 @@
 // AccommodationList.tsx
 import { type Accommodation } from "@prisma/client";
-import { Label } from "~/app/_components/Label";
+import { Label } from "~/app/_components/ui/Label";
 import { format } from "date-fns";
-import { Button } from "~/app/_components/Button";
-import { Icon } from "~/app/_components/Icon";
+import { Button } from "~/app/_components/ui/Button";
+import { Icon } from "~/app/_components/ui/Icon";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];

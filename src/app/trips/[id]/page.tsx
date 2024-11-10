@@ -1,13 +1,13 @@
-import { Button } from "~/app/_components/Button";
+import { Button } from "~/app/_components/ui/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { Icon } from "~/app/_components/Icon";
+import { Icon } from "~/app/_components/ui/Icon";
 import ItineraryBlock from "../_components/ItineraryBlock";
 import { type Accommodation } from "@prisma/client";
 import AccommodationList from "../_components/AccommodationList";
 import { format } from "date-fns";
-import { Label } from "~/app/_components/Label";
+import { Label } from "~/app/_components/ui/Label";
 
 // Main page component
 export default async function Page({ params }: { params: { id: string } }) {

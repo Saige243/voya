@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Card } from "../../../_components/Card";
+import { Card } from "../../../_components/ui/Card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../_components/EditTripForm";

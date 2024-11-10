@@ -6,10 +6,10 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
-import { Button, ImageButton } from "~/app/_components/Button";
-import { Card } from "../Card";
-import { TextInput } from "../TextInput";
-import { Toast } from "~/app/_components/Toast";
+import { Button, ImageButton } from "~/app/_components/ui/Button";
+import { Card } from "../ui/Card";
+import { TextInput } from "../ui/TextInput";
+import { Toast } from "~/app/_components/ui/Toast";
 import { useState } from "react";
 
 const providerLogoSrc = (name: string) =>
@@ -31,14 +31,11 @@ export default function AuthClient({
   }
 
   const handleSignIn = () => {
-    // Perform sign-in logic here
-    // For example, if sign-in fails, show the alert
     setShowToast(true);
   };
 
   const signInForm = (
     <div className="py-4">
-      {/* <form> */}
       <TextInput placeholder="Email" className="mb-4" />
       <TextInput placeholder="Password" className="mb-4" />
       <Button
