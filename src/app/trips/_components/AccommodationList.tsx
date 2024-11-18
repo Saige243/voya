@@ -3,6 +3,7 @@ import { Label } from "~/app/_components/ui/Label";
 import { format } from "date-fns";
 import { Button } from "~/app/_components/ui/Button";
 import { Icon } from "~/app/_components/ui/Icon";
+import { Typography } from "~/app/_components/ui/Typography";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -18,36 +19,36 @@ export default function AccommodationList({
   const accommodationInfo = (acc: Accommodation) => (
     <div
       key={acc.id}
-      className="rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+      className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
     >
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{acc.name}</h3>
+      <div className="flex items-center justify-between">
+        <Typography variant="heading1">{acc.name}</Typography>
       </div>
-      <p className="mb-2 text-sm text-gray-400">{acc.location}</p>
-      <div className="mb-4 grid grid-cols-2 gap-4">
+      <Typography>{acc.location}</Typography>
+      <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="check-in-date">Check-In:</Label>
-          <p className="text-sm text-gray-400">
+          <Typography>
             {format(new Date(acc.checkIn), "MMM dd, yyyy")}
-          </p>
+          </Typography>
         </div>
         <div>
           <Label htmlFor="check-out-date">Check-Out:</Label>
-          <p className="text-sm text-gray-400">
+          <Typography>
             {format(new Date(acc.checkOut), "MMM dd, yyyy")}
-          </p>
+          </Typography>
         </div>
       </div>
       {acc.notes && (
         <div className="mb-4">
           <Label htmlFor="notes">Notes:</Label>
-          <p className="text-sm text-gray-400">{acc.notes}</p>
+          <Typography>{acc.notes}</Typography>
         </div>
       )}
       {acc.phoneNumber && (
         <div className="mb-4">
           <Label htmlFor="phone-number">Phone:</Label>
-          <p className="text-sm text-gray-400">{acc.phoneNumber}</p>
+          <Typography>{acc.phoneNumber}</Typography>
         </div>
       )}
       {acc.website && (
@@ -61,6 +62,10 @@ export default function AccommodationList({
           >
             {acc.website}
           </a>
+          <div className="mt-2 flex">
+            {editTripButton}
+            {deleteTripButton}
+          </div>
         </div>
       )}
     </div>
@@ -69,7 +74,7 @@ export default function AccommodationList({
   const editTripButton = (
     <a href={`/trips/${tripId}/edit`}>
       <Button className="border-none bg-transparent">
-        <Icon name="Pencil" color="black" size="20" />
+        <Icon name="Pencil" color="white" size="20" />
       </Button>
     </a>
   );
@@ -87,13 +92,7 @@ export default function AccommodationList({
       <h2 className="pb-4 text-xl font-bold">Accommodations</h2>
       <div>
         {accommodations.map((acc) => (
-          <div key={acc.id}>
-            {accommodationInfo(acc)}
-            <div className="mt-2 flex justify-end">
-              {editTripButton}
-              {deleteTripButton}
-            </div>
-          </div>
+          <div key={acc.id}>{accommodationInfo(acc)}</div>
         ))}
       </div>
     </div>

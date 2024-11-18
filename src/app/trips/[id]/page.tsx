@@ -60,10 +60,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   const accommodations = await getAccommodations();
 
   const editButtons = (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <a href={`/trips/${trip?.id}/edit`}>
         <Button className="border-none bg-transparent">
-          <Icon name="Pencil" color="black" size="20" />
+          <Icon name="Pencil" color="white" size="20" />
         </Button>
       </a>
       <form action={deleteTrip}>
@@ -78,18 +78,18 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div>
       <h2 className="pb-4 text-xl font-bold">Details:</h2>
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
-        <div className="flex items-start justify-between">
+        <div className="">
           <div>
             <Typography variant="heading1">{trip?.title}</Typography>
             <div className="mb-2">
               {/* <Label htmlFor="destination">Destination:</Label> */}
-              <Typography variant="heading2">{trip?.destination}</Typography>
+              <Typography>{trip?.destination}</Typography>
             </div>
             <div className="mb-2">
               {/* <Label htmlFor="description">Description:</Label> */}
               <Typography>{trip?.description}</Typography>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="start-date">Start Date:</Label>
                 <Typography>
@@ -106,8 +106,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                     : "N/A"}
                 </Typography>
               </div>
-              {editButtons}
             </div>
+            {editButtons}
           </div>
         </div>
       </div>
@@ -116,8 +116,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex items-center justify-center space-x-6">
-        <div>{tripInfo}</div>
+      <div className="flex flex-col items-center justify-center space-x-6">
+        <div className="w-[500px]">{tripInfo}</div>
         <AccommodationList
           tripId={trip?.id}
           accommodations={accommodations}
