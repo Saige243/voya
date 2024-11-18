@@ -1,4 +1,4 @@
-import { type Accommodation } from "@prisma/client";
+import { type Itinerary } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -14,7 +14,7 @@ export const itineraryRouter = createTRPCRouter({
         notes: z.string(),
       }),
     )
-    .mutation(async ({ ctx, input }): Promise<Accommodation> => {
+    .mutation(async ({ ctx, input }): Promise<Itinerary> => {
       const itinerary = ctx.db.itinerary.create({
         data: {
           tripId: input.tripId,
