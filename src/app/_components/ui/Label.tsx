@@ -10,7 +10,10 @@ export function Label({
   className?: string;
 }) {
   return (
-    <label htmlFor={htmlFor} className={`dark:text-white ${className}`}>
+    <label
+      htmlFor={htmlFor}
+      className={`text-sm dark:text-gray-300 ${className}`}
+    >
       {children}
     </label>
   );

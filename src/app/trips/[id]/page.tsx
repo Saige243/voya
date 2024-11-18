@@ -8,6 +8,7 @@ import { type Accommodation } from "@prisma/client";
 import AccommodationList from "../_components/AccommodationList";
 import { format } from "date-fns";
 import { Label } from "~/app/_components/ui/Label";
+import { Typography } from "~/app/_components/ui/Typography";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -79,33 +80,31 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="pb-2 text-2xl font-bold dark:text-white">
-              My Trip: {trip?.title}
-            </h1>
+            <Typography variant="heading1">{trip?.title}</Typography>
             <div className="mb-2">
               <Label htmlFor="destination">Destination:</Label>
-              <p className="text-sm text-gray-400">{trip?.destination}</p>
+              <Typography variant="heading2">{trip?.destination}</Typography>
             </div>
             <div className="mb-2">
               <Label htmlFor="description">Description:</Label>
-              <p className="text-sm text-gray-400">{trip?.description}</p>
+              <Typography>{trip?.description}</Typography>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="start-date">Start Date:</Label>
-                <p className="text-sm text-gray-400">
+                <Typography>
                   {trip?.startDate
                     ? format(new Date(trip.startDate), "MMM dd, yyyy")
                     : "N/A"}
-                </p>
+                </Typography>
               </div>
               <div>
                 <Label htmlFor="end-date">End Date:</Label>
-                <p className="text-sm text-gray-400">
+                <Typography>
                   {trip?.endDate
                     ? format(new Date(trip.endDate), "MMM dd, yyyy")
                     : "N/A"}
-                </p>
+                </Typography>
               </div>
               {editButtons}
             </div>
