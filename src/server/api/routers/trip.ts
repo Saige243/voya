@@ -1,6 +1,14 @@
-import { type Trip } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+
+type TripWithRelations = Prisma.TripGetPayload<{
+  include: {
+    itineraries: true;
+    accommodations: true;
+    activities: true;
+  };
+}>;
 
 export const tripRouter = createTRPCRouter({
   create: protectedProcedure
@@ -13,7 +21,7 @@ export const tripRouter = createTRPCRouter({
         description: z.string(),
       }),
     )
-    .mutation(async ({ ctx, input }): Promise<Trip> => {
+    .mutation(async ({ ctx, input }): Promise<TripWithRelations> => {
       const trip = ctx.db.trip.create({
         data: {
           title: input.title,
@@ -23,6 +31,11 @@ export const tripRouter = createTRPCRouter({
           description: input.description,
           userId: ctx.session.user.id,
         },
+        include: {
+          itineraries: true,
+          accommodations: true,
+          activities: true,
+        },
       });
       return trip;
     }),
@@ -30,6 +43,11 @@ export const tripRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
     const allTrips = ctx.db.trip.findMany({
       where: { userId: ctx.session.user.id },
+      include: {
+        itineraries: true,
+        accommodations: true,
+        activities: true,
+      },
     });
     return allTrips;
   }),
@@ -39,6 +57,11 @@ export const tripRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.trip.findUnique({
         where: { id: input.id, userId: ctx.session.user.id },
+        include: {
+          itineraries: true,
+          accommodations: true,
+          activities: true,
+        },
       });
     }),
 
