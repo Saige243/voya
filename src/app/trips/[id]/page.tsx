@@ -82,11 +82,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div>
             <Typography variant="heading1">{trip?.title}</Typography>
             <div className="mb-2">
-              <Label htmlFor="destination">Destination:</Label>
+              {/* <Label htmlFor="destination">Destination:</Label> */}
               <Typography variant="heading2">{trip?.destination}</Typography>
             </div>
             <div className="mb-2">
-              <Label htmlFor="description">Description:</Label>
+              {/* <Label htmlFor="description">Description:</Label> */}
               <Typography>{trip?.description}</Typography>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -116,7 +116,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex space-x-6">
+      <div className="flex items-center justify-center space-x-6">
         <div>{tripInfo}</div>
         <AccommodationList
           tripId={trip?.id}
