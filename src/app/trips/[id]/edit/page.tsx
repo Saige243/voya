@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../_components/EditTripForm";
 import AccommodationsForm from "../../_components/AccommodationsForm";
+import BackButton from "../../_components/BackButton";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -34,7 +35,10 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <h1 className="pb-20 text-center">Edit: {trip?.title}</h1>
+      <div className="flex items-center space-x-4  pb-20 text-center">
+        <BackButton />
+        <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
+      </div>
       <div className="flex space-x-4">
         <Card>
           <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
