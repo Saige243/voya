@@ -1,40 +1,84 @@
 import React from "react";
 import { type Itinerary, type Trip } from "@prisma/client";
+import { Label } from "~/app/_components/ui/Label";
+import { Typography } from "~/app/_components/ui/Typography";
+import { Button } from "~/app/_components/ui/Button";
+import { Icon } from "~/app/_components/ui/Icon";
+import { format } from "date-fns";
 
-function ItineraryBlock({
-  trip,
-  itineraries,
-}: {
+type ItineraryBlockProps = {
   trip: Trip | null;
   itineraries: Itinerary[] | null;
-}) {
+};
+
+export default function ItineraryBlock({
+  trip,
+  itineraries,
+}: ItineraryBlockProps) {
   return (
     <div className="w-full">
       <h2 className="pb-4 text-xl font-bold">Itineraries</h2>
       {itineraries && itineraries.length > 0 ? (
-        <>
-          <ul className="mt-2 space-y-2">
-            {itineraries.map((itinerary) => (
-              <li key={itinerary.id} className="rounded-lg border p-4 shadow">
-                <p>
-                  <span className="font-bold">Date:</span>{" "}
-                  {new Date(itinerary.date).toLocaleDateString()}
-                </p>
-                <p>
-                  <span className="font-bold">Time:</span>{" "}
-                  {new Date(itinerary.time).toLocaleTimeString()}
-                </p>
-                <p>
-                  <span className="font-bold">Location:</span>{" "}
-                  {itinerary.location}
-                </p>
-                <p>
-                  <span className="font-bold">Notes:</span> {itinerary.notes}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </>
+        <div className="space-y-4">
+          {itineraries.map((itinerary) => (
+            <div
+              key={itinerary.id}
+              className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            >
+              <div className="flex items-center justify-between">
+                <Typography variant="heading1">{itinerary.title}</Typography>
+              </div>
+              <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor={`datetime-${itinerary.id}`}>Date:</Label>
+                  <Typography>
+                    {format(
+                      new Date(itinerary.datetime as string | number | Date),
+                      "MMM dd, yyyy",
+                    )}
+                  </Typography>
+                </div>
+                <div>
+                  <Label htmlFor={`datetime-${itinerary.id}`}>Time:</Label>
+                  <Typography>
+                    {format(
+                      new Date(itinerary.datetime as string | number | Date),
+                      "hh:mm a",
+                    )}
+                  </Typography>
+                </div>
+              </div>
+              {itinerary.location && (
+                <div className="mb-4">
+                  <Label htmlFor={`location-${itinerary.id}`}>Location:</Label>
+                  <Typography>{itinerary.location}</Typography>
+                </div>
+              )}
+              {itinerary.notes && (
+                <div className="mb-4">
+                  <Label htmlFor={`notes-${itinerary.id}`}>Notes:</Label>
+                  <Typography>{itinerary.notes}</Typography>
+                </div>
+              )}
+              <div className="mt-4 flex">
+                <a href={`/trips/${trip?.id}/edit`}>
+                  <Button className="border-none bg-transparent">
+                    <Icon
+                      name="Pencil"
+                      className="text-black dark:text-white"
+                      size="20"
+                    />
+                  </Button>
+                </a>
+                <form action={`/trips/${trip?.id}/delete`}>
+                  <Button className="border-none bg-transparent">
+                    <Icon name="Trash" color="red" size="20" />
+                  </Button>
+                </form>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="text-center">
           <p className="text-gray-600">No itineraries!</p>
@@ -49,5 +93,3 @@ function ItineraryBlock({
     </div>
   );
 }
-
-export default ItineraryBlock;

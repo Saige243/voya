@@ -8,8 +8,7 @@ export const itineraryRouter = createTRPCRouter({
       z.object({
         tripId: z.number(),
         title: z.string().min(1),
-        date: z.date(),
-        time: z.date(),
+        datetime: z.date(),
         location: z.string().min(1),
         notes: z.string(),
       }),
@@ -19,8 +18,7 @@ export const itineraryRouter = createTRPCRouter({
         data: {
           tripId: input.tripId,
           title: input.title,
-          date: input.date,
-          time: input.time,
+          datetime: input.datetime,
           location: input.location,
           notes: input.notes,
         },
@@ -52,14 +50,18 @@ export const itineraryRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string().min(1).optional(),
-        date: z.date().optional(),
-        time: z.date().optional(),
+        datetime: z.date().optional(),
         location: z.string().min(1).optional(),
         notes: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
+
+      if (data.datetime) {
+        data.datetime = new Date(data.datetime);
+      }
+
       return ctx.db.itinerary.update({
         where: { id },
         data,

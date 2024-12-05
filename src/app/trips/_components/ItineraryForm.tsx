@@ -9,11 +9,12 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
   async function addItinerary(formData: FormData) {
     "use server";
 
+    const date = formData.get("datetime") as string;
+
     const itineraryData = {
       tripId: trip.id,
       title: formData.get("title") as string,
-      date: new Date(formData.get("date") as string),
-      time: new Date(formData.get("time") as string),
+      datetime: new Date(date),
       location: formData.get("location") as string,
       notes: formData.get("notes") as string,
     };
@@ -33,12 +34,11 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
   return (
     <form action={addItinerary} className="flex flex-col gap-3 text-black">
       <div>
-        <Label htmlFor="date">Date:</Label>
+        <Label htmlFor="datetime">Date and Time:</Label>
         <input
-          name="date"
-          type="date"
-          id="date"
-          placeholder={"YYYY-MM-DD"}
+          name="datetime"
+          type="datetime-local"
+          id="datetime"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -46,19 +46,9 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
         <Label htmlFor="title">Title:</Label>
         <input
           name="title"
-          type="title"
+          type="text"
           id="title"
-          placeholder="Annivarsary trip"
-          className="input input-bordered w-full dark:bg-white"
-        />
-      </div>
-      <div>
-        <Label htmlFor="time">Time:</Label>
-        <input
-          name="time"
-          type="time"
-          id="time"
-          placeholder={"HH:MM"}
+          placeholder="Anniversary trip"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
