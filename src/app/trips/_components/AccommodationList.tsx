@@ -19,7 +19,7 @@ export default function AccommodationList({
   const accommodationInfo = (acc: Accommodation) => (
     <div
       key={acc.id}
-      className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+      className="mb-6 max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
     >
       <div className="flex items-center justify-between">
         <Typography variant="heading1">{acc.name}</Typography>

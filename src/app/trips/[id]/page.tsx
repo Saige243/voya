@@ -81,10 +81,11 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const tripInfo = (
     <div>
-      <div className="flex items-center space-x-4  pb-20 text-center">
+      <div className="flex items-center space-x-4 pb-20 text-center">
         <BackButton />
         <h1 className="text-2xl font-bold">Trip Details</h1>
       </div>
+      <h2 className="pb-4 text-xl font-bold">Overview</h2>
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="">
           <div>
