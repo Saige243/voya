@@ -63,7 +63,11 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className="flex items-center">
       <a href={`/trips/${trip?.id}/edit`}>
         <Button className="border-none bg-transparent">
-          <Icon name="Pencil" color="white" size="20" />
+          <Icon
+            name="Pencil"
+            className="text-black dark:text-white"
+            size="20"
+          />
         </Button>
       </a>
       <form action={deleteTrip}>

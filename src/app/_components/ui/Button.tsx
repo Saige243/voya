@@ -45,7 +45,7 @@ export function ImageButton({
       onClick={onClick}
       type={type}
     >
-      <div className="flex items-center  text-center">
+      <div className="flex items-center text-center">
         <Image
           src={src}
           alt={alt}

@@ -10,10 +10,10 @@ export function Card({
   className?: string;
 }) {
   const cardHeader = (
-    <>
+    <div className="p-8">
       <h2 className="card-title text-2xl dark:text-white">{title}</h2>
-      <p className="pb-4 text-lg font-semibold">{description}</p>
-    </>
+      <p className="text-lg font-semibold">{description}</p>
+    </div>
   );
 
   return (

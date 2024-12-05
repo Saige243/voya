@@ -97,7 +97,7 @@ export default function AuthClient({
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <Card
-        title={isSignIn ? "Sign In to Voya" : "Sign Up for Voya"}
+        title={isSignIn ? "Sign in to Voya" : "Sign Up for Voya"}
         description={isSignIn ? "Sign in to your account" : "Create an account"}
         className="w-96 text-black dark:text-white"
       >
