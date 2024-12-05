@@ -74,7 +74,7 @@ export default function AccommodationList({
   const editTripButton = (
     <a href={`/trips/${tripId}/edit`}>
       <Button className="border-none bg-transparent">
-        <Icon name="Pencil" color="white" size="20" />
+        <Icon name="Pencil" className="text-black dark:text-white" size="20" />
       </Button>
     </a>
   );

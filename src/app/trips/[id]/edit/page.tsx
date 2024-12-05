@@ -5,6 +5,7 @@ import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../_components/EditTripForm";
 import AccommodationsForm from "../../_components/AccommodationsForm";
 import BackButton from "../../_components/BackButton";
+import ItineraryForm from "../../_components/ItineraryForm";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -51,6 +52,12 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
             Add Accommodations:
           </h2>
           <AccommodationsForm trip={trip} userId={session.user.id} />
+        </Card>
+        <Card>
+          <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+            Add Itinerary:
+          </h2>
+          <ItineraryForm trip={trip} />
         </Card>
       </div>
     </main>
