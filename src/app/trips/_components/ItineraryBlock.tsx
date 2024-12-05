@@ -9,10 +9,10 @@ function ItineraryBlock({
   itineraries: Itinerary[] | null;
 }) {
   return (
-    <div className="py-4">
+    <div className="w-full">
+      <h2 className="pb-4 text-xl font-bold">Itineraries</h2>
       {itineraries && itineraries.length > 0 ? (
         <>
-          <h2 className="text-xl font-semibold">Itineraries</h2>
           <ul className="mt-2 space-y-2">
             {itineraries.map((itinerary) => (
               <li key={itinerary.id} className="rounded-lg border p-4 shadow">

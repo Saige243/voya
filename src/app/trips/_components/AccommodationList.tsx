@@ -90,11 +90,23 @@ export default function AccommodationList({
   return (
     <div className="w-full">
       <h2 className="pb-4 text-xl font-bold">Accommodations</h2>
-      <div>
-        {accommodations.map((acc) => (
-          <div key={acc.id}>{accommodationInfo(acc)}</div>
-        ))}
-      </div>
+      {accommodations.length > 0 ? (
+        <div>
+          {accommodations.map((acc) => (
+            <div key={acc.id}>{accommodationInfo(acc)}</div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center">
+          <p className="text-gray-600">No accommodations!</p>
+          <a
+            href={`/trips/${tripId}/edit`}
+            className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          >
+            Add Accommodation
+          </a>
+        </div>
+      )}
     </div>
   );
 }

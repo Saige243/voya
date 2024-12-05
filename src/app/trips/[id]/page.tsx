@@ -9,6 +9,7 @@ import AccommodationList from "../_components/AccommodationList";
 import { format } from "date-fns";
 import { Label } from "~/app/_components/ui/Label";
 import { Typography } from "~/app/_components/ui/Typography";
+import BackButton from "../_components/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -80,7 +81,10 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const tripInfo = (
     <div>
-      <h2 className="pb-4 text-xl font-bold">Details:</h2>
+      <div className="flex items-center space-x-4  pb-20 text-center">
+        <BackButton />
+        <h1 className="text-2xl font-bold">Trip Details</h1>
+      </div>
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="">
           <div>
@@ -90,7 +94,6 @@ export default async function Page({ params }: { params: { id: string } }) {
               <Typography>{trip?.destination}</Typography>
             </div>
             <div className="mb-2">
-              {/* <Label htmlFor="description">Description:</Label> */}
               <Typography>{trip?.description}</Typography>
             </div>
             <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
@@ -120,15 +123,15 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex flex-col items-center justify-center space-x-6">
+      <div className="flex flex-col items-center justify-center space-x-6 space-y-4">
         <div className="w-[500px]">{tripInfo}</div>
         <AccommodationList
           tripId={trip?.id}
           accommodations={accommodations}
           deleteTrip={deleteTrip}
         />
+        <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
       </div>
-      <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
     </main>
   );
 }
