@@ -4,18 +4,29 @@ import { format } from "date-fns";
 import { Button } from "~/app/_components/ui/Button";
 import { Icon } from "~/app/_components/ui/Icon";
 import { Typography } from "~/app/_components/ui/Typography";
+import { api } from "~/trpc/server";
+import { redirect } from "next/navigation";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
   tripId: number;
-  deleteTrip: () => Promise<void>;
 };
 
 export default function AccommodationList({
   accommodations,
   tripId,
-  deleteTrip,
 }: AccommodationListProps) {
+  async function deleteAccommodation() {
+    "use server";
+
+    try {
+      await api.accommodation.delete({ id: tripId });
+      redirect(`/trips/${tripId}`);
+    } catch (error) {
+      console.error("Error deleting accommodation", error);
+    }
+  }
+
   const accommodationInfo = (acc: Accommodation) => (
     <div
       key={acc.id}
@@ -52,7 +63,7 @@ export default function AccommodationList({
         </div>
       )}
       {acc.website && (
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col">
           <Label htmlFor="website">Website: </Label>
           <a
             href={acc.website}
@@ -60,7 +71,7 @@ export default function AccommodationList({
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
           >
-            {acc.website}
+            {acc.name + " Website"}
           </a>
           <div className="mt-2 flex">
             {editTripButton}
@@ -80,7 +91,7 @@ export default function AccommodationList({
   );
 
   const deleteTripButton = (
-    <form action={deleteTrip}>
+    <form action={deleteAccommodation}>
       <Button className="border-none bg-transparent">
         <Icon name="Trash" color="red" size="20" />
       </Button>

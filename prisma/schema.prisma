@@ -1,27 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdBy   User   @relation(fields: [createdById], references: [id])
+  id          Int      @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
 
   @@index([name])
 }
@@ -35,18 +27,17 @@ model Trip {
   startDate      DateTime
   endDate        DateTime
   createdAt      DateTime        @default(now())
-  itineraries    Itinerary[]
   accommodations Accommodation[]
   activities     Activity[]
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itineraries    Itinerary[]
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("trips")
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  itineraryId Int?     
+  id          Int        @id @default(autoincrement())
+  itineraryId Int?
   tripId      Int
   title       String
   description String
@@ -54,10 +45,9 @@ model Activity {
   time        DateTime
   location    String
   notes       String
-  createdAt   DateTime @default(now())
-
-  itinerary Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: SetNull)
-  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  trip        Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
 
   @@map("activities")
 }
@@ -73,43 +63,41 @@ model Accommodation {
   createdAt   DateTime @default(now())
   phoneNumber String
   website     String
-
-  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   @@map("accommodations")
 }
 
 model Itinerary {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   title     String
   tripId    Int
-  datetime  DateTime
+  date      DateTime
+  time      DateTime
   location  String
   notes     String
-  createdAt DateTime @default(now())
-
-  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  Activity  Activity[]
+  trip      Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   @@map("itineraries")
-  Activity Activity[]
 }
 
-// Necessary for Next auth
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
   type                     String
   provider                 String
   providerAccountId        String
-  refresh_token            String? // @db.Text
-  access_token             String? // @db.Text
+  refresh_token            String?
+  access_token             String?
   expires_at               Int?
   token_type               String?
   scope                    String?
-  id_token                 String? // @db.Text
+  id_token                 String?
   session_state            String?
-  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   refresh_token_expires_in Int?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -129,8 +117,8 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
   posts         Post[]
+  sessions      Session[]
   trips         Trip[]
 }
 

@@ -124,7 +124,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex flex-col items-center justify-center space-x-6 space-y-4">
+      <div className="flex flex-col items-center justify-center space-y-4">
         <div className="w-[500px]">{tripInfo}</div>
         <AccommodationList
           tripId={trip?.id}
