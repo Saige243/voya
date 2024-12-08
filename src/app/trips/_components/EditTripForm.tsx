@@ -84,7 +84,7 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         />
       </div>
       <Button type="submit" className="mt-4">
-        Create Trip
+        Save Trip Details
       </Button>
     </form>
   );

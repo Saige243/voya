@@ -128,7 +128,7 @@ const AccommodationsForm = ({
       </div>
 
       <Button type="submit" className="mt-4">
-        Save Stay
+        Save Accommodation
       </Button>
     </form>
   );
