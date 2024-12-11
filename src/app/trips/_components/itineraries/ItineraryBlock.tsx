@@ -5,6 +5,7 @@ import { Typography } from "~/app/_components/ui/Typography";
 import { Button } from "~/app/_components/ui/Button";
 import { Icon } from "~/app/_components/ui/Icon";
 import { format } from "date-fns";
+import { DeleteItineraryButton } from "./DeleteItineraryButton";
 
 type ItineraryBlockProps = {
   trip: Trip | null;
@@ -70,11 +71,7 @@ export default function ItineraryBlock({
                     />
                   </Button>
                 </a>
-                <form action={`/trips/${trip?.id}/delete`}>
-                  <Button className="border-none bg-transparent">
-                    <Icon name="Trash" color="red" size="20" />
-                  </Button>
-                </form>
+                <DeleteItineraryButton id={itinerary.id} />
               </div>
             </div>
           ))}

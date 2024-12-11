@@ -6,17 +6,15 @@ import { Icon } from "~/app/_components/ui/Icon";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
-type DeleteAccommodationButtonProps = {
-  accId: number;
+type DeleteItineraryButtonProps = {
+  id: number;
 };
 
-export function DeleteAccommodationButton({
-  accId,
-}: DeleteAccommodationButtonProps) {
+export function DeleteItineraryButton({ id }: DeleteItineraryButtonProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const deleteAccommodation = api.accommodation.delete.useMutation({
+  const deleteAccommodation = api.itinerary.delete.useMutation({
     onSuccess: () => {
       startTransition(() => {
         router.refresh();
@@ -28,7 +26,7 @@ export function DeleteAccommodationButton({
   });
 
   const handleDelete = async () => {
-    deleteAccommodation.mutate({ id: accId });
+    deleteAccommodation.mutate({ id: id });
   };
 
   return (
