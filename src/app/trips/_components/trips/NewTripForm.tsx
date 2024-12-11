@@ -37,21 +37,21 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     <form action={createTrip} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
-        <TextInput
+        <input
           name="title"
+          type="text"
           id="title"
-          placeholder="title"
-          required={true}
-          className="w-full dark:bg-white"
+          placeholder="Enter trip title"
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
-        <TextInput
+        <input
           name="destination"
+          type="text"
           id="destination"
-          placeholder="destination"
-          required
+          placeholder="Enter destination"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -60,9 +60,8 @@ const NewTripForm = ({ userId }: { userId: string }) => {
         <TextInput
           name="description"
           id="description"
-          placeholder="description"
-          required
-          className="input input-bordered w-full dark:bg-white"
+          placeholder="Enter trip description"
+          className="w-full dark:bg-white"
         />
       </div>
       <div>
@@ -71,8 +70,8 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="startDate"
           type="date"
           id="startDate"
-          required
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <div>
@@ -81,8 +80,8 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="endDate"
           type="date"
           id="endDate"
-          required
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <Button type="submit" className="mt-4">

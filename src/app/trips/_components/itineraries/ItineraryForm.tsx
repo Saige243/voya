@@ -40,6 +40,7 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
           type="datetime-local"
           id="datetime"
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <div>

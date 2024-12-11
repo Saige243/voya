@@ -74,6 +74,7 @@ const AccommodationsForm = ({
               type="date"
               id="checkIn"
               className="input input-bordered mt-1 w-full dark:bg-white"
+              style={{ colorScheme: "light" }}
             />
           </div>
           <div>
