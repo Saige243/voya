@@ -28,7 +28,12 @@ export function DeleteAccommodationButton({
   });
 
   const handleDelete = async () => {
-    deleteAccommodation.mutate({ id: accId });
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this accommodation?",
+    );
+    if (confirmed) {
+      deleteAccommodation.mutate({ id: accId });
+    }
   };
 
   return (

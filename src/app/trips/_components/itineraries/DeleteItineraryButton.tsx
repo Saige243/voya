@@ -26,7 +26,12 @@ export function DeleteItineraryButton({ id }: DeleteItineraryButtonProps) {
   });
 
   const handleDelete = async () => {
-    deleteAccommodation.mutate({ id: id });
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this itinerary?",
+    );
+    if (confirmed) {
+      deleteAccommodation.mutate({ id });
+    }
   };
 
   return (
