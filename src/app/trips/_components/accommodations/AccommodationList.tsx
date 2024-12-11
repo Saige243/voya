@@ -4,8 +4,6 @@ import { format } from "date-fns";
 import { Button } from "~/app/_components/ui/Button";
 import { Icon } from "~/app/_components/ui/Icon";
 import { Typography } from "~/app/_components/ui/Typography";
-import { api } from "~/trpc/server";
-import { redirect } from "next/navigation";
 import { DeleteAccommodationButton } from "./DeleteAccommodationButton";
 
 type AccommodationListProps = {
@@ -65,7 +63,7 @@ export default function AccommodationList({
           </a>
           <div className="mt-2 flex">
             {editTripButton}
-            {/* <DeleteAccommodationButton accId={acc.id} /> */}
+            <DeleteAccommodationButton accId={acc.id} />
           </div>
         </div>
       )}
