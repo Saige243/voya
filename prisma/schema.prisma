@@ -72,7 +72,8 @@ model Itinerary {
   id        Int        @id @default(autoincrement())
   title     String
   tripId    Int
-  datetime  DateTime
+  date      DateTime
+  time      DateTime
   location  String
   notes     String
   createdAt DateTime   @default(now())
