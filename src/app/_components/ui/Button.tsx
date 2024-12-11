@@ -7,14 +7,21 @@ export function Button({
   className,
   children,
   type,
+  disabled,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }) {
   return (
-    <button className={`btn ${className}`} onClick={onClick} type={type}>
+    <button
+      className={`btn ${className}`}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
@@ -29,6 +36,7 @@ export function ImageButton({
   height,
   width,
   type,
+  disabled,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
@@ -38,12 +46,14 @@ export function ImageButton({
   height: number;
   width: number;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }) {
   return (
     <button
       className={`btn w-full  ${className}`}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
       <div className="flex items-center text-center">
         <Image

@@ -6,6 +6,7 @@ import { Icon } from "~/app/_components/ui/Icon";
 import { Typography } from "~/app/_components/ui/Typography";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
+import { DeleteAccommodationButton } from "./DeleteAccommodationButton";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -16,17 +17,6 @@ export default function AccommodationList({
   accommodations,
   tripId,
 }: AccommodationListProps) {
-  async function deleteAccommodation() {
-    "use server";
-
-    try {
-      await api.accommodation.delete({ id: tripId });
-      redirect(`/trips/${tripId}`);
-    } catch (error) {
-      console.error("Error deleting accommodation", error);
-    }
-  }
-
   const accommodationInfo = (acc: Accommodation) => (
     <div
       key={acc.id}
@@ -75,7 +65,7 @@ export default function AccommodationList({
           </a>
           <div className="mt-2 flex">
             {editTripButton}
-            {deleteTripButton}
+            {/* <DeleteAccommodationButton accId={acc.id} /> */}
           </div>
         </div>
       )}
@@ -88,14 +78,6 @@ export default function AccommodationList({
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
       </Button>
     </a>
-  );
-
-  const deleteTripButton = (
-    <form action={deleteAccommodation}>
-      <Button className="border-none bg-transparent">
-        <Icon name="Trash" color="red" size="20" />
-      </Button>
-    </form>
   );
 
   return (
