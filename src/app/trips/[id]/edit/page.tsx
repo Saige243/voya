@@ -35,31 +35,33 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
-      <div className="flex items-center space-x-4  pb-20 text-center">
+    <div className="px-20 md:px-40 xl:px-80">
+      <div className="flex items-center space-x-4 pb-20">
         <BackButton />
         <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
       </div>
-      <div className="flex space-x-4">
-        <Card>
-          <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-            Trip Details:
-          </h2>
-          <EditTripForm trip={trip} userId={session.user.id} />
-        </Card>
-        <Card>
-          <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-            Add Accommodations:
-          </h2>
-          <AccommodationsForm trip={trip} userId={session.user.id} />
-        </Card>
-        <Card>
-          <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-            Add Itinerary:
-          </h2>
-          <ItineraryForm trip={trip} />
-        </Card>
-      </div>
-    </main>
+      <main className="flex min-h-screen flex-col ">
+        <div className="flex space-x-4">
+          <Card>
+            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+              Trip Details:
+            </h2>
+            <EditTripForm trip={trip} userId={session.user.id} />
+          </Card>
+          <Card>
+            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+              Add Accommodations:
+            </h2>
+            <AccommodationsForm trip={trip} userId={session.user.id} />
+          </Card>
+          <Card>
+            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+              Add Itinerary:
+            </h2>
+            <ItineraryForm trip={trip} />
+          </Card>
+        </div>
+      </main>
+    </div>
   );
 }
