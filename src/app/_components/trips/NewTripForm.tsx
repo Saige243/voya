@@ -1,16 +1,14 @@
-import { Button } from "~/app/_components/ui/Button";
+import { Button } from "~/app/_components/common/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
-import { Label } from "~/app/_components/ui/Label";
-import { TextInput } from "~/app/_components/ui/TextInput";
-import { type Trip } from "@prisma/client";
+import { Label } from "~/app/_components/common/Label";
+import { TextInput } from "~/app/_components/common/TextInput";
 
-const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
-  async function updateTrip(formData: FormData) {
+const NewTripForm = ({ userId }: { userId: string }) => {
+  async function createTrip(formData: FormData) {
     "use server";
 
     const rawFormData = {
-      id: trip.id,
       title: formData.get("title") as string,
       destination: formData.get("destination") as string,
       startDate: new Date(formData.get("startDate") as string),
@@ -19,35 +17,41 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       userId: userId,
     };
 
-    const updatedTrip = await api.trip.update(rawFormData);
+    if (!rawFormData.title || !rawFormData.description) {
+      console.error("Title and description are required");
+      return;
+    }
 
-    if (!updatedTrip) {
+    const trip = await api.trip.create(rawFormData);
+    console.log("Created trip", trip);
+
+    if (!trip) {
       console.error("Error creating trip");
       return;
     }
 
-    redirect(`/trips/${updatedTrip.id}`);
+    redirect(`/trips/${trip.id}`);
   }
 
-  const editTripForm = (
-    <form action={updateTrip} className="flex flex-col gap-3 text-black">
+  return (
+    <form action={createTrip} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
-        <TextInput
+        <input
           name="title"
+          type="text"
           id="title"
-          defaultValue={trip.title}
-          placeholder={trip.title}
-          className="w-full dark:bg-white"
+          placeholder="Enter trip title"
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
-        <TextInput
+        <input
           name="destination"
+          type="text"
           id="destination"
-          defaultValue={trip.destination}
-          placeholder={trip.destination}
+          placeholder="Enter destination"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -56,9 +60,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           name="description"
           id="description"
-          defaultValue={trip.description}
-          placeholder={trip.description}
-          className="input input-bordered w-full dark:bg-white"
+          placeholder="Enter trip description"
+          className="w-full dark:bg-white"
         />
       </div>
       <div>
@@ -67,9 +70,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           name="startDate"
           type="date"
           id="startDate"
-          defaultValue={trip.startDate.toISOString().split("T")[0]}
-          placeholder={trip.startDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <div>
@@ -78,18 +80,15 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           name="endDate"
           type="date"
           id="endDate"
-          defaultValue={trip.endDate.toISOString().split("T")[0]}
-          placeholder={trip.endDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <Button type="submit" className="mt-4">
-        Save Trip Details
+        Create Trip
       </Button>
     </form>
   );
-
-  return <div className="flex flex-col gap-4">{editTripForm}</div>;
 };
 
-export default EditTripForm;
+export default NewTripForm;

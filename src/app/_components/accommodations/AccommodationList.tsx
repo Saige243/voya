@@ -1,9 +1,9 @@
 import { type Accommodation } from "@prisma/client";
-import { Label } from "~/app/_components/ui/Label";
+import { Label } from "~/app/_components/common/Label";
 import { format } from "date-fns";
-import { Button } from "~/app/_components/ui/Button";
-import { Icon } from "~/app/_components/ui/Icon";
-import { Typography } from "~/app/_components/ui/Typography";
+import { Button } from "~/app/_components/common/Button";
+import { Icon } from "~/app/_components/common/Icon";
+import { Typography } from "~/app/_components/common/Typography";
 import { DeleteAccommodationButton } from "./DeleteAccommodationButton";
 
 type AccommodationListProps = {

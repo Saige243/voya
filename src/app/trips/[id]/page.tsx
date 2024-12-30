@@ -1,15 +1,15 @@
-import { Button } from "~/app/_components/ui/Button";
+import { Button } from "~/app/_components/common/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { Icon } from "~/app/_components/ui/Icon";
-import ItineraryBlock from "../_components/itineraries/ItineraryBlock";
+import { Icon } from "~/app/_components/common/Icon";
+import ItineraryBlock from "../../_components/itineraries/ItineraryBlock";
 import { type Accommodation } from "@prisma/client";
-import AccommodationList from "../_components/accommodations/AccommodationList";
+import AccommodationList from "../../_components/accommodations/AccommodationList";
 import { format } from "date-fns";
-import { Label } from "~/app/_components/ui/Label";
-import { Typography } from "~/app/_components/ui/Typography";
-import BackButton from "../_components/BackButton";
+import { Label } from "~/app/_components/common/Label";
+import { Typography } from "~/app/_components/common/Typography";
+import BackButton from "../../_components/trips/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();

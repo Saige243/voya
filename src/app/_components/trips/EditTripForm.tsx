@@ -1,14 +1,16 @@
-import { Button } from "~/app/_components/ui/Button";
+import { Button } from "~/app/_components/common/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
-import { Label } from "~/app/_components/ui/Label";
-import { TextInput } from "~/app/_components/ui/TextInput";
+import { Label } from "~/app/_components/common/Label";
+import { TextInput } from "~/app/_components/common/TextInput";
+import { type Trip } from "@prisma/client";
 
-const NewTripForm = ({ userId }: { userId: string }) => {
-  async function createTrip(formData: FormData) {
+const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
+  async function updateTrip(formData: FormData) {
     "use server";
 
     const rawFormData = {
+      id: trip.id,
       title: formData.get("title") as string,
       destination: formData.get("destination") as string,
       startDate: new Date(formData.get("startDate") as string),
@@ -17,41 +19,35 @@ const NewTripForm = ({ userId }: { userId: string }) => {
       userId: userId,
     };
 
-    if (!rawFormData.title || !rawFormData.description) {
-      console.error("Title and description are required");
-      return;
-    }
+    const updatedTrip = await api.trip.update(rawFormData);
 
-    const trip = await api.trip.create(rawFormData);
-    console.log("Created trip", trip);
-
-    if (!trip) {
+    if (!updatedTrip) {
       console.error("Error creating trip");
       return;
     }
 
-    redirect(`/trips/${trip.id}`);
+    redirect(`/trips/${updatedTrip.id}`);
   }
 
-  return (
-    <form action={createTrip} className="flex flex-col gap-3 text-black">
+  const editTripForm = (
+    <form action={updateTrip} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
-        <input
+        <TextInput
           name="title"
-          type="text"
           id="title"
-          placeholder="Enter trip title"
-          className="input input-bordered w-full dark:bg-white"
+          defaultValue={trip.title}
+          placeholder={trip.title}
+          className="w-full dark:bg-white"
         />
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
-        <input
+        <TextInput
           name="destination"
-          type="text"
           id="destination"
-          placeholder="Enter destination"
+          defaultValue={trip.destination}
+          placeholder={trip.destination}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -60,8 +56,9 @@ const NewTripForm = ({ userId }: { userId: string }) => {
         <TextInput
           name="description"
           id="description"
-          placeholder="Enter trip description"
-          className="w-full dark:bg-white"
+          defaultValue={trip.description}
+          placeholder={trip.description}
+          className="input input-bordered w-full dark:bg-white"
         />
       </div>
       <div>
@@ -70,8 +67,9 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="startDate"
           type="date"
           id="startDate"
+          defaultValue={trip.startDate.toISOString().split("T")[0]}
+          placeholder={trip.startDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
-          style={{ colorScheme: "light" }}
         />
       </div>
       <div>
@@ -80,15 +78,18 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           name="endDate"
           type="date"
           id="endDate"
+          defaultValue={trip.endDate.toISOString().split("T")[0]}
+          placeholder={trip.endDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
-          style={{ colorScheme: "light" }}
         />
       </div>
       <Button type="submit" className="mt-4">
-        Create Trip
+        Save Trip Details
       </Button>
     </form>
   );
+
+  return <div className="flex flex-col gap-4">{editTripForm}</div>;
 };
 
-export default NewTripForm;
+export default EditTripForm;

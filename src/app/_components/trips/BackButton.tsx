@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "~/app/_components/ui/Button";
-import { Icon } from "~/app/_components/ui/Icon";
+import { Button } from "~/app/_components/common/Button";
+import { Icon } from "~/app/_components/common/Icon";
 
 export default function BackButton() {
   const router = useRouter();

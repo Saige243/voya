@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Button } from "../../../_components/ui/Button";
+import { Button } from "../common/Button";
 import TripCard from "./TripCard";
 
 export default async function TripShowcase() {

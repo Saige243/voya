@@ -6,10 +6,10 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
-import { Button, ImageButton } from "~/app/_components/ui/Button";
-import { Card } from "../ui/Card";
-import { TextInput } from "../ui/TextInput";
-import { Toast } from "~/app/_components/ui/Toast";
+import { Button, ImageButton } from "~/app/_components/common/Button";
+import { Card } from "../common/Card";
+import { TextInput } from "../common/TextInput";
+import { Toast } from "~/app/_components/common/Toast";
 import { useState } from "react";
 
 const providerLogoSrc = (name: string) =>

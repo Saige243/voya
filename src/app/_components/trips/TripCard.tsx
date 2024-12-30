@@ -1,8 +1,8 @@
 import React from "react";
 import { type Trip } from "@prisma/client";
-import { Card } from "~/app/_components/ui/Card";
+import { Card } from "~/app/_components/common/Card";
 import { format } from "date-fns";
-import { Label } from "~/app/_components/ui/Label";
+import { Label } from "~/app/_components/common/Label";
 
 function TripCard(trip: Trip) {
   return (

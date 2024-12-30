@@ -1,11 +1,11 @@
 import { api } from "~/trpc/server";
-import { Card } from "../../../_components/ui/Card";
+import { Card } from "../../../_components/common/Card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import EditTripForm from "../../_components/trips/EditTripForm";
-import AccommodationsForm from "../../_components/accommodations/AccommodationsForm";
-import BackButton from "../../_components/BackButton";
-import ItineraryForm from "../../_components/itineraries/ItineraryForm";
+import EditTripForm from "../../../_components/trips/EditTripForm";
+import AccommodationsForm from "../../../_components/accommodations/AccommodationsForm";
+import BackButton from "../../../_components/trips/BackButton";
+import ItineraryForm from "../../../_components/itineraries/ItineraryForm";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
