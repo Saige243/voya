@@ -61,56 +61,69 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
   }
 
   const editTripForm = (
-    <form action={updateTrip} className="flex flex-col gap-3 text-black">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-3 text-black"
+    >
       <div>
         <Label htmlFor="title">Title:</Label>
         <TextInput
-          name="title"
+          {...register("title")}
           id="title"
-          defaultValue={trip.title}
-          placeholder={trip.title}
+          placeholder="Enter title"
           className="w-full dark:bg-white"
         />
+        {errors.title && (
+          <p className="text-sm text-red-500">{errors.title.message}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
         <TextInput
-          name="destination"
+          {...register("destination")}
           id="destination"
-          defaultValue={trip.destination}
-          placeholder={trip.destination}
-          className="input input-bordered w-full dark:bg-white"
+          placeholder="Enter destination"
+          className="w-full dark:bg-white"
         />
+        {errors.destination && (
+          <p className="text-sm text-red-500">{errors.destination.message}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="description">Description:</Label>
         <TextInput
-          name="description"
+          {...register("description")}
           id="description"
-          defaultValue={trip.description}
-          placeholder={trip.description}
-          className="input input-bordered w-full dark:bg-white"
+          placeholder="Enter description"
+          className="w-full dark:bg-white"
         />
+        {errors.description && (
+          <p className="text-sm text-red-500">{errors.description.message}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="startDate">Start Date:</Label>
         <input
-          name="startDate"
+          {...register("startDate")}
           type="date"
           id="startDate"
-          defaultValue={trip.startDate.toISOString().split("T")[0]}
-          className="input input-bordered w-full dark:bg-white"
+          className="w-full dark:bg-white"
         />
+        {errors.startDate && (
+          <p className="text-sm text-red-500">{errors.startDate.message}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="endDate">End Date:</Label>
         <input
-          name="endDate"
+          {...register("endDate")}
           type="date"
           id="endDate"
-          defaultValue={trip.endDate.toISOString().split("T")[0]}
-          className="input input-bordered w-full dark:bg-white"
+          className="w-full dark:bg-white"
         />
+        {errors.endDate && (
+          <p className="text-sm text-red-500">{errors.endDate.message}</p>
+        )}
       </div>
       <Button type="submit" className="mt-4">
         Save Trip Details
