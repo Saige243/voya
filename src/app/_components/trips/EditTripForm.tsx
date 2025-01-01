@@ -4,6 +4,15 @@ import { redirect } from "next/navigation";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { type Trip } from "@prisma/client";
+import * as yup from "yup";
+
+const validationSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  destination: yup.string().required("Destination is required"),
+  startDate: yup.date().required("Start Date is required"),
+  endDate: yup.date().required("End Date is required"),
+  description: yup.string().required("Description is required"),
+});
 
 const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
   async function updateTrip(formData: FormData) {
@@ -13,20 +22,42 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       id: trip.id,
       title: formData.get("title") as string,
       destination: formData.get("destination") as string,
-      startDate: new Date(formData.get("startDate") as string),
-      endDate: new Date(formData.get("endDate") as string),
+      startDate: formData.get("startDate") as string,
+      endDate: formData.get("endDate") as string,
       description: formData.get("description") as string,
       userId: userId,
     };
 
-    const updatedTrip = await api.trip.update(rawFormData);
+    try {
+      // Validate the data
+      await validationSchema.validate(rawFormData, { abortEarly: false });
 
-    if (!updatedTrip) {
-      console.error("Error creating trip");
-      return;
+      // Convert start and end dates to proper Date objects
+      rawFormData.startDate = new Date(rawFormData.startDate);
+      rawFormData.endDate = new Date(rawFormData.endDate);
+
+      const updatedTrip = await api.trip.update(rawFormData);
+
+      if (!updatedTrip) {
+        throw new Error("Error updating trip");
+      }
+
+      redirect(`/trips/${updatedTrip.id}`);
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        const errors = error.inner.reduce(
+          (acc, err) => {
+            acc[err.path!] = err.message;
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
+        console.error("Validation errors:", errors);
+        // Handle validation errors (e.g., show them in the UI)
+        return;
+      }
+      console.error("Unexpected error:", error);
     }
-
-    redirect(`/trips/${updatedTrip.id}`);
   }
 
   const editTripForm = (
@@ -68,7 +99,6 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           type="date"
           id="startDate"
           defaultValue={trip.startDate.toISOString().split("T")[0]}
-          placeholder={trip.startDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
@@ -79,7 +109,6 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
           type="date"
           id="endDate"
           defaultValue={trip.endDate.toISOString().split("T")[0]}
-          placeholder={trip.endDate.toISOString().split("T")[0]}
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
