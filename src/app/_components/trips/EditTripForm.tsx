@@ -5,6 +5,8 @@ import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { type Trip } from "@prisma/client";
 import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const validationSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -14,17 +16,40 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Description is required"),
 });
 
+type FormData = {
+  title: string;
+  destination: string;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+};
+
 const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      title: trip.title,
+      destination: trip.destination,
+      startDate: trip.startDate,
+      endDate: trip.endDate,
+      description: trip.description,
+    },
+  });
+
   async function updateTrip(formData: FormData) {
     "use server";
 
     const rawFormData = {
       id: trip.id,
-      title: formData.get("title") as string,
-      destination: formData.get("destination") as string,
-      startDate: formData.get("startDate") as string,
-      endDate: formData.get("endDate") as string,
-      description: formData.get("description") as string,
+      title: formData.title,
+      destination: formData.destination,
+      startDate: new Date(formData.startDate),
+      endDate: new Date(formData.endDate),
+      description: formData.description,
       userId: userId,
     };
 
@@ -62,7 +87,7 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
 
   const editTripForm = (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(updateTrip)}
       className="flex flex-col gap-3 text-black"
     >
       <div>
