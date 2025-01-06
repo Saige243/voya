@@ -16,8 +16,6 @@ type FormData = {
   startDate: string;
   endDate: string;
   description: string;
-  tripId: number;
-  userId: string;
 };
 
 const validationSchema = yup.object().shape({
