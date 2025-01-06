@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { updateTrip } from "../../trips/actions/updateTrip"; // Import the server action
+import { updateTrip } from "../../trips/actions/updateTrip";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { Button } from "~/app/_components/common/Button";
@@ -13,7 +13,7 @@ import { type Trip } from "@prisma/client";
 type FormData = {
   title: string;
   destination: string;
-  startDate: string; // React Hook Form uses strings for date inputs
+  startDate: string;
   endDate: string;
   description: string;
 };
@@ -42,8 +42,14 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    await updateTrip({ ...data, id, userId });
+  const onSubmit = async (data: Trip) => {
+    await updateTrip({
+      formData: {
+        ...data,
+        id: trip.id,
+        userId: userId,
+      },
+    });
   };
 
   return (

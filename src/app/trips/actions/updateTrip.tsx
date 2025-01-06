@@ -5,15 +5,7 @@ import { redirect } from "next/navigation";
 import * as yup from "yup";
 import { Trip } from "@prisma/client";
 
-export async function updateTrip({
-  formData,
-  tripId,
-  userId,
-}: {
-  formData: Trip;
-  tripId: string;
-  userId: string;
-}) {
+export async function updateTrip({ formData }: { formData: FormData }) {
   // Define validation schema
   const validationSchema = yup.object().shape({
     title: yup.string().required("Title is required"),
@@ -27,14 +19,7 @@ export async function updateTrip({
     // Validate formData
     await validationSchema.validate(formData, { abortEarly: false });
 
-    const parsedFormData = {
-      ...formData,
-      userId,
-      tripId,
-      startDate: new Date(formData.startDate),
-      endDate: new Date(formData.endDate),
-    };
-    console.log("UPDATE TRIP", parsedFormData);
+    console.log("UPDATE TRIP", formData);
 
     // Call the backend API to update the trip
     // const updatedTrip = await api.trip.update(parsedFormData);
