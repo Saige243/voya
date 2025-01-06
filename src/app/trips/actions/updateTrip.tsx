@@ -5,7 +5,11 @@ import { redirect } from "next/navigation";
 import * as yup from "yup";
 import { Trip } from "@prisma/client";
 
-export async function updateTrip({ formData }: { formData: FormData }) {
+export async function updateTrip({
+  formData,
+}: {
+  formData: Omit<Trip, "createdAt">;
+}) {
   // Define validation schema
   const validationSchema = yup.object().shape({
     title: yup.string().required("Title is required"),

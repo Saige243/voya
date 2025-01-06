@@ -16,6 +16,8 @@ type FormData = {
   startDate: string;
   endDate: string;
   description: string;
+  tripId: number;
+  userId: string;
 };
 
 const validationSchema = yup.object().shape({
@@ -42,10 +44,19 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     },
   });
 
-  const onSubmit = async (data: Trip) => {
+  const onSubmit = async (data: FormData) => {
+    const startDate = new Date(data.startDate);
+    const endDate = new Date(data.endDate);
+
+    const newData = {
+      ...data,
+      startDate,
+      endDate,
+    };
+
     await updateTrip({
       formData: {
-        ...data,
+        ...newData,
         id: trip.id,
         userId: userId,
       },
