@@ -1,28 +1,30 @@
-import { Button } from "~/app/_components/common/Button";
-import { api } from "~/trpc/server";
-import { redirect } from "next/navigation";
-import { Label } from "~/app/_components/common/Label";
-import { TextInput } from "~/app/_components/common/TextInput";
-import { type Trip } from "@prisma/client";
-import * as yup from "yup";
+"use client";
+
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const validationSchema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  destination: yup.string().required("Destination is required"),
-  startDate: yup.date().required("Start Date is required"),
-  endDate: yup.date().required("End Date is required"),
-  description: yup.string().required("Description is required"),
-});
+import * as yup from "yup";
+import { updateTrip } from "../../trips/actions/updateTrip"; // Import the server action
+import { Label } from "~/app/_components/common/Label";
+import { TextInput } from "~/app/_components/common/TextInput";
+import { Button } from "~/app/_components/common/Button";
+import { type Trip } from "@prisma/client";
 
 type FormData = {
   title: string;
   destination: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string; // React Hook Form uses strings for date inputs
+  endDate: string;
   description: string;
 };
+
+const validationSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  destination: yup.string().required("Destination is required"),
+  startDate: yup.string().required("Start Date is required"),
+  endDate: yup.string().required("End Date is required"),
+  description: yup.string().required("Description is required"),
+});
 
 const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
   const {
@@ -34,60 +36,19 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     defaultValues: {
       title: trip.title,
       destination: trip.destination,
-      startDate: trip.startDate,
-      endDate: trip.endDate,
+      startDate: trip.startDate.toISOString().split("T")[0],
+      endDate: trip.endDate.toISOString().split("T")[0],
       description: trip.description,
     },
   });
 
-  async function updateTrip(formData: FormData) {
-    "use server";
+  const onSubmit = async (data: FormData) => {
+    await updateTrip({ ...data, id, userId });
+  };
 
-    const rawFormData = {
-      id: trip.id,
-      title: formData.title,
-      destination: formData.destination,
-      startDate: new Date(formData.startDate),
-      endDate: new Date(formData.endDate),
-      description: formData.description,
-      userId: userId,
-    };
-
-    try {
-      // Validate the data
-      await validationSchema.validate(rawFormData, { abortEarly: false });
-
-      // Convert start and end dates to proper Date objects
-      rawFormData.startDate = new Date(rawFormData.startDate);
-      rawFormData.endDate = new Date(rawFormData.endDate);
-
-      const updatedTrip = await api.trip.update(rawFormData);
-
-      if (!updatedTrip) {
-        throw new Error("Error updating trip");
-      }
-
-      redirect(`/trips/${updatedTrip.id}`);
-    } catch (error) {
-      if (error instanceof yup.ValidationError) {
-        const errors = error.inner.reduce(
-          (acc, err) => {
-            acc[err.path!] = err.message;
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
-        console.error("Validation errors:", errors);
-        // Handle validation errors (e.g., show them in the UI)
-        return;
-      }
-      console.error("Unexpected error:", error);
-    }
-  }
-
-  const editTripForm = (
+  return (
     <form
-      onSubmit={handleSubmit(updateTrip)}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-3 text-black"
     >
       <div>
@@ -155,8 +116,6 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       </Button>
     </form>
   );
-
-  return <div className="flex flex-col gap-4">{editTripForm}</div>;
 };
 
 export default EditTripForm;
