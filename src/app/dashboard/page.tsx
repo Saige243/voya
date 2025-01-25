@@ -21,7 +21,7 @@ export default async function Dashboard() {
       <h3 className="text-xl font-extrabold tracking-tight sm:text-[3rem]">
         {randomTravelPhrase}
         {", "}
-        <span className="text-[hsl(280,100%,70%)]">{firstName}</span>.
+        <span className="text-[hsl(280,100%,70%)]">{firstName}</span>
       </h3>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <TripShowcase />
