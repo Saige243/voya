@@ -35,7 +35,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="px-20 md:px-40 xl:px-80">
+    <div className="px-20 md:px-20 xl:px-60">
       <div className="flex items-center space-x-4 pb-20">
         <BackButton />
         <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
