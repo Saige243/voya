@@ -1,27 +1,16 @@
-export function TextInput({
-  placeholder,
-  className,
-  name,
-  id,
-  defaultValue,
-  required,
-}: {
-  placeholder?: string;
-  className?: string;
-  name?: string;
-  id?: string;
-  defaultValue?: string;
-  required?: boolean;
-}) {
+import React from "react";
+
+export const TextInput = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ className, ...props }, ref) => {
   return (
     <input
-      name={name}
-      type="text"
-      id={id}
-      required={required}
-      defaultValue={defaultValue}
-      placeholder={placeholder}
+      ref={ref}
       className={`input input-bordered w-full ${className}`}
+      {...props}
     />
   );
-}
+});
+
+TextInput.displayName = "TextInput";

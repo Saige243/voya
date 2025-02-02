@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -31,6 +31,7 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -42,25 +43,37 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     },
   });
 
+  useEffect(() => {
+    reset({
+      title: trip.title,
+      destination: trip.destination,
+      startDate: trip.startDate.toISOString().split("T")[0],
+      endDate: trip.endDate.toISOString().split("T")[0],
+      description: trip.description,
+    });
+  }, [trip, reset]);
+
   const onSubmit = async (data: FormData) => {
     const startDate = new Date(data.startDate);
     const endDate = new Date(data.endDate);
     console.log("Errors:", errors);
     console.log("Data:", data);
+    console.log("TRIP:", trip);
 
     const newData = {
       ...data,
       startDate,
       endDate,
     };
+    console.log("New Data:", newData);
 
-    await updateTrip({
-      formData: {
-        ...newData,
-        id: trip.id,
-        userId: userId,
-      },
-    });
+    // await updateTrip({
+    //   formData: {
+    //     ...newData,
+    //     id: trip.id,
+    //     userId: userId,
+    //   },
+    // });
   };
 
   return (
@@ -71,11 +84,11 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       <div>
         <Label htmlFor="title">Title:</Label>
         <TextInput
-          {...register("title")}
           id="title"
           placeholder={!trip.title ? "Enter title" : ""}
           className="w-full dark:bg-white"
           defaultValue={trip.title}
+          {...register("title", { required: true })}
         />
         {errors.title && (
           <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -84,11 +97,11 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       <div>
         <Label htmlFor="destination">Destination:</Label>
         <TextInput
-          {...register("destination")}
           id="destination"
           placeholder={!trip.destination ? "Enter destination" : ""}
           className="w-full dark:bg-white"
           defaultValue={trip.destination}
+          {...register("destination", { required: true })}
         />
         {errors.destination && (
           <p className="text-sm text-red-500">{errors.destination.message}</p>
@@ -97,11 +110,11 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       <div>
         <Label htmlFor="description">Description:</Label>
         <TextInput
-          {...register("description")}
           id="description"
           placeholder={!trip.description ? "Enter description" : ""}
           className="w-full dark:bg-white"
           defaultValue={trip.description}
+          {...register("description", { required: true })}
         />
         {errors.description && (
           <p className="text-sm text-red-500">{errors.description.message}</p>
@@ -110,10 +123,11 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       <div>
         <Label htmlFor="startDate">Start Date:</Label>
         <input
-          {...register("startDate")}
           type="date"
           id="startDate"
           className="w-full dark:bg-white"
+          defaultValue={trip.startDate.toISOString().split("T")[0]}
+          {...register("startDate", { required: true })}
         />
         {errors.startDate && (
           <p className="text-sm text-red-500">{errors.startDate.message}</p>
@@ -122,10 +136,11 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
       <div>
         <Label htmlFor="endDate">End Date:</Label>
         <input
-          {...register("endDate")}
           type="date"
           id="endDate"
           className="w-full dark:bg-white"
+          defaultValue={trip.endDate.toISOString().split("T")[0]}
+          {...register("endDate", { required: true })}
         />
         {errors.endDate && (
           <p className="text-sm text-red-500">{errors.endDate.message}</p>
