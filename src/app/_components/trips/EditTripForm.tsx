@@ -67,13 +67,17 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
     };
     console.log("New Data:", newData);
 
-    // await updateTrip({
-    //   formData: {
-    //     ...newData,
-    //     id: trip.id,
-    //     userId: userId,
-    //   },
-    // });
+    try {
+      await updateTrip({
+        formData: {
+          ...newData,
+          id: trip.id,
+          userId: userId,
+        },
+      });
+    } catch (error) {
+      console.error("Error updating trip:", error);
+    }
   };
 
   return (

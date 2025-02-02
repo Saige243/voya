@@ -3,7 +3,7 @@
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import * as yup from "yup";
-import { Trip } from "@prisma/client";
+import { type Trip } from "@prisma/client";
 
 export async function updateTrip({
   formData,
@@ -26,14 +26,14 @@ export async function updateTrip({
     console.log("UPDATE TRIP", formData);
 
     // Call the backend API to update the trip
-    // const updatedTrip = await api.trip.update(parsedFormData);
+    const updatedTrip = await api.trip.update(formData);
 
-    // if (!updatedTrip) {
-    //   throw new Error("Failed to update the trip");
-    // }
+    if (!updatedTrip) {
+      throw new Error("Failed to update the trip");
+    }
 
     // Redirect to the updated trip's page
-    // redirect(`/trips/${updatedTrip.id}`);
+    redirect(`/trips/${updatedTrip.id}`);
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       console.error("Validation errors:", error.errors);
