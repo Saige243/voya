@@ -115,7 +115,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </Typography>
               </div>
             </div>
-            {editButtons}
+            <div className="flex justify-end ">{editButtons}</div>
           </div>
         </div>
       </div>
