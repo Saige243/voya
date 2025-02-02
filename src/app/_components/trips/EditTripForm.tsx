@@ -45,6 +45,8 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
   const onSubmit = async (data: FormData) => {
     const startDate = new Date(data.startDate);
     const endDate = new Date(data.endDate);
+    console.log("Errors:", errors);
+    console.log("Data:", data);
 
     const newData = {
       ...data,
@@ -71,8 +73,9 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           {...register("title")}
           id="title"
-          placeholder="Enter title"
+          placeholder={!trip.title ? "Enter title" : ""}
           className="w-full dark:bg-white"
+          defaultValue={trip.title}
         />
         {errors.title && (
           <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -83,8 +86,9 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           {...register("destination")}
           id="destination"
-          placeholder="Enter destination"
+          placeholder={!trip.destination ? "Enter destination" : ""}
           className="w-full dark:bg-white"
+          defaultValue={trip.destination}
         />
         {errors.destination && (
           <p className="text-sm text-red-500">{errors.destination.message}</p>
@@ -95,8 +99,9 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
         <TextInput
           {...register("description")}
           id="description"
-          placeholder="Enter description"
+          placeholder={!trip.description ? "Enter description" : ""}
           className="w-full dark:bg-white"
+          defaultValue={trip.description}
         />
         {errors.description && (
           <p className="text-sm text-red-500">{errors.description.message}</p>
