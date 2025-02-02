@@ -3,29 +3,31 @@
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import * as yup from "yup";
-import { type Trip } from "@prisma/client";
+import { type Accommodation } from "@prisma/client";
 
-export async function updateTrip({
+export async function addAccommodation({
   formData,
 }: {
-  formData: Omit<Trip, "createdAt">;
+  formData: Omit<Accommodation, "createdAt">;
 }) {
   // Define validation schema
   const validationSchema = yup.object().shape({
-    title: yup.string().required("Title is required"),
-    destination: yup.string().required("Destination is required"),
-    startDate: yup.date().required("Start Date is required"),
-    endDate: yup.date().required("End Date is required"),
-    description: yup.string().required("Description is required"),
+    name: yup.string().required("Name is required"),
+    location: yup.string().required("Location is required"),
+    checkIn: yup.date().required("Check-In Date is required"),
+    checkOut: yup.date().required("Check-Out Date is required"),
+    notes: yup.string(),
+    phoneNumber: yup.string().required("Phone Number is required"),
+    website: yup.string().required("Website is required"),
   });
 
   try {
     await validationSchema.validate(formData, { abortEarly: false });
 
-    console.log("UPDATE TRIP", formData);
+    console.log("ADD ACCOMMODATION", formData);
 
     // Call the backend API to update the trip
-    const updatedTrip = await api.trip.update(formData);
+    const updatedTrip = await api.accommodation.create(formData);
 
     if (!updatedTrip) {
       throw new Error("Failed to update the trip");

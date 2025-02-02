@@ -4,6 +4,31 @@ import { redirect } from "next/navigation";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { type Trip } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { addAccommodation } from "~/app/trips/actions/addAccomodation";
+
+type FormData = {
+  name: string;
+  location: string;
+  checkIn: string;
+  checkOut: string;
+  notes: string;
+  phoneNumber: string;
+  website: string;
+};
+
+const validationSchema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  location: yup.string().required("Location is required"),
+  checkIn: yup.string().required("Check-In Date is required"),
+  checkOut: yup.string().required("Check-Out Date is required"),
+  notes: yup.string().required("Notes are required"),
+  phoneNumber: yup.string().required("Phone Number is required"),
+  website: yup.string().required("Website is required"),
+});
 
 const AccommodationsForm = ({
   trip,
@@ -12,43 +37,79 @@ const AccommodationsForm = ({
   trip: Trip;
   userId: string;
 }) => {
-  async function addAccommodation(formData: FormData) {
-    "use server";
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: "",
+      location: "",
+      checkIn: "",
+      checkOut: "",
+      notes: "",
+      phoneNumber: "",
+      website: "",
+    },
+  });
 
-    const rawFormData = {
-      tripId: trip.id,
-      name: formData.get("name") as string,
-      location: formData.get("location") as string,
-      checkIn: new Date(formData.get("checkIn") as string),
-      checkOut: new Date(formData.get("checkOut") as string),
-      notes: formData.get("notes") as string,
-      phoneNumber: formData.get("phoneNumber") as string,
-      website: formData.get("website") as string,
-      userId: userId,
+  useEffect(() => {
+    reset({
+      name: "",
+      location: "",
+      checkIn: "",
+      checkOut: "",
+      notes: "",
+      phoneNumber: "",
+      website: "",
+    });
+  }, [trip, reset]);
+
+  const onSubmit = async (data: FormData) => {
+    const checkIn = new Date(data.checkIn);
+    const checkOut = new Date(data.checkOut);
+    console.log("Errors:", errors);
+    console.log("Data:", data);
+    console.log("TRIP:", trip);
+
+    const newData = {
+      ...data,
+      checkIn,
+      checkOut,
     };
+    console.log("New Data:", newData);
 
-    const addedAccommodation = await api.accommodation.create(rawFormData);
-
-    if (!addedAccommodation) {
-      console.error("Error adding Accommodation");
-      return;
+    try {
+      await addAccommodation({
+        formData: {
+          ...newData,
+          tripId: trip.id,
+          id: Number(userId),
+        },
+      });
+    } catch (error) {
+      console.error("Unexpected error on accommodation:", error);
+      throw error;
     }
-
-    redirect(`/trips/${trip.id}`);
-  }
+  };
 
   const accomodationForm = (
-    <form action={addAccommodation} className="flex flex-col gap-6 text-black">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6 text-black"
+    >
       <div className="grid gap-4">
         <div>
           <Label htmlFor="name" className="block text-sm text-gray-500">
             Name:
           </Label>
           <TextInput
-            name="name"
             id="name"
             placeholder="Hotel Name, Airbnb, etc."
             className="mt-1 w-full dark:bg-white"
+            {...register("name")}
           />
         </div>
 
@@ -57,8 +118,8 @@ const AccommodationsForm = ({
             Location:
           </Label>
           <TextInput
-            name="location"
             id="location"
+            {...register("location")}
             placeholder="City, State, Country"
             className="mt-1 w-full dark:bg-white"
           />
@@ -70,10 +131,10 @@ const AccommodationsForm = ({
               Check-In Date:
             </Label>
             <input
-              name="checkIn"
-              type="date"
               id="checkIn"
+              type="date"
               className="input input-bordered mt-1 w-full dark:bg-white"
+              {...register("checkIn")}
               style={{ colorScheme: "light" }}
             />
           </div>
@@ -82,10 +143,9 @@ const AccommodationsForm = ({
               Check-Out Date:
             </Label>
             <input
-              name="checkOut"
               type="date"
-              id="checkOut"
               className="input input-bordered mt-1 w-full dark:bg-white"
+              {...register("checkOut")}
               style={{ colorScheme: "light" }}
             />
           </div>
@@ -96,8 +156,8 @@ const AccommodationsForm = ({
             Notes:
           </Label>
           <TextInput
-            name="notes"
             id="notes"
+            {...register("notes")}
             placeholder="Any additional notes"
             className="mt-1 w-full dark:bg-white"
           />
@@ -108,9 +168,9 @@ const AccommodationsForm = ({
             Phone Number:
           </Label>
           <TextInput
-            name="phoneNumber"
             id="phoneNumber"
             placeholder="(123) 456-7890"
+            {...register("phoneNumber")}
             className="mt-1 w-full dark:bg-white"
           />
         </div>
@@ -120,8 +180,8 @@ const AccommodationsForm = ({
             Website:
           </Label>
           <TextInput
-            name="website"
             id="website"
+            {...register("website")}
             placeholder="www.hotel.com"
             className="mt-1 w-full dark:bg-white"
           />
