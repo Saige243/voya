@@ -26,7 +26,13 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Description is required"),
 });
 
-const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
+const EditTripDetailsForm = ({
+  trip,
+  userId,
+}: {
+  trip: Trip;
+  userId: string;
+}) => {
   const {
     register,
     handleSubmit,
@@ -157,4 +163,4 @@ const EditTripForm = ({ trip, userId }: { trip: Trip; userId: string }) => {
   );
 };
 
-export default EditTripForm;
+export default EditTripDetailsForm;

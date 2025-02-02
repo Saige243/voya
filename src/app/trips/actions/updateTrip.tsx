@@ -10,7 +10,6 @@ export async function updateTrip({
 }: {
   formData: Omit<Trip, "createdAt">;
 }) {
-  // Define validation schema
   const validationSchema = yup.object().shape({
     title: yup.string().required("Title is required"),
     destination: yup.string().required("Destination is required"),
@@ -24,14 +23,12 @@ export async function updateTrip({
 
     console.log("UPDATE TRIP", formData);
 
-    // Call the backend API to update the trip
     const updatedTrip = await api.trip.update(formData);
 
     if (!updatedTrip) {
       throw new Error("Failed to update the trip");
     }
 
-    // Redirect to the updated trip's page
     redirect(`/trips/${updatedTrip.id}`);
   } catch (error) {
     if (error instanceof yup.ValidationError) {

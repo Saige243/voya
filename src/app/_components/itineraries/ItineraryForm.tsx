@@ -5,7 +5,7 @@ import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { type Trip } from "@prisma/client";
 
-const ItineraryForm = ({ trip }: { trip: Trip }) => {
+const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   async function addItinerary(formData: FormData) {
     "use server";
 
@@ -78,4 +78,4 @@ const ItineraryForm = ({ trip }: { trip: Trip }) => {
   );
 };
 
-export default ItineraryForm;
+export default AddItineraryForm;

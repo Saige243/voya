@@ -3,9 +3,12 @@ import { Card } from "../../../_components/common/Card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../../_components/trips/EditTripForm";
+import AddAccommodationsForm from "../../../_components/accommodations/AddAccommodationsForm";
 import AccommodationsForm from "../../../_components/accommodations/AccommodationsForm";
 import BackButton from "../../../_components/trips/BackButton";
 import ItineraryForm from "../../../_components/itineraries/ItineraryForm";
+import { type Accommodation } from "@prisma/client";
+import ShowAccommodationFormButton from "~/app/_components/accommodations/ShowAccommodationFormButton";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -34,6 +37,8 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     return <div>Trip not found</div>;
   }
 
+  const accommodations = trip.accommodations || [];
+
   return (
     <div className="px-20 md:px-20 xl:px-60">
       <div className="flex items-center space-x-4 pb-20">
@@ -52,7 +57,20 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
             <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
               Add Accommodations:
             </h2>
-            <AccommodationsForm trip={trip} userId={session.user.id} />
+            {accommodations.length > 0 ? (
+              <>
+                {accommodations.map((acc: Accommodation) => (
+                  <AccommodationsForm
+                    key={acc.id}
+                    acc={acc}
+                    userId={session.user.id}
+                  />
+                ))}
+              </>
+            ) : (
+              <AddAccommodationsForm trip={trip} userId={session.user.id} />
+            )}
+            <ShowAccommodationFormButton trip={trip} userId={session.user.id} />
           </Card>
           <Card>
             <h2 className="pb-2 text-xl font-bold text-black dark:text-white">

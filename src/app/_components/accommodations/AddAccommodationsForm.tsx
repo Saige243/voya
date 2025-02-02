@@ -4,12 +4,11 @@ import React from "react";
 import { Button } from "~/app/_components/common/Button";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
-import { type Accommodation } from "@prisma/client";
+import { type Trip } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAccommodation } from "~/app/trips/actions/addAccomodation";
-import { editAccommodation } from "~/app/trips/actions/editAccommodation";
 
 type FormData = {
   name: string;
@@ -31,11 +30,11 @@ const validationSchema = yup.object().shape({
   website: yup.string().required("Website is required"),
 });
 
-const AccommodationsForm = ({
-  acc,
+const AddAccommodationsForm = ({
+  trip,
   userId,
 }: {
-  acc: Accommodation;
+  trip: Trip;
   userId: string;
 }) => {
   const {
@@ -45,13 +44,13 @@ const AccommodationsForm = ({
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      name: acc.name,
-      location: acc.location,
-      checkIn: acc.checkIn.toISOString().split("T")[0],
-      checkOut: acc.checkOut.toISOString().split("T")[0],
-      notes: acc.notes,
-      phoneNumber: acc.phoneNumber,
-      website: acc.website,
+      name: "",
+      location: "",
+      checkIn: "",
+      checkOut: "",
+      notes: "",
+      phoneNumber: "",
+      website: "",
     },
   });
 
@@ -60,7 +59,7 @@ const AccommodationsForm = ({
     const checkOut = new Date(data.checkOut);
     console.log("Errors:", errors);
     console.log("Data:", data);
-    console.log("TRIP:", acc);
+    console.log("TRIP:", trip);
 
     const newData = {
       ...data,
@@ -70,10 +69,10 @@ const AccommodationsForm = ({
     console.log("New Data:", newData);
 
     try {
-      await editAccommodation({
+      await addAccommodation({
         formData: {
           ...newData,
-          tripId: acc.tripId,
+          tripId: trip.id,
           id: Number(userId),
         },
       });
@@ -185,4 +184,4 @@ const AccommodationsForm = ({
   return <div className="flex flex-col gap-4">{accomodationForm}</div>;
 };
 
-export default AccommodationsForm;
+export default AddAccommodationsForm;

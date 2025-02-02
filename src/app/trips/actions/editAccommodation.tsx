@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import * as yup from "yup";
 import { type Accommodation } from "@prisma/client";
 
-export async function addAccommodation({
+export async function editAccommodation({
   formData,
 }: {
   formData: Omit<Accommodation, "createdAt">;
@@ -26,10 +26,10 @@ export async function addAccommodation({
 
     console.log("ADD ACCOMMODATION", formData);
 
-    const updatedTrip = await api.accommodation.create(formData);
+    const updatedAccommodation = await api.accommodation.update(formData);
 
-    if (!updatedTrip) {
-      throw new Error("Failed to update the trip");
+    if (!updatedAccommodation) {
+      throw new Error("Failed to update the accommodation");
     }
 
     redirect(`/trips/${tripId}`);
