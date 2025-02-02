@@ -1,13 +1,13 @@
+"use client";
+
+import React from "react";
 import { Button } from "~/app/_components/common/Button";
-import { api } from "~/trpc/server";
-import { redirect } from "next/navigation";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
 import { type Trip } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
 import { addAccommodation } from "~/app/trips/actions/addAccomodation";
 
 type FormData = {
@@ -41,7 +41,6 @@ const AccommodationsForm = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -54,18 +53,6 @@ const AccommodationsForm = ({
       website: "",
     },
   });
-
-  useEffect(() => {
-    reset({
-      name: "",
-      location: "",
-      checkIn: "",
-      checkOut: "",
-      notes: "",
-      phoneNumber: "",
-      website: "",
-    });
-  }, [trip, reset]);
 
   const onSubmit = async (data: FormData) => {
     const checkIn = new Date(data.checkIn);
