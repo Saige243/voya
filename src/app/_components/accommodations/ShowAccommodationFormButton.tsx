@@ -3,6 +3,7 @@
 import { useState } from "react";
 import AddAccommodationsForm from "./AddAccommodationsForm";
 import { type Trip } from "@prisma/client";
+import { Button } from "../common/Button";
 
 export default function ShowAccommodationFormButton({
   trip,
@@ -14,16 +15,18 @@ export default function ShowAccommodationFormButton({
   const [showAccommodationsForm, setShowAccommodationsForm] = useState(false);
 
   return (
-    <div>
+    <div className="flex justify-center">
       {showAccommodationsForm && (
         <AddAccommodationsForm trip={trip} userId={userId} />
       )}
-      <button
-        onClick={() => setShowAccommodationsForm(true)}
-        className="btn btn-primary"
-      >
-        Add Accommodation
-      </button>
+      {!showAccommodationsForm && (
+        <Button
+          onClick={() => setShowAccommodationsForm(true)}
+          className="mt-4"
+        >
+          Add Accommodation
+        </Button>
+      )}
     </div>
   );
 }

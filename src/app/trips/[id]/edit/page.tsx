@@ -55,7 +55,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
           </Card>
           <Card>
             <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-              Add Accommodations:
+              Edit Accommodations:
             </h2>
             {accommodations.length > 0 ? (
               <>
@@ -70,8 +70,17 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
             ) : (
               <AddAccommodationsForm trip={trip} userId={session.user.id} />
             )}
-            <ShowAccommodationFormButton trip={trip} userId={session.user.id} />
+            <div>
+              <h2 className="flex content-center justify-center pb-2 text-xl font-bold text-black dark:text-white">
+                Add Accommodations:
+              </h2>
+              <ShowAccommodationFormButton
+                trip={trip}
+                userId={session.user.id}
+              />
+            </div>
           </Card>
+
           <Card>
             <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
               Add Itinerary:
