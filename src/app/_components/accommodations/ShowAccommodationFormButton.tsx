@@ -15,7 +15,7 @@ export default function ShowAccommodationFormButton({
   const [showAccommodationsForm, setShowAccommodationsForm] = useState(false);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center">
       {showAccommodationsForm && (
         <AddAccommodationsForm trip={trip} userId={userId} />
       )}
@@ -23,6 +23,7 @@ export default function ShowAccommodationFormButton({
         <Button
           onClick={() => setShowAccommodationsForm(true)}
           className="mt-4"
+          type="submit"
         >
           Add Accommodation
         </Button>

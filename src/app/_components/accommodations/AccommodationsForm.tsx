@@ -8,7 +8,6 @@ import { type Accommodation } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addAccommodation } from "~/app/trips/actions/addAccomodation";
 import { editAccommodation } from "~/app/trips/actions/editAccommodation";
 
 type FormData = {
@@ -176,7 +175,7 @@ const AccommodationsForm = ({
         </div>
       </div>
 
-      <Button type="submit" className="mt-4">
+      <Button type="submit" className="my-4">
         Save Accommodation
       </Button>
     </form>
