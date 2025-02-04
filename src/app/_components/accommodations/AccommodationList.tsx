@@ -61,7 +61,7 @@ export default function AccommodationList({
           >
             {acc.name + " Website"}
           </a>
-          <div className="mt-2 flex">
+          <div className="mt-2 flex justify-end">
             {editTripButton}
             <DeleteAccommodationButton accId={acc.id} />
           </div>
