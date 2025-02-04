@@ -61,7 +61,7 @@ export default function ItineraryBlock({
                   <Typography>{itinerary.notes}</Typography>
                 </div>
               )}
-              <div className="mt-4 flex">
+              <div className="mt-4 flex justify-end">
                 <a href={`/trips/${trip?.id}/edit`}>
                   <Button className="border-none bg-transparent">
                     <Icon
