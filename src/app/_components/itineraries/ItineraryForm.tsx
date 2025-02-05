@@ -34,16 +34,6 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   return (
     <form action={addItinerary} className="flex flex-col gap-3 text-black">
       <div>
-        <Label htmlFor="datetime">Date and Time:</Label>
-        <input
-          name="datetime"
-          type="datetime-local"
-          id="datetime"
-          className="input input-bordered w-full dark:bg-white"
-          style={{ colorScheme: "light" }}
-        />
-      </div>
-      <div>
         <Label htmlFor="title">Title:</Label>
         <input
           name="title"
@@ -51,6 +41,16 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
           id="title"
           placeholder="Anniversary trip"
           className="input input-bordered w-full dark:bg-white"
+        />
+      </div>
+      <div>
+        <Label htmlFor="datetime">Date and Time:</Label>
+        <input
+          name="datetime"
+          type="datetime-local"
+          id="datetime"
+          className="input input-bordered w-full dark:bg-white"
+          style={{ colorScheme: "light" }}
         />
       </div>
       <div>
