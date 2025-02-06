@@ -23,11 +23,11 @@ function TripCard(trip: Trip) {
             <div>
               <Label htmlFor="start-date">Start Date:</Label>
               <p className="mb-2">
-                {format(new Date(trip.startDate), "EEEE, MMMM d, yyyy")}
+                {format(new Date(trip.startDate), "MMMM d, yyyy")}
               </p>
 
               <Label htmlFor="end-date">End Date:</Label>
-              <p>{format(new Date(trip.endDate), "EEEE, MMMM d, yyyy")}</p>
+              <p>{format(new Date(trip.endDate), "MMMM d, yyyy")}</p>
             </div>
           </div>
         </Card>
