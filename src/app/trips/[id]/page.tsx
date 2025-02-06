@@ -65,42 +65,35 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const tripInfo = (
     <div>
-      <div className="flex items-center space-x-4 pb-20 text-center">
-        <BackButton />
-        <h1 className="text-2xl font-bold">Trip Details</h1>
-      </div>
       <h2 className="pb-4 text-xl font-bold">Overview</h2>
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
-        <div className="">
-          <div>
-            <Typography variant="heading1">{trip?.title}</Typography>
-            <div className="mb-2">
-              {/* <Label htmlFor="destination">Destination:</Label> */}
-              <Typography>{trip?.destination}</Typography>
-            </div>
-            <div className="mb-2">
-              <Typography>{trip?.description}</Typography>
-            </div>
-            <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="start-date">Start Date:</Label>
-                <Typography>
-                  {trip?.startDate
-                    ? format(new Date(trip.startDate), "MMM dd, yyyy")
-                    : "N/A"}
-                </Typography>
-              </div>
-              <div>
-                <Label htmlFor="end-date">End Date:</Label>
-                <Typography>
-                  {trip?.endDate
-                    ? format(new Date(trip.endDate), "MMM dd, yyyy")
-                    : "N/A"}
-                </Typography>
-              </div>
-            </div>
-            <div className="flex justify-end">{editButtons}</div>
+        <div>
+          <Typography variant="heading1">{trip?.title}</Typography>
+          <div className="mb-2">
+            <Typography>{trip?.destination}</Typography>
           </div>
+          <div className="mb-2">
+            <Typography>{trip?.description}</Typography>
+          </div>
+          <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="start-date">Start Date:</Label>
+              <Typography>
+                {trip?.startDate
+                  ? format(new Date(trip.startDate), "MMM dd, yyyy")
+                  : "N/A"}
+              </Typography>
+            </div>
+            <div>
+              <Label htmlFor="end-date">End Date:</Label>
+              <Typography>
+                {trip?.endDate
+                  ? format(new Date(trip.endDate), "MMM dd, yyyy")
+                  : "N/A"}
+              </Typography>
+            </div>
+          </div>
+          <div className="flex justify-end">{editButtons}</div>
         </div>
       </div>
     </div>
@@ -108,10 +101,23 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
-      <div className="flex flex-col items-center justify-center space-y-4">
-        <div className="w-[500px]">{tripInfo}</div>
-        <AccommodationList tripId={trip?.id} accommodations={accommodations} />
-        <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
+      <div className="flex-start flex w-full items-center text-center">
+        <BackButton />
+        <h1 className="text-2xl font-bold">Trip Details</h1>
+      </div>
+      <div className="flex flex-col gap-8 md:flex-row">
+        <div className="flex-col">
+          <div className="w-[450px]">{tripInfo}</div>
+          <div>
+            <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
+          </div>
+        </div>
+        <div>
+          <AccommodationList
+            tripId={trip?.id}
+            accommodations={accommodations}
+          />
+        </div>
       </div>
     </main>
   );

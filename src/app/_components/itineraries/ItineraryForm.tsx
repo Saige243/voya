@@ -39,7 +39,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
           name="title"
           type="text"
           id="title"
-          placeholder="Anniversary trip"
+          placeholder="Gondola Ride"
           className="input input-bordered w-full dark:bg-white"
         />
       </div>
