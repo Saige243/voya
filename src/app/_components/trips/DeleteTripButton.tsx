@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { Button } from "~/app/_components/common/Button";
 import { Icon } from "~/app/_components/common/Icon";
 import { api } from "~/trpc/react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 type DeleteTripButtonProps = {
   id: number;

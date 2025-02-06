@@ -10,8 +10,6 @@ import { format } from "date-fns";
 import { Label } from "~/app/_components/common/Label";
 import { Typography } from "~/app/_components/common/Typography";
 import BackButton from "../../_components/trips/BackButton";
-import { WindowConfirm } from "~/app/_components/common/WindowAlert";
-import { Delete } from "lucide-react";
 import { DeleteTripButton } from "~/app/_components/trips/DeleteTripButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -33,22 +31,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const trip = await getTrip();
-
-  // async function deleteTrip() {
-  //   "use server";
-  //   const { id } = params;
-  //   const tripId = parseInt(id);
-  //   WindowConfirm("Are you sure you want to delete this trip?", "DELETE TRIP");
-
-  //   window.prompt("Victory!");
-
-  // try {
-  //   await api.trip.delete(tripId);
-  //   redirect("/trips");
-  // } catch (error) {
-  //   console.error("Error deleting trip", error);
-  // }
-  // }
 
   async function getAccommodations(): Promise<Accommodation[]> {
     "use server";

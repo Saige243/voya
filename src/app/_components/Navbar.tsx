@@ -12,7 +12,9 @@ export default function Navbar() {
       </div>
       <div className="flex flex-1 justify-end px-2">
         <div className="flex items-stretch">
-          <a className="btn btn-ghost rounded-btn">Account</a>
+          <a href="/profile" className="btn btn-ghost rounded-btn">
+            Account
+          </a>
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
