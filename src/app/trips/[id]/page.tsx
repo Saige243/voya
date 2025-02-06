@@ -1,4 +1,4 @@
-import { Button } from "~/app/_components/common/Button";
+import { Button, IconButton } from "~/app/_components/common/Button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
@@ -51,13 +51,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   const editButtons = (
     <div className="flex items-center">
       <a href={`/trips/${trip?.id}/edit`}>
-        <Button className="border-none bg-transparent">
+        <IconButton className="border-none bg-transparent">
           <Icon
             name="Pencil"
             className="text-black dark:text-white"
             size="20"
           />
-        </Button>
+        </IconButton>
       </a>
       <DeleteTripButton id={trip.id} />
     </div>

@@ -17,7 +17,32 @@ export function Button({
 }) {
   return (
     <button
-      className={`btn ${className}`}
+      className={`btn bg-slate-700 text-white dark:bg-slate-500 ${className}`}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function IconButton({
+  onClick,
+  className,
+  children,
+  type,
+  disabled,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      className={`btn border-none bg-transparent ${className}`}
       onClick={onClick}
       type={type}
       disabled={disabled}
@@ -50,7 +75,7 @@ export function ImageButton({
 }) {
   return (
     <button
-      className={`btn w-full  ${className}`}
+      className={`btn w-full ${className}`}
       onClick={onClick}
       type={type}
       disabled={disabled}
