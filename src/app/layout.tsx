@@ -23,7 +23,7 @@ export default async function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>
-          <div className="bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+          <div className="bg-gradient-to-b from-[#2e026d] to-[#15162c] px-12 text-white md:px-72">
             {session && <Navbar />}
             {children}
           </div>

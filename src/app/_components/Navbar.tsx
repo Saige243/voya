@@ -4,8 +4,8 @@ import { signOut } from "next-auth/react";
 
 export default function Navbar() {
   return (
-    <div className="navbar">
-      <div className="flex-1 px-2 lg:flex-none">
+    <div className="navbar pb-8">
+      <div className="flex-1  lg:flex-none">
         <a href="/dashboard" className="text-lg font-bold">
           Voya
         </a>

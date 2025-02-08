@@ -103,7 +103,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main className="flex min-h-screen flex-col items-center justify-center pb-40">
       <div className="flex-start flex w-full items-center text-center">
         <BackButton />
-        <h1 className="text-2xl font-bold">Trip Details</h1>
+        <h1 className="pl-2 text-2xl font-bold">Trip Details</h1>
       </div>
       <div className="flex flex-col gap-8 md:flex-row">
         <div className="flex-col">
