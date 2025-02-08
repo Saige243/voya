@@ -17,7 +17,7 @@ export default async function Dashboard() {
     travelPhrases[Math.floor(Math.random() * travelPhrases.length)];
 
   return (
-    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 text-white">
+    <main className="flex min-h-screen flex-col place-items-center  p-6 text-white">
       <h3 className="text-xl font-extrabold tracking-tight sm:text-[3rem]">
         {randomTravelPhrase}
         {", "}
