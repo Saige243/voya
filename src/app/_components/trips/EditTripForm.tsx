@@ -66,24 +66,27 @@ const EditTripDetailsForm = ({
     console.log("Data:", data);
     console.log("TRIP:", trip);
 
-    const newData = {
-      ...data,
-      startDate,
-      endDate,
-    };
-    console.log("New Data:", newData);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
 
-    try {
-      await updateTrip({
-        formData: {
-          ...newData,
-          id: trip.id,
-          userId: userId,
-        },
-      });
-    } catch (error) {
-      console.error("Error updating trip:", error);
-    }
+    // const newData = {
+    //   ...data,
+    //   startDate,
+    //   endDate,
+    // };
+    // console.log("New Data:", newData);
+
+    // try {
+    //   await updateTrip({
+    //     formData: {
+    //       ...newData,
+    //       id: trip.id,
+    //       userId: userId,
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.error("Error updating trip:", error);
+    // }
   };
 
   return (

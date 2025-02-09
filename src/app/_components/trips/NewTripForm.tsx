@@ -7,6 +7,7 @@ import { TextInput } from "~/app/_components/common/TextInput";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { parse } from "date-fns";
 
 type FormData = {
   title: string;
@@ -37,8 +38,8 @@ const NewTripForm = ({ userId }: { userId: string }) => {
   });
 
   async function onSubmit(formData: FormData) {
-    const startDate = new Date(formData.startDate);
-    const endDate = new Date(formData.endDate);
+    const startDate = parse(formData.startDate, "yyyy-MM-dd", new Date());
+    const endDate = parse(formData.endDate, "yyyy-MM-dd", new Date());
 
     const tripData = {
       title: formData.title,
