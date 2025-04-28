@@ -1,38 +1,44 @@
 import React from "react";
 import { type Trip } from "@prisma/client";
-import { Card } from "~/app/_components/common/OldCard";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { format } from "date-fns";
 import { Label } from "~/app/_components/common/Label";
+import Link from "next/link";
+import { buttonVariants } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 
 function TripCard(trip: Trip) {
   return (
-    <div className="text-black">
-      <a href={`/trips/${trip.id}`}>
-        <Card className="w-[500px]">
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <Label htmlFor="destination">Destination:</Label>
-              <h2 className="mb-2 text-xl font-semibold">{trip.destination}</h2>
-              <Label htmlFor="title">Title:</Label>
-              <h2 className="mb-2 font-bold">{trip.title}</h2>
-
-              <Label htmlFor="description">Description:</Label>
-              <h2 className="mb-2 font-semibold">{trip.description}</h2>
-            </div>
-
-            <div>
-              <Label htmlFor="start-date">Start Date:</Label>
-              <p className="mb-2">
-                {format(new Date(trip.startDate), "MMMM d, yyyy")}
-              </p>
-
-              <Label htmlFor="end-date">End Date:</Label>
+    <Link
+      className={cn(
+        buttonVariants({ variant: "link" }),
+        "no-underline hover:no-underline",
+      )}
+      href={`/trips/${trip.id}`}
+    >
+      <Card>
+        <CardContent>
+          <CardHeader>
+            <CardTitle>{trip.title}</CardTitle>
+            <CardDescription>{trip.destination}</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <div className="flex w-full justify-between gap-4 text-center">
+              <p>{format(new Date(trip.startDate), "MMMM d, yyyy")}</p>
+              {"-"}
               <p>{format(new Date(trip.endDate), "MMMM d, yyyy")}</p>
             </div>
-          </div>
-        </Card>
-      </a>
-    </div>
+          </CardFooter>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 

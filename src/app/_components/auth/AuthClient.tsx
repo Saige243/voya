@@ -61,7 +61,9 @@ export default function AuthClient({
     <div className="py-4">
       <Label htmlFor="email">Email</Label>
       <Input placeholder="Email" className="mb-4" />
+      <Label htmlFor="password">Password</Label>
       <Input placeholder="Password" className="mb-4" />
+      <Label htmlFor="confirm-password">Confirm Password</Label>
       <Input placeholder="Confirm Password" className="mb-4" />
       <Button className="btn-primary w-full text-white" onClick={handleSignIn}>
         Sign Up
