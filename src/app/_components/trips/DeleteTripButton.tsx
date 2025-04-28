@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { Button, IconButton } from "~/app/_components/common/Button";
+import { Button, IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
 import { api } from "~/trpc/react";
 import { redirect } from "next/navigation";

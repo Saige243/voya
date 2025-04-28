@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "~/app/_components/common/Button";
+import { Button } from "~/app/_components/common/OldButton";
 import { Label } from "~/app/_components/common/Label";
 import { createTrip } from "../../trips/actions/createTrip";
 import { TextInput } from "~/app/_components/common/TextInput";

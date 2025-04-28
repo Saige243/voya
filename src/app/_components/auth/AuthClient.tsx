@@ -6,11 +6,10 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
-import { Button, ImageButton } from "~/app/_components/common/Button";
+import { ImageButton } from "~/app/_components/common/OldButton";
 import {
   Card,
   CardHeader,
-  CardFooter,
   CardTitle,
   CardDescription,
   CardContent,
@@ -18,6 +17,7 @@ import {
 import { TextInput } from "../common/TextInput";
 import { Toast } from "~/app/_components/common/Toast";
 import { useState } from "react";
+import { Button } from "~/components/ui/button";
 
 const providerLogoSrc = (name: string) =>
   `https://authjs.dev/img/providers/${name}.svg`;
@@ -103,14 +103,22 @@ export default function AuthClient({
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
-      <Card
-        title={isSignIn ? "Sign in to Voya" : "Sign Up for Voya"}
-        description={isSignIn ? "Sign in to your account" : "Create an account"}
-        className="w-96 text-black dark:text-white"
-      >
-        <div className="flex justify-between space-x-2">{mappedProviders}</div>
-        {isSignIn ? signInForm : signUpForm}
-        {toggleAuthButton}
+      <Card className="w-96 text-black dark:text-white">
+        <CardContent>
+          <CardHeader>
+            <CardTitle>
+              {isSignIn ? "Sign in to Voya" : "Sign Up for Voya"}
+            </CardTitle>
+            <CardDescription>
+              {isSignIn ? "Sign in to your account" : "Create an account"}
+            </CardDescription>
+          </CardHeader>
+          <div className="flex justify-between space-x-2">
+            {mappedProviders}
+          </div>
+          {isSignIn ? signInForm : signUpForm}
+          {toggleAuthButton}
+        </CardContent>
       </Card>
     </div>
   );

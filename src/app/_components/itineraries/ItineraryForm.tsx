@@ -1,4 +1,4 @@
-import { Button } from "~/app/_components/common/Button";
+import { Button } from "~/app/_components/common/OldButton";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { Label } from "~/app/_components/common/Label";

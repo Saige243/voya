@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { updateTrip } from "../../trips/actions/updateTrip";
 import { Label } from "~/app/_components/common/Label";
 import { TextInput } from "~/app/_components/common/TextInput";
-import { Button } from "~/app/_components/common/Button";
+import { Button } from "~/app/_components/common/OldButton";
 import { type Trip } from "@prisma/client";
 
 type FormData = {

@@ -2,7 +2,7 @@ import React from "react";
 import { type Itinerary, type Trip } from "@prisma/client";
 import { Label } from "~/app/_components/common/Label";
 import { Typography } from "~/app/_components/common/Typography";
-import { Button, IconButton } from "~/app/_components/common/Button";
+import { Button, IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
 import { format } from "date-fns";
 import { DeleteItineraryButton } from "./DeleteItineraryButton";

@@ -1,4 +1,4 @@
-import { Button, IconButton } from "~/app/_components/common/Button";
+import { Button, IconButton } from "~/app/_components/common/OldButton";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
