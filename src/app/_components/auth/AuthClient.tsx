@@ -7,7 +7,14 @@ import {
   signIn,
 } from "next-auth/react";
 import { Button, ImageButton } from "~/app/_components/common/Button";
-import { Card } from "../common/Card";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "~/components/ui/card";
 import { TextInput } from "../common/TextInput";
 import { Toast } from "~/app/_components/common/Toast";
 import { useState } from "react";

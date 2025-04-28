@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Card } from "../../../_components/common/Card";
+import { Card } from "../../../_components/common/OldCard";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../../_components/trips/EditTripForm";
@@ -71,7 +71,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
               <AddAccommodationsForm trip={trip} userId={session.user.id} />
             )}
             <div>
-              <h2 className="flex content-center justify-center pb-2 text-xl font-bold text-black dark:text-white">
+              <h2 className="flex content-center justify-center pb-2 pt-6 text-xl font-bold text-black dark:text-white">
                 Add Accommodations:
               </h2>
               <ShowAccommodationFormButton

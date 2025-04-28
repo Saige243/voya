@@ -1,5 +1,5 @@
 import { getServerAuthSession } from "~/server/auth";
-import { Card } from "~/app/_components/common/Card";
+import { Card } from "~/app/_components/common/OldCard";
 import Avatar from "~/app/_components/common/Avatar";
 
 async function Profile() {

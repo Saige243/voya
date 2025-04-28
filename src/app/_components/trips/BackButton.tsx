@@ -9,7 +9,11 @@ export default function BackButton() {
 
   return (
     <IconButton onClick={() => router.back()}>
-      <Icon name="ArrowBigLeft" size="35" />
+      <Icon
+        name="ArrowBigLeft"
+        size="35"
+        className="text-white dark:text-white"
+      />
     </IconButton>
   );
 }

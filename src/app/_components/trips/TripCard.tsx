@@ -1,6 +1,6 @@
 import React from "react";
 import { type Trip } from "@prisma/client";
-import { Card } from "~/app/_components/common/Card";
+import { Card } from "~/app/_components/common/OldCard";
 import { format } from "date-fns";
 import { Label } from "~/app/_components/common/Label";
 
