@@ -20,9 +20,6 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 
-const providerLogoSrc = (name: string) =>
-  `https://authjs.dev/img/providers/${name}.svg`;
-
 export default function AuthClient({
   providers,
 }: {
@@ -78,6 +75,7 @@ export default function AuthClient({
   const mappedProviders = (
     <>
       {Object.values(providers).map((provider) => {
+        const logoSrc = `/logos/${provider.name.toLowerCase()}.svg`;
         return (
           <div key={provider.name}>
             <Button
@@ -85,7 +83,7 @@ export default function AuthClient({
               className="btn-primary flex flex-row rounded-full dark:text-white"
             >
               <Image
-                src={providerLogoSrc(provider.name)}
+                src={logoSrc}
                 alt={provider.name}
                 height={24}
                 width={24}
