@@ -6,7 +6,7 @@ import {
   type LiteralUnion,
   signIn,
 } from "next-auth/react";
-import { ImageButton } from "~/app/_components/common/OldButton";
+import Image from "next/image";
 import {
   Card,
   CardHeader,
@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardContent,
 } from "~/components/ui/card";
-import { TextInput } from "../common/TextInput";
+import { Input } from "~/components/ui/input";
 import { Toast } from "~/app/_components/common/Toast";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -43,8 +43,8 @@ export default function AuthClient({
 
   const signInForm = (
     <div className="py-4">
-      <TextInput placeholder="Email" className="mb-4" />
-      <TextInput placeholder="Password" className="mb-4" />
+      <Input placeholder="Email" className="mb-4" />
+      <Input placeholder="Password" className="mb-4" />
       <Button
         className="btn-primary w-full dark:text-white"
         onClick={handleSignIn}
@@ -59,9 +59,9 @@ export default function AuthClient({
 
   const signUpForm = (
     <div className="py-4">
-      <TextInput placeholder="Email" className="mb-4" />
-      <TextInput placeholder="Password" className="mb-4" />
-      <TextInput placeholder="Confirm Password" className="mb-4" />
+      <Input placeholder="Email" className="mb-4" />
+      <Input placeholder="Password" className="mb-4" />
+      <Input placeholder="Confirm Password" className="mb-4" />
       <Button className="btn-primary w-full text-white" onClick={handleSignIn}>
         Sign Up
       </Button>
@@ -74,19 +74,21 @@ export default function AuthClient({
   const mappedProviders = (
     <>
       {Object.values(providers).map((provider) => {
-        console.log("logo src", providerLogoSrc(provider.name));
         return (
           <div key={provider.name}>
-            <ImageButton
+            <Button
               onClick={() => signIn(provider.id, { callbackUrl: "/dashboard" })}
-              className="btn-primary flex flex-row dark:text-white"
-              src={providerLogoSrc(provider.id)}
-              alt={provider.name}
-              height={24}
-              width={24}
+              className="btn-primary flex flex-row rounded-full dark:text-white"
             >
+              <Image
+                src={providerLogoSrc(provider.name)}
+                alt={provider.name}
+                height={24}
+                width={24}
+                className="mr-2"
+              />
               {`Sign in with ${provider.name}`}
-            </ImageButton>
+            </Button>
           </div>
         );
       })}
