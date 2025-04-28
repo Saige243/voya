@@ -18,6 +18,7 @@ import { Input } from "~/components/ui/input";
 import { Toast } from "~/app/_components/common/Toast";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import { Label } from "~/components/ui/label";
 
 const providerLogoSrc = (name: string) =>
   `https://authjs.dev/img/providers/${name}.svg`;
@@ -43,8 +44,10 @@ export default function AuthClient({
 
   const signInForm = (
     <div className="py-4">
-      <Input placeholder="Email" className="mb-4" />
-      <Input placeholder="Password" className="mb-4" />
+      <Label htmlFor="email">Email</Label>
+      <Input placeholder="johndoe@example.com" className="mb-4" />
+      <Label htmlFor="password">Password</Label>
+      <Input placeholder="••••••••" className="mb-4" type="password" />
       <Button
         className="btn-primary w-full dark:text-white"
         onClick={handleSignIn}
@@ -59,6 +62,7 @@ export default function AuthClient({
 
   const signUpForm = (
     <div className="py-4">
+      <Label htmlFor="email">Email</Label>
       <Input placeholder="Email" className="mb-4" />
       <Input placeholder="Password" className="mb-4" />
       <Input placeholder="Confirm Password" className="mb-4" />
@@ -105,7 +109,7 @@ export default function AuthClient({
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
-      <Card className="w-96 text-black dark:text-white">
+      <Card className="text-black dark:text-white">
         <CardContent>
           <CardHeader>
             <CardTitle>
@@ -115,7 +119,7 @@ export default function AuthClient({
               {isSignIn ? "Sign in to your account" : "Create an account"}
             </CardDescription>
           </CardHeader>
-          <div className="flex justify-between space-x-2">
+          <div className="flex justify-between space-x-2 contain-content">
             {mappedProviders}
           </div>
           {isSignIn ? signInForm : signUpForm}
