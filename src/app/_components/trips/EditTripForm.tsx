@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { updateTrip } from "../../trips/actions/updateTrip";
 import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/Input";
+import { Input } from "~/components/ui/input";
 import { Button } from "~/app/_components/common/OldButton";
 import { type Trip } from "@prisma/client";
 
