@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { format } from "date-fns";
-import { Label } from "~/app/_components/common/Label";
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
@@ -25,14 +24,14 @@ function TripCard(trip: Trip) {
     >
       <Card>
         <CardContent>
-          <CardHeader>
-            <CardTitle>{trip.title}</CardTitle>
+          <CardHeader className="text-base md:text-lg">
+            <CardTitle className="text-base md:text-lg">{trip.title}</CardTitle>
             <CardDescription>{trip.destination}</CardDescription>
           </CardHeader>
           <CardFooter>
-            <div className="flex w-full justify-between gap-4 text-center">
+            <div className="flex w-full justify-between text-center text-base">
               <p>{format(new Date(trip.startDate), "MMMM d, yyyy")}</p>
-              {"-"}
+              <span className="px-2">{" - "}</span>
               <p>{format(new Date(trip.endDate), "MMMM d, yyyy")}</p>
             </div>
           </CardFooter>

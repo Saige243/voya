@@ -1,7 +1,5 @@
 import "~/styles/globals.css";
-
 import { GeistSans } from "geist/font/sans";
-
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/Navbar";
 import { getServerAuthSession } from "~/server/auth";
