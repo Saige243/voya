@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "~/app/_components/common/OldButton";
 import { Label } from "~/app/_components/common/Label";
-import { TextInput } from "~/app/_components/common/TextInput";
+import { Input } from "~/components/ui/input";
 import { type Trip } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -92,7 +92,7 @@ const AddAccommodationsForm = ({
           <Label htmlFor="name" className="block text-sm text-gray-500">
             Name:
           </Label>
-          <TextInput
+          <Input
             id="name"
             placeholder="Hotel Name, Airbnb, etc."
             className="mt-1 w-full dark:bg-white"
@@ -104,7 +104,7 @@ const AddAccommodationsForm = ({
           <Label htmlFor="location" className="block text-sm text-gray-500">
             Location:
           </Label>
-          <TextInput
+          <Input
             id="location"
             {...register("location")}
             placeholder="City, State, Country"
@@ -142,7 +142,7 @@ const AddAccommodationsForm = ({
           <Label htmlFor="notes" className="block text-sm text-gray-500">
             Notes:
           </Label>
-          <TextInput
+          <Input
             id="notes"
             {...register("notes")}
             placeholder="Any additional notes"
@@ -154,7 +154,7 @@ const AddAccommodationsForm = ({
           <Label htmlFor="phoneNumber" className="block text-sm text-gray-500">
             Phone Number:
           </Label>
-          <TextInput
+          <Input
             id="phoneNumber"
             placeholder="(123) 456-7890"
             {...register("phoneNumber")}
@@ -166,7 +166,7 @@ const AddAccommodationsForm = ({
           <Label htmlFor="website" className="block text-sm text-gray-500">
             Website:
           </Label>
-          <TextInput
+          <Input
             id="website"
             {...register("website")}
             placeholder="www.hotel.com"

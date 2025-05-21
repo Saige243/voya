@@ -1,4 +1,4 @@
-import { Button, IconButton } from "~/app/_components/common/OldButton";
+import { IconButton } from "~/app/_components/common/OldButton";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
@@ -65,7 +65,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const tripInfo = (
     <div>
-      <h2 className="pb-4 text-xl font-bold">Overview</h2>
       <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div>
           <Typography variant="heading1">{trip?.title}</Typography>

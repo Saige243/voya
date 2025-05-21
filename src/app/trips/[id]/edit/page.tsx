@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Card } from "../../../_components/common/OldCard";
+import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../../_components/trips/EditTripForm";
@@ -39,54 +39,72 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
 
   const accommodations = trip.accommodations || [];
 
-  return (
-    <div className="px-20 md:px-20 xl:px-60">
-      <div className="flex items-center space-x-4 pb-20">
-        <BackButton />
-        <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
-      </div>
-      <main className="flex min-h-screen flex-col ">
-        <div className="flex space-x-4">
-          <Card>
-            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-              Trip Details:
-            </h2>
-            <EditTripForm trip={trip} userId={session.user.id} />
-          </Card>
-          <Card>
-            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-              Edit Accommodations:
-            </h2>
-            {accommodations.length > 0 ? (
-              <>
-                {accommodations.map((acc: Accommodation) => (
-                  <AccommodationsForm
-                    key={acc.id}
-                    acc={acc}
-                    userId={session.user.id}
-                  />
-                ))}
-              </>
-            ) : (
-              <AddAccommodationsForm trip={trip} userId={session.user.id} />
-            )}
-            <div>
-              <h2 className="flex content-center justify-center pb-2 pt-6 text-xl font-bold text-black dark:text-white">
-                Add Accommodations:
-              </h2>
-              <ShowAccommodationFormButton
-                trip={trip}
+  const header = (
+    <div className="flex items-center space-x-4 pb-20">
+      <BackButton />
+      <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
+    </div>
+  );
+
+  const tripDetailsForm = (
+    <Card>
+      <CardContent>
+        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+          Trip Details:
+        </h2>
+        <EditTripForm trip={trip} userId={session.user.id} />
+      </CardContent>
+    </Card>
+  );
+
+  const accommodationForm = (
+    <Card>
+      <CardContent>
+        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+          Edit Accommodations:
+        </h2>
+        {accommodations.length > 0 ? (
+          <>
+            {accommodations.map((acc: Accommodation) => (
+              <AccommodationsForm
+                key={acc.id}
+                acc={acc}
                 userId={session.user.id}
               />
-            </div>
-          </Card>
+            ))}
+          </>
+        ) : (
+          <AddAccommodationsForm trip={trip} userId={session.user.id} />
+        )}
+        <div>
+          <h2 className="flex content-center justify-center pb-2 pt-6 text-xl font-bold text-black dark:text-white">
+            Add Accommodations:
+          </h2>
+          <ShowAccommodationFormButton trip={trip} userId={session.user.id} />
+        </div>
+      </CardContent>
+    </Card>
+  );
 
-          <Card>
-            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-              Add Itinerary:
-            </h2>
-            <ItineraryForm trip={trip} />
-          </Card>
+  const itineraryForm = (
+    <Card>
+      <CardContent>
+        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+          Add Itinerary:
+        </h2>
+        <ItineraryForm trip={trip} />
+      </CardContent>
+    </Card>
+  );
+
+  return (
+    <div className="">
+      {header}
+      <main className="flex min-h-screen flex-col items-center justify-center">
+        <div className="flex space-x-4">
+          {tripDetailsForm}
+          {accommodationForm}
+          {itineraryForm}
         </div>
       </main>
     </div>

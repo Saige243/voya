@@ -2,7 +2,7 @@ import { Button } from "~/app/_components/common/OldButton";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { Label } from "~/app/_components/common/Label";
-import { TextInput } from "~/app/_components/common/TextInput";
+import { Input } from "~/components/ui/input";
 import { type Trip } from "@prisma/client";
 
 const AddItineraryForm = ({ trip }: { trip: Trip }) => {
@@ -35,7 +35,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
     <form action={addItinerary} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
-        <input
+        <Input
           name="title"
           type="text"
           id="title"
@@ -45,7 +45,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       </div>
       <div>
         <Label htmlFor="datetime">Date and Time:</Label>
-        <input
+        <Input
           name="datetime"
           type="datetime-local"
           id="datetime"
@@ -55,7 +55,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       </div>
       <div>
         <Label htmlFor="location">Location:</Label>
-        <TextInput
+        <Input
           name="location"
           id="location"
           placeholder={"Location of the activity"}
@@ -64,7 +64,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       </div>
       <div>
         <Label htmlFor="notes">Notes:</Label>
-        <TextInput
+        <Input
           name="notes"
           id="notes"
           placeholder={"Any additional notes"}

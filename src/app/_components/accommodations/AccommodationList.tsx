@@ -1,7 +1,7 @@
 import { type Accommodation } from "@prisma/client";
 import { Label } from "~/app/_components/common/Label";
 import { format } from "date-fns";
-import { IconButton, ImageButton } from "~/app/_components/common/OldButton";
+import { IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
 import { Typography } from "~/app/_components/common/Typography";
 import { DeleteAccommodationButton } from "./DeleteAccommodationButton";
@@ -80,7 +80,7 @@ export default function AccommodationList({
 
   return (
     <div className="w-full">
-      <h2 className="pb-4 text-xl font-bold">Accommodations</h2>
+      {/* <h2 className="pb-4 text-xl font-bold">Accommodations</h2> */}
       {accommodations.length > 0 ? (
         <div>
           {accommodations.map((acc) => (

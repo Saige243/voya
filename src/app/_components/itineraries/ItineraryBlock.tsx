@@ -2,7 +2,7 @@ import React from "react";
 import { type Itinerary, type Trip } from "@prisma/client";
 import { Label } from "~/app/_components/common/Label";
 import { Typography } from "~/app/_components/common/Typography";
-import { Button, IconButton } from "~/app/_components/common/OldButton";
+import { IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
 import { format } from "date-fns";
 import { DeleteItineraryButton } from "./DeleteItineraryButton";
@@ -18,7 +18,6 @@ export default function ItineraryBlock({
 }: ItineraryBlockProps) {
   return (
     <div className="w-full">
-      <h2 className="pb-4 text-xl font-bold">Itineraries</h2>
       {itineraries && itineraries.length > 0 ? (
         <div className="space-y-4">
           {itineraries.map((itinerary) => (

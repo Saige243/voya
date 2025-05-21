@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { updateTrip } from "../../trips/actions/updateTrip";
-import { Label } from "~/app/_components/common/Label";
-import { TextInput } from "~/app/_components/common/TextInput";
+import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/Input";
 import { Button } from "~/app/_components/common/OldButton";
 import { type Trip } from "@prisma/client";
 
@@ -96,7 +96,7 @@ const EditTripDetailsForm = ({
     >
       <div>
         <Label htmlFor="title">Title:</Label>
-        <TextInput
+        <Input
           id="title"
           placeholder={!trip.title ? "Enter title" : ""}
           className="w-full dark:bg-white"
@@ -109,7 +109,7 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
-        <TextInput
+        <Input
           id="destination"
           placeholder={!trip.destination ? "Enter destination" : ""}
           className="w-full dark:bg-white"
@@ -122,7 +122,7 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="description">Description:</Label>
-        <TextInput
+        <Input
           id="description"
           placeholder={!trip.description ? "Enter description" : ""}
           className="w-full dark:bg-white"
@@ -135,7 +135,7 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="startDate">Start Date:</Label>
-        <input
+        <Input
           type="date"
           id="startDate"
           className="w-full dark:bg-white"
@@ -148,7 +148,7 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="endDate">End Date:</Label>
-        <input
+        <Input
           type="date"
           id="endDate"
           className="w-full dark:bg-white"
