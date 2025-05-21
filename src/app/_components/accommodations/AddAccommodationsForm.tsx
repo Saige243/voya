@@ -117,10 +117,10 @@ const AddAccommodationsForm = ({
             <Label htmlFor="checkIn" className="block text-sm text-gray-500">
               Check-In Date:
             </Label>
-            <input
+            <Input
               id="checkIn"
               type="date"
-              className="input input-bordered mt-1 w-full dark:bg-white"
+              className="Input Input-bordered mt-1 w-full dark:bg-white"
               {...register("checkIn")}
               style={{ colorScheme: "light" }}
             />
@@ -129,9 +129,9 @@ const AddAccommodationsForm = ({
             <Label htmlFor="checkOut" className="block text-sm text-gray-500">
               Check-Out Date:
             </Label>
-            <input
+            <Input
               type="date"
-              className="input input-bordered mt-1 w-full dark:bg-white"
+              className="Input Input-bordered mt-1 w-full dark:bg-white"
               {...register("checkOut")}
               style={{ colorScheme: "light" }}
             />

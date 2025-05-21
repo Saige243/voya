@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "~/app/_components/common/OldButton";
 import { Label } from "~/app/_components/common/Label";
 import { Input } from "~/components/ui/input";
+import { DatePicker } from "~/components/ui/datepicker";
 import { type Accommodation } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -120,9 +121,8 @@ const AccommodationsForm = ({
             <Input
               id="checkIn"
               type="date"
-              className="Input Input-bordered mt-1 w-full dark:bg-white"
+              className="w-full dark:bg-white"
               {...register("checkIn")}
-              style={{ colorScheme: "light" }}
             />
           </div>
           <div>
@@ -130,10 +130,11 @@ const AccommodationsForm = ({
               Check-Out Date:
             </Label>
             <Input
+              id="checkOut"
               type="date"
-              className="Input Input-bordered mt-1 w-full dark:bg-white"
-              {...register("checkOut")}
-              style={{ colorScheme: "light" }}
+              className="w-full dark:bg-white"
+              {...register("checkOut", { required: true })}
+              // style={{ colorScheme: "light" }}
             />
           </div>
         </div>
