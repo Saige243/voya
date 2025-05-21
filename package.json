@@ -9,7 +9,7 @@
     "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "lint": "SKIP_ENV_VALIDATION=true next lint",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "start": "next start"

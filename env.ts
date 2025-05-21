@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import { z } from "zod";
 
 config(); // Load environment variables from .env file
 
@@ -16,3 +17,30 @@ export const env = {
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 };
+
+if (process.env.SKIP_ENV_VALIDATION !== "true") {
+  import("@t3-oss/env-nextjs")
+    .then(({ createEnv }) => {
+      createEnv({
+        server: {
+          DATABASE_URL: z.string().url(),
+          NEXTAUTH_SECRET: z.string(),
+          NEXTAUTH_URL: z.string().url(),
+          DISCORD_CLIENT_ID: z.string(),
+          DISCORD_CLIENT_SECRET: z.string(),
+        },
+        client: {},
+        runtimeEnv: {
+          DATABASE_URL: process.env.DATABASE_URL,
+          NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+          NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+          DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+          DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+        },
+      });
+    })
+    .catch((err) => {
+      console.error("Failed to validate env:", err);
+      process.exit(1);
+    });
+}
