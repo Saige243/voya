@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button } from "~/app/_components/common/OldButton";
+import { Button } from "~/components/ui/button";
 import { Label } from "~/app/_components/common/Label";
 import { Input } from "~/components/ui/input";
 import { DatePicker } from "~/components/ui/datepicker";

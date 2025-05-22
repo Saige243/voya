@@ -2,8 +2,8 @@ import React from "react";
 import { type Itinerary, type Trip } from "@prisma/client";
 import { Label } from "~/app/_components/common/Label";
 import { Typography } from "~/app/_components/common/Typography";
-import { IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
+import { Button } from "~/components/ui/button";
 import { format } from "date-fns";
 import { DeleteItineraryButton } from "./DeleteItineraryButton";
 
@@ -62,13 +62,13 @@ export default function ItineraryBlock({
               )}
               <div className="mt-4 flex justify-end">
                 <a href={`/trips/${trip?.id}/edit`}>
-                  <IconButton className="border-none bg-transparent">
+                  <Button className="border-none bg-transparent">
                     <Icon
                       name="Pencil"
                       className="text-black dark:text-white"
                       size="20"
                     />
-                  </IconButton>
+                  </Button>
                 </a>
                 <DeleteItineraryButton id={itinerary.id} />
               </div>

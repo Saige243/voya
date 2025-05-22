@@ -1,8 +1,8 @@
 "use client";
 
 import { useTransition } from "react";
-import { Button, IconButton } from "~/app/_components/common/OldButton";
 import { Icon } from "~/app/_components/common/Icon";
+import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
@@ -37,12 +37,12 @@ export function DeleteAccommodationButton({
   };
 
   return (
-    <IconButton
+    <Button
       onClick={handleDelete}
       disabled={isPending}
       className="border-none bg-transparent"
     >
       <Icon name="Trash" color={isPending ? "gray" : "red"} size="20" />
-    </IconButton>
+    </Button>
   );
 }

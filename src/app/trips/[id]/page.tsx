@@ -1,4 +1,4 @@
-import { IconButton } from "~/app/_components/common/OldButton";
+import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
@@ -11,6 +11,7 @@ import { Label } from "~/app/_components/common/Label";
 import { Typography } from "~/app/_components/common/Typography";
 import BackButton from "../../_components/trips/BackButton";
 import { DeleteTripButton } from "~/app/_components/trips/DeleteTripButton";
+import { Card, CardContent } from "~/components/ui/card";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -51,13 +52,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   const editButtons = (
     <div className="flex items-center">
       <a href={`/trips/${trip?.id}/edit`}>
-        <IconButton className="border-none bg-transparent">
+        <Button className="border-none bg-transparent">
           <Icon
             name="Pencil"
             className="text-black dark:text-white"
             size="20"
           />
-        </IconButton>
+        </Button>
       </a>
       <DeleteTripButton id={trip.id} />
     </div>
@@ -65,8 +66,11 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const tripInfo = (
     <div>
-      <div className="mb-6 w-full rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
-        <div>
+      <Card
+        clickable
+        className="mb-6 w-full rounded-lg border bg-white px-6 pt-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800"
+      >
+        <CardContent>
           <Typography variant="heading1">{trip?.title}</Typography>
           <div className="mb-2">
             <Typography>{trip?.destination}</Typography>
@@ -92,9 +96,9 @@ export default async function Page({ params }: { params: { id: string } }) {
               </Typography>
             </div>
           </div>
-          <div className="flex justify-end">{editButtons}</div>
-        </div>
-      </div>
+          <div className="mt-8 flex justify-end">{editButtons}</div>
+        </CardContent>
+      </Card>
     </div>
   );
 

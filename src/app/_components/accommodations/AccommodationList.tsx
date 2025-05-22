@@ -1,7 +1,7 @@
 import { type Accommodation } from "@prisma/client";
 import { Label } from "~/app/_components/common/Label";
 import { format } from "date-fns";
-import { IconButton } from "~/app/_components/common/OldButton";
+import { Button } from "~/components/ui/button";
 import { Icon } from "~/app/_components/common/Icon";
 import { Typography } from "~/app/_components/common/Typography";
 import { DeleteAccommodationButton } from "./DeleteAccommodationButton";
@@ -72,9 +72,9 @@ export default function AccommodationList({
 
   const editTripButton = (
     <a href={`/trips/${tripId}/edit`}>
-      <IconButton className="border-none bg-transparent">
+      <Button className="border-none bg-transparent">
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
-      </IconButton>
+      </Button>
     </a>
   );
 
