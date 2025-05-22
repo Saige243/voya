@@ -12,7 +12,6 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { Typography } from "../common/Typography";
 
 function TripCard(trip: Trip) {
   return (
