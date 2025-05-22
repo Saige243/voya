@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { Typography } from "../common/Typography";
 
 function TripCard(trip: Trip) {
   return (
@@ -29,7 +30,7 @@ function TripCard(trip: Trip) {
             <CardDescription>{trip.destination}</CardDescription>
           </CardHeader>
           <CardFooter>
-            <div className="flex w-full justify-between text-center text-base">
+            <div className="flex w-full text-base">
               <p>{format(new Date(trip.startDate), "MMMM d, yyyy")}</p>
               <span className="px-2">{" - "}</span>
               <p>{format(new Date(trip.endDate), "MMMM d, yyyy")}</p>

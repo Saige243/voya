@@ -35,11 +35,7 @@ export function DeleteItineraryButton({ id }: DeleteItineraryButtonProps) {
   };
 
   return (
-    <Button
-      onClick={handleDelete}
-      disabled={isPending}
-      className="border-none bg-transparent"
-    >
+    <Button onClick={handleDelete} disabled={isPending} variant="ghost">
       <Icon name="Trash" color={isPending ? "gray" : "red"} size="20" />
     </Button>
   );

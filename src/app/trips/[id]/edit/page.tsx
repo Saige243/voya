@@ -78,7 +78,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
         )}
         <div>
           <h2 className="flex content-center justify-center pb-2 pt-6 text-xl font-bold text-black dark:text-white">
-            Add Accommodations:
+            Add Additional Accommodations:
           </h2>
           <ShowAccommodationFormButton trip={trip} userId={session.user.id} />
         </div>
@@ -101,7 +101,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     <div>
       {header}
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="flex flex-col gap-4 md:flex-row">
+        <div className="flex flex-col gap-4 lg:flex-row">
           {tripDetailsForm}
           {accommodationForm}
           {itineraryForm}

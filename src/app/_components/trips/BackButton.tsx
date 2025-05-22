@@ -8,10 +8,10 @@ export default function BackButton() {
   const router = useRouter();
 
   return (
-    <Button onClick={() => router.back()}>
+    <Button onClick={() => router.back()} variant="ghost">
       <Icon
-        name="ArrowBigLeft"
-        size="35"
+        name="ChevronLeft"
+        size="75"
         className="text-white dark:text-white"
       />
     </Button>

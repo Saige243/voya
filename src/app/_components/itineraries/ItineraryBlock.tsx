@@ -62,7 +62,7 @@ export default function ItineraryBlock({
               )}
               <div className="mt-4 flex justify-end">
                 <a href={`/trips/${trip?.id}/edit`}>
-                  <Button className="border-none bg-transparent">
+                  <Button variant="ghost">
                     <Icon
                       name="Pencil"
                       className="text-black dark:text-white"

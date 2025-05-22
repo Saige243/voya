@@ -14,7 +14,9 @@ export default async function TripShowcase() {
           <h2 className="pb-4 text-center text-xl font-bold">
             Your Upcoming Trip:
           </h2>
-          <TripCard {...upcomingTrip} />
+          <div className="pt-20">
+            <TripCard {...upcomingTrip} />
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-2">

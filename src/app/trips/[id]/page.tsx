@@ -52,7 +52,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const editButtons = (
     <div className="flex items-center">
       <a href={`/trips/${trip?.id}/edit`}>
-        <Button className="border-none bg-transparent">
+        <Button variant="ghost">
           <Icon
             name="Pencil"
             className="text-black dark:text-white"
@@ -65,41 +65,36 @@ export default async function Page({ params }: { params: { id: string } }) {
   );
 
   const tripInfo = (
-    <div>
-      <Card
-        clickable
-        className="mb-6 w-full rounded-lg border bg-white px-6 pt-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800"
-      >
-        <CardContent>
-          <Typography variant="heading1">{trip?.title}</Typography>
-          <div className="mb-2">
-            <Typography>{trip?.destination}</Typography>
+    <Card className="mb-6 w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
+      <CardContent>
+        <Typography variant="heading1">{trip?.title}</Typography>
+        <div className="mb-2">
+          <Typography>{trip?.destination}</Typography>
+        </div>
+        <div className="mb-2">
+          <Typography>{trip?.description}</Typography>
+        </div>
+        <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="start-date">Start Date:</Label>
+            <Typography>
+              {trip?.startDate
+                ? format(new Date(trip.startDate), "MMM dd, yyyy")
+                : "N/A"}
+            </Typography>
           </div>
-          <div className="mb-2">
-            <Typography>{trip?.description}</Typography>
+          <div>
+            <Label htmlFor="end-date">End Date:</Label>
+            <Typography>
+              {trip?.endDate
+                ? format(new Date(trip.endDate), "MMM dd, yyyy")
+                : "N/A"}
+            </Typography>
           </div>
-          <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="start-date">Start Date:</Label>
-              <Typography>
-                {trip?.startDate
-                  ? format(new Date(trip.startDate), "MMM dd, yyyy")
-                  : "N/A"}
-              </Typography>
-            </div>
-            <div>
-              <Label htmlFor="end-date">End Date:</Label>
-              <Typography>
-                {trip?.endDate
-                  ? format(new Date(trip.endDate), "MMM dd, yyyy")
-                  : "N/A"}
-              </Typography>
-            </div>
-          </div>
-          <div className="mt-8 flex justify-end">{editButtons}</div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+        <div className="mt-8 flex justify-end">{editButtons}</div>
+      </CardContent>
+    </Card>
   );
 
   return (
