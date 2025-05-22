@@ -2,11 +2,9 @@ import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import EditTripForm from "../../../_components/trips/EditTripForm";
 import AddAccommodationsForm from "../../../_components/accommodations/AddAccommodationsForm";
 import AccommodationsForm from "../../../_components/accommodations/AccommodationsForm";
 import BackButton from "../../../_components/trips/BackButton";
-import ItineraryForm from "../../../_components/itineraries/ItineraryForm";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "~/app/_components/accommodations/ShowAccommodationFormButton";
 
@@ -46,17 +44,6 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     </div>
   );
 
-  const tripDetailsForm = (
-    <Card>
-      <CardContent>
-        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Trip Details:
-        </h2>
-        <EditTripForm trip={trip} userId={session.user.id} />
-      </CardContent>
-    </Card>
-  );
-
   const accommodationForm = (
     <Card>
       <CardContent>
@@ -86,25 +73,12 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     </Card>
   );
 
-  const itineraryForm = (
-    <Card>
-      <CardContent>
-        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Add Itinerary:
-        </h2>
-        <ItineraryForm trip={trip} />
-      </CardContent>
-    </Card>
-  );
-
   return (
     <div>
       {header}
-      <main className="flex min-h-screen flex-col items-center justify-center">
+      <main className="flex min-h-screen justify-center">
         <div className="flex flex-col gap-4 md:flex-row">
-          {tripDetailsForm}
           {accommodationForm}
-          {itineraryForm}
         </div>
       </main>
     </div>

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { updateTrip } from "../../trips/actions/updateTrip";
+// import { updateTrip } from "../../trips/actions/updateTrip";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -28,7 +28,7 @@ const validationSchema = yup.object().shape({
 
 const EditTripDetailsForm = ({
   trip,
-  userId,
+  // userId,
 }: {
   trip: Trip;
   userId: string;

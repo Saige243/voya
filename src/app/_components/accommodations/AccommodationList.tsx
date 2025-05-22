@@ -91,7 +91,7 @@ export default function AccommodationList({
         <div className="text-center">
           <p className="text-gray-600">No accommodations!</p>
           <a
-            href={`/trips/${tripId}/edit`}
+            href={`/trips/${tripId}/add-accommodation`}
             className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
             Add Accommodation

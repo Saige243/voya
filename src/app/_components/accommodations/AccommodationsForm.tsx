@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/app/_components/common/Label";
 import { Input } from "~/components/ui/input";
-import { DatePicker } from "~/components/ui/datepicker";
+// import { DatePicker } from "~/components/ui/datepicker";
 import { type Accommodation } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
