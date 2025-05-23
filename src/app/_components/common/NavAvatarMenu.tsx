@@ -29,12 +29,20 @@ function NavAvatarMenu() {
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="flex flex-col gap-2">
-          <a href="/profiled" className="hover:cursor text-sm text-gray-500">
+      <PopoverContent className="w-40 p-2">
+        <div className="flex flex-col gap-1">
+          <a
+            href="/profile"
+            className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
             Profile
           </a>
-          <button onClick={() => signOut()}>Sign out</button>
+          <button
+            onClick={() => signOut()}
+            className="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Sign out
+          </button>
         </div>
       </PopoverContent>
     </Popover>
