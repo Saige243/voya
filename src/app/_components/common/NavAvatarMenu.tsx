@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import Avatar from "~/app/_components/common/Avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Popover, PopoverContent } from "~/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Button } from "~/components/ui/button";
@@ -10,20 +10,24 @@ import { useSession } from "next-auth/react";
 function NavAvatarMenu() {
   const { data: session } = useSession();
   const firstName = session?.user?.name?.split(" ")[0];
+  const lastName = session?.user?.name?.split(" ")[1];
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="secondary"
-          className="flex items-center gap-2 p-2 px-2 text-black"
+          className="flex items-center gap-2 bg-white p-5 px-2 text-gray-700 shadow-md"
         >
-          <Avatar
-            alt="avatar"
-            image={session?.user.image ?? ""}
-            width={20}
-            height={20}
-          />
+          <div className="flex items-center py-3">
+            <Avatar className="h-8 w-8">
+              <AvatarImage alt="avatar" src={session?.user.image ?? ""} />
+              <AvatarFallback className="text-sm">
+                {firstName?.charAt(0)}
+                {lastName?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
           <div>
             <p>{firstName}</p>
           </div>
