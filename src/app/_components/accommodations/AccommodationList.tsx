@@ -19,58 +19,53 @@ export default function AccommodationList({
   const accommodationInfo = (acc: Accommodation) => (
     <Card>
       <CardContent>
-        <div
-          key={acc.id}
-          className="mb-6 max-w-[500px] rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-        >
-          <div className="flex items-center justify-between">
-            <Typography variant="heading1">{acc.name}</Typography>
-          </div>
-          <Typography>{acc.location}</Typography>
-          <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="check-in-date">Check-In:</Label>
-              <Typography>
-                {format(new Date(acc.checkIn), "MMM dd, yyyy")}
-              </Typography>
-            </div>
-            <div>
-              <Label htmlFor="check-out-date">Check-Out:</Label>
-              <Typography>
-                {format(new Date(acc.checkOut), "MMM dd, yyyy")}
-              </Typography>
-            </div>
-          </div>
-          {acc.notes && (
-            <div className="mb-4">
-              <Label htmlFor="notes">Notes:</Label>
-              <Typography>{acc.notes}</Typography>
-            </div>
-          )}
-          {acc.phoneNumber && (
-            <div className="mb-4">
-              <Label htmlFor="phone-number">Phone:</Label>
-              <Typography>{acc.phoneNumber}</Typography>
-            </div>
-          )}
-          {acc.website && (
-            <div className="mb-4 flex flex-col">
-              <Label htmlFor="website">Website: </Label>
-              <a
-                href={acc.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                {acc.name + " Website"}
-              </a>
-              <div className="mt-2 flex justify-end">
-                {editTripButton}
-                <DeleteAccommodationButton accId={acc.id} />
-              </div>
-            </div>
-          )}
+        <div className="flex items-center justify-between">
+          <Typography variant="heading1">{acc.name}</Typography>
         </div>
+        <Typography>{acc.location}</Typography>
+        <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="check-in-date">Check-In:</Label>
+            <Typography>
+              {format(new Date(acc.checkIn), "MMM dd, yyyy")}
+            </Typography>
+          </div>
+          <div>
+            <Label htmlFor="check-out-date">Check-Out:</Label>
+            <Typography>
+              {format(new Date(acc.checkOut), "MMM dd, yyyy")}
+            </Typography>
+          </div>
+        </div>
+        {acc.notes && (
+          <div className="mb-4">
+            <Label htmlFor="notes">Notes:</Label>
+            <Typography>{acc.notes}</Typography>
+          </div>
+        )}
+        {acc.phoneNumber && (
+          <div className="mb-4">
+            <Label htmlFor="phone-number">Phone:</Label>
+            <Typography>{acc.phoneNumber}</Typography>
+          </div>
+        )}
+        {acc.website && (
+          <div className="mb-4 flex flex-col">
+            <Label htmlFor="website">Website: </Label>
+            <a
+              href={acc.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              {acc.name + " Website"}
+            </a>
+            <div className="mt-2 flex justify-end">
+              {editTripButton}
+              <DeleteAccommodationButton accId={acc.id} />
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

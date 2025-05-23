@@ -38,11 +38,6 @@ export default function Navbar() {
               <li>
                 <a href="/settings">Settings</a>
               </li>
-              <li>
-                <button className="" onClick={() => signOut()}>
-                  Sign out
-                </button>
-              </li>
             </ul>
           </div>
         </div>

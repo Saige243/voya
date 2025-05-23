@@ -45,7 +45,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const accommodationForm = (
-    <Card>
+    <Card className="h-fit">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Edit Accommodations:
