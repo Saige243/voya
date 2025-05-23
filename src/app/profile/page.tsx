@@ -1,35 +1,29 @@
 import { getServerAuthSession } from "~/server/auth";
 import Avatar from "~/app/_components/common/Avatar";
 import { Card } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
 import { CardContent } from "~/components/ui/card";
+import { Label } from "~/components/ui/label";
 
 async function Profile() {
   const session = await getServerAuthSession();
-  const firstName = session?.user?.name?.split(" ")[0];
 
   return (
     <main className="flex min-h-screen flex-col place-items-center pt-32 text-white">
-      <Card>
+      <Card className="w-fit">
         <CardContent>
-          <Button
-            variant="secondary"
-            className="flex items-center gap-2 p-2 px-2 text-black"
-          >
+          <div className="flex w-full justify-center pb-4">
             <Avatar
               alt="avatar"
               image={session?.user.image ?? ""}
-              width={20}
-              height={20}
+              width={36}
+              height={36}
             />
-            <div>
-              <p>{firstName}</p>
-            </div>
-          </Button>
-          <div className="flex flex-col gap-2">
-            <a href="/profiled" className="hover:cursor text-sm text-gray-500">
-              Profile
-            </a>
+          </div>
+          <div>
+            <Label>Name:</Label>
+            <p>{session?.user.name}</p>
+            <Label>Email:</Label>
+            <p>{session?.user.email}</p>
           </div>
         </CardContent>
       </Card>
