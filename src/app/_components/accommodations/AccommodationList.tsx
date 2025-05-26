@@ -1,5 +1,5 @@
 import { type Accommodation } from "@prisma/client";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { format } from "date-fns";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/app/_components/common/Icon";

@@ -1,6 +1,6 @@
 import React from "react";
 import { type Itinerary, type Trip } from "@prisma/client";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { Typography } from "~/app/_components/common/Typography";
 import { Icon } from "~/app/_components/common/Icon";
 import { Button } from "~/components/ui/button";

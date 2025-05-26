@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "~/components/ui/button";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { type Trip } from "@prisma/client";
 import { useForm } from "react-hook-form";

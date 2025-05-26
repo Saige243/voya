@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { createTrip } from "../../trips/actions/createTrip";
 import { TextInput } from "~/app/_components/common/TextInput";
 import * as yup from "yup";

@@ -7,7 +7,7 @@ import ItineraryBlock from "../../_components/itineraries/ItineraryBlock";
 import { type Accommodation } from "@prisma/client";
 import AccommodationList from "../../_components/accommodations/AccommodationList";
 import { format } from "date-fns";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { Typography } from "~/app/_components/common/Typography";
 import BackButton from "../../_components/trips/BackButton";
 import { DeleteTripButton } from "~/app/_components/trips/DeleteTripButton";

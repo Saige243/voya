@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { type Trip } from "@prisma/client";
 

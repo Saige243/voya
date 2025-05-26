@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "~/components/ui/button";
-import { Label } from "~/app/_components/common/Label";
+import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 // import { DatePicker } from "~/components/ui/datepicker";
 import { type Accommodation } from "@prisma/client";
@@ -90,7 +90,7 @@ const AccommodationsForm = ({
     >
       <div className="grid gap-4">
         <div>
-          <Label htmlFor="name" className="block text-sm text-gray-500">
+          <Label htmlFor="name" className="block text-sm ">
             Name:
           </Label>
           <Input
@@ -102,7 +102,7 @@ const AccommodationsForm = ({
         </div>
 
         <div>
-          <Label htmlFor="location" className="block text-sm text-gray-500">
+          <Label htmlFor="location" className="block text-sm ">
             Location:
           </Label>
           <Input
@@ -115,7 +115,7 @@ const AccommodationsForm = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="checkIn" className="block text-sm text-gray-500">
+            <Label htmlFor="checkIn" className="block text-sm ">
               Check-In Date:
             </Label>
             <Input
@@ -126,7 +126,7 @@ const AccommodationsForm = ({
             />
           </div>
           <div>
-            <Label htmlFor="checkOut" className="block text-sm text-gray-500">
+            <Label htmlFor="checkOut" className="block text-sm ">
               Check-Out Date:
             </Label>
             <Input
@@ -140,7 +140,7 @@ const AccommodationsForm = ({
         </div>
 
         <div>
-          <Label htmlFor="notes" className="block text-sm text-gray-500">
+          <Label htmlFor="notes" className="block text-sm ">
             Notes:
           </Label>
           <Input
@@ -152,7 +152,7 @@ const AccommodationsForm = ({
         </div>
 
         <div>
-          <Label htmlFor="phoneNumber" className="block text-sm text-gray-500">
+          <Label htmlFor="phoneNumber" className="block text-sm ">
             Phone Number:
           </Label>
           <Input
@@ -164,7 +164,7 @@ const AccommodationsForm = ({
         </div>
 
         <div>
-          <Label htmlFor="website" className="block text-sm text-gray-500">
+          <Label htmlFor="website" className="block text-sm ">
             Website:
           </Label>
           <Input
