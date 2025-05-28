@@ -39,40 +39,40 @@ export default function AuthClient({
     setShowToast(true);
   };
 
-  const signInForm = (
-    <div className="py-4">
-      <Label htmlFor="email">Email</Label>
-      <Input placeholder="johndoe@example.com" className="mb-4" />
-      <Label htmlFor="password">Password</Label>
-      <Input placeholder="••••••••" className="mb-4" type="password" />
-      <Button
-        className="btn-primary w-full dark:text-white"
-        onClick={handleSignIn}
-      >
-        Sign in
-      </Button>
-      {showToast && (
-        <Toast toastText="Sign in failed!" className="" toastType="error" />
-      )}
-    </div>
-  );
+  // const signInForm = (
+  //   <div className="py-4">
+  //     <Label htmlFor="email">Email</Label>
+  //     <Input placeholder="johndoe@example.com" className="mb-4" />
+  //     <Label htmlFor="password">Password</Label>
+  //     <Input placeholder="••••••••" className="mb-4" type="password" />
+  //     <Button
+  //       className="btn-primary w-full dark:text-white"
+  //       onClick={handleSignIn}
+  //     >
+  //       Sign in
+  //     </Button>
+  //     {showToast && (
+  //       <Toast toastText="Sign in failed!" className="" toastType="error" />
+  //     )}
+  //   </div>
+  // );
 
-  const signUpForm = (
-    <div className="py-4">
-      <Label htmlFor="email">Email</Label>
-      <Input placeholder="Email" className="mb-4" />
-      <Label htmlFor="password">Password</Label>
-      <Input placeholder="Password" className="mb-4" />
-      <Label htmlFor="confirm-password">Confirm Password</Label>
-      <Input placeholder="Confirm Password" className="mb-4" />
-      <Button className="btn-primary w-full text-white" onClick={handleSignIn}>
-        Sign Up
-      </Button>
-      {showToast && (
-        <Toast toastText="Sign in failed!" className="" toastType="error" />
-      )}
-    </div>
-  );
+  // const signUpForm = (
+  //   <div className="py-4">
+  //     <Label htmlFor="email">Email</Label>
+  //     <Input placeholder="Email" className="mb-4" />
+  //     <Label htmlFor="password">Password</Label>
+  //     <Input placeholder="Password" className="mb-4" />
+  //     <Label htmlFor="confirm-password">Confirm Password</Label>
+  //     <Input placeholder="Confirm Password" className="mb-4" />
+  //     <Button className="btn-primary w-full text-white" onClick={handleSignIn}>
+  //       Sign Up
+  //     </Button>
+  //     {showToast && (
+  //       <Toast toastText="Sign in failed!" className="" toastType="error" />
+  //     )}
+  //   </div>
+  // );
 
   const mappedProviders = (
     <>
@@ -99,31 +99,29 @@ export default function AuthClient({
     </>
   );
 
-  const toggleAuthButton = (
-    <Button className="btn-ghost w-full" onClick={() => setIsSignIn(!isSignIn)}>
-      {isSignIn
-        ? "Don't have an account? Sign Up"
-        : "Already have an account? Sign in"}
-    </Button>
-  );
+  // const toggleAuthButton = (
+  //   <Button className="btn-ghost w-full" onClick={() => setIsSignIn(!isSignIn)}>
+  //     {isSignIn
+  //       ? "Don't have an account? Sign Up"
+  //       : "Already have an account? Sign in"}
+  //   </Button>
+  // );
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
+    <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5] px-12 text-white">
       <Card className="text-black dark:text-white">
         <CardContent>
           <CardHeader>
-            <CardTitle>
-              {isSignIn ? "Sign in to Voya" : "Sign Up for Voya"}
-            </CardTitle>
+            <CardTitle>Sign in to Voya</CardTitle>
             <CardDescription>
-              {isSignIn ? "Sign in to your account" : "Create an account"}
+              Use any provider to sign in or create your Voya account.
             </CardDescription>
           </CardHeader>
           <div className="flex justify-between space-x-2 contain-content">
             {mappedProviders}
           </div>
-          {isSignIn ? signInForm : signUpForm}
-          {toggleAuthButton}
+          {/* {isSignIn ? signInForm : signUpForm} */}
+          {/* {toggleAuthButton} */}
         </CardContent>
       </Card>
     </div>
