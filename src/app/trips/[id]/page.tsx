@@ -49,7 +49,7 @@ export default async function TripDetailsPage({
 
   const editButtons = (
     <div className="flex items-center">
-      <a href={`/trips/${trip?.id}/edit`}>
+      <a href={`/trips/${trip.id}/edit`}>
         <Button variant="ghost">
           <Icon
             name="Pencil"
@@ -65,18 +65,18 @@ export default async function TripDetailsPage({
   const tripInfo = (
     <Card className="mb-6 w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
       <CardContent>
-        <Typography variant="heading1">{trip?.title}</Typography>
+        <Typography variant="heading1">{trip.title}</Typography>
         <div className="mb-2">
-          <Typography>{trip?.destination}</Typography>
+          <Typography>{trip.destination}</Typography>
         </div>
         <div className="mb-2">
-          <Typography>{trip?.description}</Typography>
+          <Typography>{trip.description}</Typography>
         </div>
         <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
           <div>
             <Label htmlFor="start-date">Start Date:</Label>
             <Typography>
-              {trip?.startDate
+              {trip.startDate
                 ? format(new Date(trip.startDate), "MMM dd, yyyy")
                 : "N/A"}
             </Typography>
@@ -84,7 +84,7 @@ export default async function TripDetailsPage({
           <div>
             <Label htmlFor="end-date">End Date:</Label>
             <Typography>
-              {trip?.endDate
+              {trip.endDate
                 ? format(new Date(trip.endDate), "MMM dd, yyyy")
                 : "N/A"}
             </Typography>
@@ -99,60 +99,33 @@ export default async function TripDetailsPage({
     accommodations,
     tripId,
   }: AccommodationListProps) {
-    const accommodationInfo = (acc: Accommodation) => (
-      <Card>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <Typography variant="heading1">{acc.name}</Typography>
-          </div>
-          <Typography>{acc.location}</Typography>
-          <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="check-in-date">Check-In:</Label>
-              <Typography>
-                {format(new Date(acc.checkIn), "MMM dd, yyyy")}
-              </Typography>
-            </div>
-            <div>
-              <Label htmlFor="check-out-date">Check-Out:</Label>
-              <Typography>
-                {format(new Date(acc.checkOut), "MMM dd, yyyy")}
-              </Typography>
-            </div>
-          </div>
-          {acc.notes && (
-            <div className="mb-4">
-              <Label htmlFor="notes">Notes:</Label>
-              <Typography>{acc.notes}</Typography>
-            </div>
-          )}
-          {acc.phoneNumber && (
-            <div className="mb-4">
-              <Label htmlFor="phone-number">Phone:</Label>
-              <Typography>{acc.phoneNumber}</Typography>
-            </div>
-          )}
-          {acc.website && (
-            <div className="mb-4 flex flex-col">
-              <Label htmlFor="website">Website: </Label>
-              <a
-                href={acc.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                {acc.name + " Website"}
-              </a>
-              <div className="mt-2 flex justify-end">
-                {editTripButton}
-                <DeleteAccommodationButton accId={acc.id} />
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    );
+    if (accommodations.length === 0) {
+      return (
+        <div className="text-center">
+          <p className="text-gray-600">No accommodations!</p>
+          <Button variant="default">
+            <a href={`/trips/${tripId}/add-accommodation`}>Add Accommodation</a>
+          </Button>
+        </div>
+      );
+    }
 
+    return (
+      <div className="w-full space-y-4">
+        {accommodations.map((acc) => (
+          <AccommodationCard key={acc.id} accommodation={acc} tripId={tripId} />
+        ))}
+      </div>
+    );
+  }
+
+  function AccommodationCard({
+    accommodation,
+    tripId,
+  }: {
+    accommodation: Accommodation;
+    tripId: number;
+  }) {
     const editTripButton = (
       <a href={`/trips/${tripId}/edit`}>
         <Button variant="ghost">
@@ -166,24 +139,57 @@ export default async function TripDetailsPage({
     );
 
     return (
-      <div className="w-full">
-        {accommodations.length > 0 ? (
-          <div>
-            {accommodations.map((acc) => (
-              <div key={acc.id}>{accommodationInfo(acc)}</div>
-            ))}
+      <Card>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <Typography variant="heading1">{accommodation.name}</Typography>
           </div>
-        ) : (
-          <div className="text-center">
-            <p className="text-gray-600">No accommodations!</p>
-            <Button variant="default">
-              <a href={`/trips/${tripId}/add-accommodation`}>
-                Add Accommodation
+          <Typography>{accommodation.location}</Typography>
+          <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="check-in-date">Check-In:</Label>
+              <Typography>
+                {format(new Date(accommodation.checkIn), "MMM dd, yyyy")}
+              </Typography>
+            </div>
+            <div>
+              <Label htmlFor="check-out-date">Check-Out:</Label>
+              <Typography>
+                {format(new Date(accommodation.checkOut), "MMM dd, yyyy")}
+              </Typography>
+            </div>
+          </div>
+          {accommodation.notes && (
+            <div className="mb-4">
+              <Label htmlFor="notes">Notes:</Label>
+              <Typography>{accommodation.notes}</Typography>
+            </div>
+          )}
+          {accommodation.phoneNumber && (
+            <div className="mb-4">
+              <Label htmlFor="phone-number">Phone:</Label>
+              <Typography>{accommodation.phoneNumber}</Typography>
+            </div>
+          )}
+          {accommodation.website && (
+            <div className="mb-4 flex flex-col">
+              <Label htmlFor="website">Website: </Label>
+              <a
+                href={accommodation.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {accommodation.name} Website
               </a>
-            </Button>
+            </div>
+          )}
+          <div className="mt-2 flex justify-end">
+            {editTripButton}
+            <DeleteAccommodationButton accId={accommodation.id} />
           </div>
-        )}
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -197,14 +203,11 @@ export default async function TripDetailsPage({
         <div className="flex-col">
           <div className="w-[450px]">{tripInfo}</div>
           <div>
-            <ItineraryBlock trip={trip} itineraries={trip?.itineraries} />
+            <ItineraryBlock trip={trip} itineraries={trip.itineraries} />
           </div>
         </div>
         <div>
-          <AccommodationList
-            tripId={trip?.id}
-            accommodations={accommodations}
-          />
+          <AccommodationList tripId={trip.id} accommodations={accommodations} />
         </div>
       </div>
     </main>
