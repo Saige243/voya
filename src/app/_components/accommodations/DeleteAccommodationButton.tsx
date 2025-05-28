@@ -39,6 +39,7 @@ export function DeleteAccommodationButton({
   return (
     <Button onClick={handleDelete} disabled={isPending} variant="ghost">
       <Icon name="Trash" color={isPending ? "gray" : "red"} size="20" />
+      <span className="text-red-500">Delete Accommodation</span>
     </Button>
   );
 }
