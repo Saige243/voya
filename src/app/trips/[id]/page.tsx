@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { DeleteItineraryButton } from "~/app/_components/itineraries/DeleteItineraryButton";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 type ItineraryBlockProps = {
   trip: Trip | null;
