@@ -12,6 +12,11 @@ import { Typography } from "~/app/_components/common/Typography";
 import BackButton from "../../_components/trips/BackButton";
 import { DeleteTripButton } from "~/app/_components/trips/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -47,19 +52,27 @@ export default async function TripDetailsPage({
     redirect("/");
   }
 
-  const editButtons = (
-    <div className="flex items-center">
-      <a href={`/trips/${trip.id}/edit`}>
-        <Button variant="ghost">
-          <Icon
-            name="Pencil"
-            className="text-black dark:text-white"
-            size="20"
-          />
+  const editTripButton = (tripId: number) => (
+    <a href={`/trips/${tripId}/edit`}>
+      <Button variant="ghost">
+        <Icon name="Pencil" className="text-black dark:text-white" size="20" />
+        Edit
+      </Button>
+    </a>
+  );
+
+  const menu = (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" className="p-2">
+          <Icon name="Menu" className="text-black dark:text-white" size="20" />
         </Button>
-      </a>
-      <DeleteTripButton id={trip.id} />
-    </div>
+      </PopoverTrigger>
+      <PopoverContent className="flex w-fit flex-col p-2">
+        {editTripButton(trip.id)}
+        <DeleteTripButton id={trip.id} />
+      </PopoverContent>
+    </Popover>
   );
 
   const tripInfo = (
@@ -90,7 +103,7 @@ export default async function TripDetailsPage({
             </Typography>
           </div>
         </div>
-        <div className="mt-8 flex justify-end">{editButtons}</div>
+        <div className="mt-8 flex justify-end">{menu}</div>
       </CardContent>
     </Card>
   );
@@ -126,18 +139,6 @@ export default async function TripDetailsPage({
     accommodation: Accommodation;
     tripId: number;
   }) {
-    const editTripButton = (
-      <a href={`/trips/${tripId}/edit`}>
-        <Button variant="ghost">
-          <Icon
-            name="Pencil"
-            className="text-black dark:text-white"
-            size="20"
-          />
-        </Button>
-      </a>
-    );
-
     return (
       <Card>
         <CardContent>
@@ -185,7 +186,7 @@ export default async function TripDetailsPage({
             </div>
           )}
           <div className="mt-2 flex justify-end">
-            {editTripButton}
+            {editTripButton(tripId)}
             <DeleteAccommodationButton accId={accommodation.id} />
           </div>
         </CardContent>
