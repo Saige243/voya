@@ -20,7 +20,7 @@ import { DeleteItineraryButton } from "~/app/_components/itineraries/DeleteItine
 import { type ReactNode } from "react";
 
 type ItineraryBlockProps = {
-  trip: Trip | null;
+  trip: Trip;
   itineraries: Itinerary[] | null;
 };
 
@@ -131,7 +131,7 @@ export default async function TripDetailsPage({
                 )}
                 <div className="mt-4 flex justify-end">
                   <CardMenu>
-                    {editTripButton(itinerary.id)}
+                    {editTripButton(trip.id)}
                     <DeleteItineraryButton id={itinerary.id} />
                   </CardMenu>
                 </div>
