@@ -3,11 +3,11 @@
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { createTrip } from "../../trips/actions/createTrip";
-import { TextInput } from "~/app/_components/common/TextInput";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { parse } from "date-fns";
+import { Input } from "~/components/ui/input";
 
 type FormData = {
   title: string;
@@ -69,7 +69,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     >
       <div>
         <Label htmlFor="title">Title:</Label>
-        <TextInput
+        <Input
           id="title"
           type="text"
           placeholder="Enter trip title"
@@ -82,7 +82,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
       </div>
       <div>
         <Label htmlFor="destination">Destination:</Label>
-        <TextInput
+        <Input
           type="text"
           id="destination"
           placeholder="Enter destination"
@@ -95,7 +95,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
       </div>
       <div>
         <Label htmlFor="description">Description:</Label>
-        <TextInput
+        <Input
           id="description"
           placeholder="Enter trip description"
           className="w-full dark:bg-white"
