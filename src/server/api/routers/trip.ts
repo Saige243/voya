@@ -6,7 +6,6 @@ type TripWithRelations = Prisma.TripGetPayload<{
   include: {
     itineraries: true;
     accommodations: true;
-    activities: true;
   };
 }>;
 
@@ -18,7 +17,7 @@ export const tripRouter = createTRPCRouter({
         destination: z.string().min(1),
         startDate: z.date(),
         endDate: z.date(),
-        description: z.string(),
+        description: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }): Promise<TripWithRelations> => {
@@ -28,13 +27,12 @@ export const tripRouter = createTRPCRouter({
           destination: input.destination,
           startDate: input.startDate,
           endDate: input.endDate,
-          description: input.description,
+          description: input.description ?? null,
           userId: ctx.session.user.id,
         },
         include: {
           itineraries: true,
           accommodations: true,
-          activities: true,
         },
       });
       return trip;
@@ -46,7 +44,6 @@ export const tripRouter = createTRPCRouter({
       include: {
         itineraries: true,
         accommodations: true,
-        activities: true,
       },
     });
     return allTrips;
@@ -60,7 +57,6 @@ export const tripRouter = createTRPCRouter({
         include: {
           itineraries: true,
           accommodations: true,
-          activities: true,
         },
       });
     }),

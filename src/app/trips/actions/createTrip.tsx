@@ -15,16 +15,21 @@ export async function createTrip({
     destination: yup.string().required("Destination is required"),
     startDate: yup.date().required("Start Date is required"),
     endDate: yup.date().required("End Date is required"),
-    description: yup.string().required("Description is required"),
+    description: yup.string().optional(),
     userId: yup.string().required("User ID is required"),
   });
 
   try {
     await validationSchema.validate(tripData, { abortEarly: false });
 
+    const normalizedTripData = {
+      ...tripData,
+      description: tripData.description ?? undefined, // convert null to undefined
+    };
+
     console.log("CREATE TRIP", tripData);
 
-    const createdTrip = await api.trip.create(tripData);
+    const createdTrip = await api.trip.create(normalizedTripData);
 
     if (!createTrip) {
       throw new Error("Failed to update the trip");

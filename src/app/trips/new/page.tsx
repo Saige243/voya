@@ -1,5 +1,5 @@
 import { getServerAuthSession } from "~/server/auth";
-import NewTripForm from "../../_components/trips/NewTripForm";
+import NewTripForm from "~/components/trips/NewTripForm";
 import { redirect } from "next/navigation";
 
 export default async function NewTrip() {
@@ -11,7 +11,7 @@ export default async function NewTrip() {
   if (!session?.user) return null;
 
   return (
-    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 text-white">
+    <main className="flex min-h-screen flex-col place-items-center bg-gradient-to-b p-6 text-white">
       <NewTripForm userId={session.user.id} />
     </main>
   );
