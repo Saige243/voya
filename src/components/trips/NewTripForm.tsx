@@ -13,8 +13,8 @@ import { Input } from "~/components/ui/input";
 type FormData = {
   title: string;
   destination: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   description?: string;
   userId: string;
 };
@@ -22,9 +22,24 @@ type FormData = {
 const validationSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
   destination: yup.string().required("Destination is required"),
+  startDate: yup.date().required("Start Date is required"),
+  endDate: yup
+    .date()
+    .required("End Date is required")
+    .min(yup.ref("startDate"), "End Date cannot be before Start Date")
+    .test(
+      "max-trip-length",
+      "Trip cannot be longer than 30 days",
+      function (value) {
+        const { startDate } = this.parent as { startDate?: Date };
+        if (!value || !startDate) return true;
+
+        const diff =
+          (value.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        return diff <= 30;
+      },
+    ),
   description: yup.string().optional(),
-  startDate: yup.string().required("Start Date is required"),
-  endDate: yup.string().required("End Date is required"),
   userId: yup.string().required("User ID is required"),
 });
 
@@ -39,20 +54,18 @@ const NewTripForm = ({ userId }: { userId: string }) => {
   });
 
   async function onSubmit(formData: FormData) {
-    const startDate = parse(formData.startDate, "yyyy-MM-dd", new Date());
-    const endDate = parse(formData.endDate, "yyyy-MM-dd", new Date());
-
     const tripData = {
       title: formData.title,
       destination: formData.destination,
       description: formData.description ?? null,
-      startDate,
-      endDate,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
       userId,
     };
 
     console.log("tripData", tripData);
     console.log("errors", errors);
+
     try {
       await createTrip({
         tripData,
@@ -124,11 +137,11 @@ const NewTripForm = ({ userId }: { userId: string }) => {
               id="startDate"
               className="input input-bordered w-full dark:bg-white"
               style={{ colorScheme: "light" }}
-              {...register("startDate", { required: true })}
+              {...register("startDate", {
+                required: true,
+                valueAsDate: true,
+              })}
             />
-            {errors.startDate && (
-              <p className="text-sm text-red-500">{errors.startDate.message}</p>
-            )}
           </div>
           <div>
             <Label htmlFor="endDate">End Date:</Label>
@@ -137,7 +150,10 @@ const NewTripForm = ({ userId }: { userId: string }) => {
               id="endDate"
               className="input input-bordered w-full dark:bg-white"
               style={{ colorScheme: "light" }}
-              {...register("endDate", { required: true })}
+              {...register("endDate", {
+                required: true,
+                valueAsDate: true,
+              })}
             />
             {errors.endDate && (
               <p className="text-sm text-red-500">{errors.endDate.message}</p>
