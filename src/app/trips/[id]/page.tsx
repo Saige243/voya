@@ -252,21 +252,31 @@ export default async function TripDetailsPage({
     const endDate = trip.endDate || new Date();
     const dates = formatTripDates(new Date(startDate), new Date(endDate));
     return (
-      <div className="flex flex-col space-y-4">
-        {dates.map((date) => (
-          <div
-            key={date.toISOString()}
-            className="rounded-lg border bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
-          >
-            <Typography
-              variant="heading2"
-              className="text-black dark:text-white"
+      <div>
+        <div>
+          <Typography variant="heading2" className="text-black dark:text-white">
+            Daily Itinerary
+          </Typography>
+          <Typography className="pb-2 text-gray-600 dark:text-gray-400">
+            {dates.length} day{dates.length > 1 ? "s" : ""}
+          </Typography>
+        </div>
+        <div className="flex flex-col space-y-4">
+          {dates.map((date) => (
+            <div
+              key={date.toISOString()}
+              className="rounded-lg border bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
             >
-              {format(date, "EEEE, MMMM dd, yyyy")}
-            </Typography>
-            {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
-          </div>
-        ))}
+              <Typography
+                variant="heading2"
+                className="text-black dark:text-white"
+              >
+                {format(date, "EEEE, MMMM dd, yyyy")}
+              </Typography>
+              {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
