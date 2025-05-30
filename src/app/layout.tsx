@@ -1,9 +1,9 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "./_components/common/Navbar";
+import Navbar from "../components/common/Navbar";
 import { getServerAuthSession } from "~/server/auth";
-import SessionWrapper from "./_components/auth/SessionWrapper";
+import SessionWrapper from "../components/auth/SessionWrapper";
 
 export const metadata = {
   title: "Welcome to Voya",

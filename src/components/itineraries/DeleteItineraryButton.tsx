@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Button } from "~/components/ui/button";
-import { Icon } from "~/app/_components/common/Icon";
+import { Icon } from "~/components/common/Icon";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 

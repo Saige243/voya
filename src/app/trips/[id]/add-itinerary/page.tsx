@@ -3,7 +3,7 @@ import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import BackButton from "../../../_components/trips/BackButton";
-import ItineraryForm from "../../../_components/itineraries/ItineraryForm";
+import ItineraryForm from "../../../../components/itineraries/ItineraryForm";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();

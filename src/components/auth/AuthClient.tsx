@@ -14,11 +14,8 @@ import {
   CardDescription,
   CardContent,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Toast } from "~/app/_components/common/Toast";
-import { useState } from "react";
+// import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
 
 export default function AuthClient({
   providers,
@@ -28,16 +25,16 @@ export default function AuthClient({
     ClientSafeProvider
   > | null;
 }) {
-  const [showToast, setShowToast] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(true);
+  // const [showToast, setShowToast] = useState(false);
+  // const [isSignIn, setIsSignIn] = useState(true);
 
   if (!providers) {
     return null;
   }
 
-  const handleSignIn = () => {
-    setShowToast(true);
-  };
+  // const handleSignIn = () => {
+  //   setShowToast(true);
+  // };
 
   // const signInForm = (
   //   <div className="py-4">

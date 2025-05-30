@@ -3,12 +3,12 @@ import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "../../../_components/trips/EditTripForm";
-import AddAccommodationsForm from "../../../_components/accommodations/AddAccommodationsForm";
-import AccommodationsForm from "../../../_components/accommodations/AccommodationsForm";
+import AddAccommodationsForm from "../../../../components/accommodations/AddAccommodationsForm";
+import AccommodationsForm from "../../../../components/accommodations/AccommodationsForm";
 import BackButton from "../../../_components/trips/BackButton";
-import ItineraryForm from "../../../_components/itineraries/ItineraryForm";
+import ItineraryForm from "../../../../components/itineraries/ItineraryForm";
 import { type Accommodation } from "@prisma/client";
-import ShowAccommodationFormButton from "~/app/_components/accommodations/ShowAccommodationFormButton";
+import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();

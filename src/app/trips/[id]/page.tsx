@@ -2,21 +2,21 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import { Icon } from "~/app/_components/common/Icon";
+import { Icon } from "~/components/common/Icon";
 import { type Itinerary, type Trip, type Accommodation } from "@prisma/client";
-import { DeleteAccommodationButton } from "~/app/_components/accommodations/DeleteAccommodationButton";
+import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
-import { Typography } from "~/app/_components/common/Typography";
-import BackButton from "../../_components/trips/BackButton";
-import { DeleteTripButton } from "~/app/_components/trips/DeleteTripButton";
+import { Typography } from "~/components/common/Typography";
+import BackButton from "~/components/trips/BackButton";
+import { DeleteTripButton } from "~/components/trips/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { DeleteItineraryButton } from "~/app/_components/itineraries/DeleteItineraryButton";
+import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
 import { type ReactNode } from "react";
 
 type ItineraryBlockProps = {
