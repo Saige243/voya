@@ -18,6 +18,12 @@ import {
 } from "~/components/ui/popover";
 // import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
 import { type ReactNode } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+} from "~/components/ui/accordion";
+import { AccordionTrigger } from "@radix-ui/react-accordion";
 
 // type ItineraryBlockProps = {
 //   trip: Trip;
@@ -263,18 +269,33 @@ export default async function TripDetailsPage({
         </div>
         <div className="flex flex-col space-y-4">
           {dates.map((date) => (
-            <div
-              key={date.toISOString()}
-              className="rounded-lg border bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
-            >
-              <Typography
-                variant="heading2"
-                className="text-black dark:text-white"
-              >
-                {format(date, "EEEE, MMMM dd, yyyy")}
-              </Typography>
-              {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
-            </div>
+            <Card key={date.toISOString()}>
+              <CardContent>
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full"
+                  defaultValue="item-1"
+                >
+                  <AccordionItem value={date.toISOString()}>
+                    <AccordionTrigger>
+                      <Typography
+                        variant="heading2"
+                        className="text-black dark:text-white"
+                      >
+                        {format(date, "EEEE, MMMM dd")}
+                      </Typography>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <Typography className="text-gray-600 dark:text-gray-400">
+                        No itinerary planned for this day.
+                      </Typography>
+                    </AccordionContent>
+                  </AccordionItem>
+                  {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
+                </Accordion>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
