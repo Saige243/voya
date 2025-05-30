@@ -3,7 +3,7 @@ import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/components/common/Icon";
-import { type Itinerary, type Trip, type Accommodation } from "@prisma/client";
+import { type Accommodation } from "@prisma/client";
 import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
@@ -16,13 +16,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
+// import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
 import { type ReactNode } from "react";
 
-type ItineraryBlockProps = {
-  trip: Trip;
-  itineraries: Itinerary[] | null;
-};
+// type ItineraryBlockProps = {
+//   trip: Trip;
+//   itineraries: Itinerary[] | null;
+// };
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -82,76 +82,76 @@ export default async function TripDetailsPage({
     );
   }
 
-  function ItineraryBlock({ trip, itineraries }: ItineraryBlockProps) {
-    return (
-      <div className="w-full">
-        {itineraries && itineraries.length > 0 ? (
-          <div className="space-y-4">
-            {itineraries.map((itinerary) => (
-              <div
-                key={itinerary.id}
-                className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-              >
-                <div className="flex items-center justify-between">
-                  <Typography variant="heading1">{itinerary.title}</Typography>
-                </div>
-                <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor={`datetime-${itinerary.id}`}>Date:</Label>
-                    <Typography>
-                      {format(
-                        new Date(itinerary.datetime as string | number | Date),
-                        "MMM dd, yyyy",
-                      )}
-                    </Typography>
-                  </div>
-                  <div>
-                    <Label htmlFor={`datetime-${itinerary.id}`}>Time:</Label>
-                    <Typography>
-                      {format(
-                        new Date(itinerary.datetime as string | number | Date),
-                        "hh:mm a",
-                      )}
-                    </Typography>
-                  </div>
-                </div>
-                {itinerary.location && (
-                  <div className="mb-4">
-                    <Label htmlFor={`location-${itinerary.id}`}>
-                      Location:
-                    </Label>
-                    <Typography>{itinerary.location}</Typography>
-                  </div>
-                )}
-                {itinerary.notes && (
-                  <div className="mb-4">
-                    <Label htmlFor={`notes-${itinerary.id}`}>Notes:</Label>
-                    <Typography>{itinerary.notes}</Typography>
-                  </div>
-                )}
-                <div className="mt-4 flex justify-end">
-                  <CardMenu>
-                    {editTripButton(trip.id)}
-                    <DeleteItineraryButton id={itinerary.id} />
-                  </CardMenu>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center">
-            <p className="text-gray-600">No itineraries!</p>
-            <a
-              href={`/trips/${trip?.id}/add-itinerary`}
-              className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              Add Itinerary
-            </a>
-          </div>
-        )}
-      </div>
-    );
-  }
+  // function ItineraryBlock({ trip, itineraries }: ItineraryBlockProps) {
+  //   return (
+  //     <div className="w-full">
+  //       {itineraries && itineraries.length > 0 ? (
+  //         <div className="space-y-4">
+  //           {itineraries.map((itinerary) => (
+  //             <div
+  //               key={itinerary.id}
+  //               className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+  //             >
+  //               <div className="flex items-center justify-between">
+  //                 <Typography variant="heading1">{itinerary.title}</Typography>
+  //               </div>
+  //               <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+  //                 <div>
+  //                   <Label htmlFor={`datetime-${itinerary.id}`}>Date:</Label>
+  //                   <Typography>
+  //                     {format(
+  //                       new Date(itinerary.datetime as string | number | Date),
+  //                       "MMM dd, yyyy",
+  //                     )}
+  //        `           </Typography>
+  //                 </div>
+  //                 <div>
+  //                   <Label htmlFor={`datetime-${itinerary.id}`}>Time:</Label>
+  //                   <Typography>
+  //                     {format(
+  //                       new Date(itinerary.datetime as string | number | Date),
+  //                       "hh:mm a",
+  //                     )}
+  //                   </Typography>
+  //                 </div>
+  //               </div>
+  //               {itinerary.location && (
+  //                 <div className="mb-4">
+  //                   <Label htmlFor={`location-${itinerary.id}`}>
+  //                     Location:
+  //                   </Label>
+  //                   <Typography>{itinerary.location}</Typography>
+  //                 </div>
+  //               )}
+  //               {itinerary.notes && (
+  //                 <div className="mb-4">
+  //                   <Label htmlFor={`notes-${itinerary.id}`}>Notes:</Label>
+  //                   <Typography>{itinerary.notes}</Typography>
+  //                 </div>
+  //               )}
+  //               <div className="mt-4 flex justify-end">
+  //                 <CardMenu>
+  //                   {editTripButton(trip.id)}
+  //                   <DeleteItineraryButton id={itinerary.id} />
+  //                 </CardMenu>
+  //               </div>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       ) : (
+  //         <div className="text-center">
+  //           <p className="text-gray-600">No itineraries!</p>
+  //           <a
+  //             href={`/trips/${trip?.id}/add-itinerary`}
+  //             className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+  //           >
+  //             Add Itinerary
+  //           </a>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   function AccommodationCard({
     accommodation,
@@ -236,6 +236,41 @@ export default async function TripDetailsPage({
     );
   }
 
+  function formatTripDates(startDate: Date, endDate: Date) {
+    const date = new Date(startDate);
+    const dates: Date[] = [];
+
+    while (date <= endDate) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  }
+
+  function DailyItinerary() {
+    const startDate = trip.startDate;
+    const endDate = trip.endDate || new Date();
+    const dates = formatTripDates(new Date(startDate), new Date(endDate));
+    return (
+      <div className="flex flex-col space-y-4">
+        {dates.map((date) => (
+          <div
+            key={date.toISOString()}
+            className="rounded-lg border bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+          >
+            <Typography
+              variant="heading2"
+              className="text-black dark:text-white"
+            >
+              {format(date, "EEEE, MMMM dd, yyyy")}
+            </Typography>
+            {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const editTripButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
       <Button variant="ghost">
@@ -292,12 +327,13 @@ export default async function TripDetailsPage({
       <div className="flex flex-col gap-8 pt-12 md:flex-row">
         <div className="flex-col">
           <div className="w-[450px]">{tripDetails}</div>
-          <div>
+          {/* <div>
             <ItineraryBlock trip={trip} itineraries={trip.itineraries} />
-          </div>
+          </div> */}
+          <AccommodationList tripId={trip.id} accommodations={accommodations} />
         </div>
         <div>
-          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+          <DailyItinerary />
         </div>
       </div>
     </main>
