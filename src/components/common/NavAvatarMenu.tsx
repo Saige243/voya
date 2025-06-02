@@ -13,43 +13,39 @@ function NavAvatarMenu() {
   const lastName = session?.user?.name?.split(" ")[1];
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="secondary"
-          className="flex items-center gap-2 bg-white p-5 px-2 text-gray-700 shadow-md"
+    <>
+      {/* <Button
+        variant="secondary"
+        className="flex items-center gap-2  p-5 px-2 text-gray-700 shadow-md"
+      > */}
+      <div className="flex items-center py-3">
+        <Avatar className="h-8 w-8">
+          <AvatarImage alt="avatar" src={session?.user.image ?? ""} />
+          <AvatarFallback className="text-sm">
+            {firstName?.charAt(0)}
+            {lastName?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
+      </div>
+      <div>
+        <p>{firstName}</p>
+      </div>
+      {/* </Button> */}
+      {/* <div className="flex flex-col gap-1">
+        <a
+          href="/profile"
+          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
         >
-          <div className="flex items-center py-3">
-            <Avatar className="h-8 w-8">
-              <AvatarImage alt="avatar" src={session?.user.image ?? ""} />
-              <AvatarFallback className="text-sm">
-                {firstName?.charAt(0)}
-                {lastName?.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-          <div>
-            <p>{firstName}</p>
-          </div>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-40 p-2">
-        <div className="flex flex-col gap-1">
-          <a
-            href="/profile"
-            className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            Profile
-          </a>
-          <button
-            onClick={() => signOut()}
-            className="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-          >
-            Sign out
-          </button>
-        </div>
-      </PopoverContent>
-    </Popover>
+          Profile
+        </a>
+        <button
+          onClick={() => signOut()}
+          className="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+        >
+          Sign out
+        </button>
+      </div> */}
+    </>
   );
 }
 
