@@ -253,55 +253,6 @@ export default async function TripDetailsPage({
     return dates;
   }
 
-  function DailyItinerary() {
-    const startDate = trip.startDate;
-    const endDate = trip.endDate || new Date();
-    const dates = formatTripDates(new Date(startDate), new Date(endDate));
-    return (
-      <div>
-        <div>
-          <Typography variant="heading2" className="text-black dark:text-white">
-            Daily Itinerary
-          </Typography>
-          <Typography className="pb-2 text-gray-600 dark:text-gray-400">
-            {dates.length} day{dates.length > 1 ? "s" : ""}
-          </Typography>
-        </div>
-        <div className="flex flex-col space-y-4">
-          {dates.map((date) => (
-            <Card key={date.toISOString()}>
-              <CardContent>
-                <Accordion
-                  type="single"
-                  collapsible
-                  className="w-full"
-                  defaultValue="item-1"
-                >
-                  <AccordionItem value={date.toISOString()}>
-                    <AccordionTrigger>
-                      <Typography
-                        variant="heading2"
-                        className="text-black dark:text-white"
-                      >
-                        {format(date, "EEEE, MMMM dd")}
-                      </Typography>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <Typography className="text-gray-600 dark:text-gray-400">
-                        No itinerary planned for this day.
-                      </Typography>
-                    </AccordionContent>
-                  </AccordionItem>
-                  {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
-                </Accordion>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   const editTripButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
       <Button variant="ghost">
@@ -362,9 +313,6 @@ export default async function TripDetailsPage({
             <ItineraryBlock trip={trip} itineraries={trip.itineraries} />
           </div> */}
           <AccommodationList tripId={trip.id} accommodations={accommodations} />
-        </div>
-        <div>
-          <DailyItinerary />
         </div>
       </div>
     </main>
