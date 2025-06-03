@@ -21,11 +21,9 @@ import NavAvatarMenu from "../common/NavAvatarMenu";
 import { Separator } from "./separator";
 
 const items = [
-  { title: "Trip Home", url: "#", icon: Home },
-  { title: "Accommodations", url: "#", icon: Inbox },
+  { title: "Trip Home", url: "/", icon: Home },
+  // { title: "Accommodations", url: "#", icon: Inbox },
   { title: "Itinerary", url: "#", icon: Calendar },
-  { title: "Search", url: "#", icon: Search },
-  { title: "Settings", url: "#", icon: Settings },
 ];
 
 export function AppSidebar() {

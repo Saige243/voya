@@ -25,14 +25,16 @@ export default async function RootLayout({
       <body>
         <TRPCReactProvider>
           <SessionWrapper session={session}>
-            <SidebarProvider>
-              {/* {session && <Navbar />} */}
-              <AppSidebar />
-              <SidebarTrigger />
-              <div className="w-screen overflow-x-hidden bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5] px-12 text-white">
+            <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
+              <SidebarProvider>
+                {/* <div className="w-screen overflow-x-hidden px-12 text-white"> */}
+                {/* {session && <Navbar />} */}
+                <AppSidebar />
+                <SidebarTrigger />
                 {children}
-              </div>
-            </SidebarProvider>
+                {/* </div> */}
+              </SidebarProvider>
+            </div>
           </SessionWrapper>
         </TRPCReactProvider>
       </body>
