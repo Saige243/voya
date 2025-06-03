@@ -6,15 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "~/components/ui/dropdown-menu";
-import {
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-} from "lucide-react";
+import { Calendar, ChevronDown, ChevronUp, Home } from "lucide-react";
 
 import {
   Sidebar,
@@ -32,13 +24,48 @@ import { Separator } from "./separator";
 import { useParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem } from "./accordion";
 import { AccordionTrigger } from "@radix-ui/react-accordion";
-import React from "react";
+import React, { useEffect } from "react";
+import getTrip from "~/app/trips/actions/getTrip";
+import { format } from "date-fns";
 
 export function AppSidebar() {
   const params = useParams();
   const tripId = params.id as string;
   const tripUrl = `/trips/${tripId}/itinerary`;
   const [chevronDown, setChevronDown] = React.useState(false);
+  type Trip = Awaited<ReturnType<typeof getTrip>>;
+  const [trip, setTrip] = React.useState<Trip | null>(null);
+
+  useEffect(() => {
+    async function fetchTrip() {
+      const data = await getTrip(tripId);
+      setTrip(data);
+    }
+
+    if (tripId) {
+      fetchTrip().catch(console.error);
+    }
+  }, [tripId]);
+
+  function formatTripDates(startDate: Date, endDate: Date) {
+    const date = new Date(startDate);
+    const dates: Date[] = [];
+
+    while (date <= endDate) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  }
+
+  const startDate = trip?.startDate;
+  const endDate = trip?.endDate ?? new Date();
+  const dates =
+    startDate && endDate
+      ? formatTripDates(new Date(startDate), new Date(endDate))
+      : [];
+
+  console.log("Trip Dates:", dates);
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
@@ -95,7 +122,23 @@ export function AppSidebar() {
                     </AccordionTrigger>
 
                     <AccordionContent className="flex flex-col gap-2 pl-8">
-                      <a
+                      {dates.map((date, index) => (
+                        <a
+                          key={index}
+                          href={`${tripUrl}/day-${index + 1}`}
+                          className="text-sm hover:underline"
+                        >
+                          <span className="pr-1 text-gray-400">
+                            Day {index + 1}:
+                          </span>
+                          {format(date, "EEEE, MMMM d")}
+                        </a>
+                      ))}
+                      {/* Uncomment below to add static links for demo purposes */}
+                      {/* <a
+                        href={`${tripUrl}/day-1`}
+                        className="text-sm hover:underline"
+                      {/* <a
                         href={`${tripUrl}/day-1`}
                         className="text-sm hover:underline"
                       >
@@ -112,7 +155,7 @@ export function AppSidebar() {
                         className="text-sm hover:underline"
                       >
                         Day 3: Beach
-                      </a>
+                      </a> */}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
