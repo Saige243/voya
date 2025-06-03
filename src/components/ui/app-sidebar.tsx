@@ -27,6 +27,7 @@ import { AccordionTrigger } from "@radix-ui/react-accordion";
 import React, { useEffect } from "react";
 import getTrip from "~/app/trips/actions/getTrip";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export function AppSidebar() {
   const params = useParams();
@@ -104,22 +105,30 @@ export function AppSidebar() {
                     value="daily-itinerary"
                     className="cursor-pointer border-none"
                   >
-                    <AccordionTrigger asChild>
-                      <SidebarMenuButton
-                        asChild
-                        onClick={() => setChevronDown(!chevronDown)}
-                      >
-                        <div className="flex w-full items-center gap-2">
-                          <Calendar />
-                          <span>Daily Itinerary</span>
-                          {chevronDown ? (
-                            <ChevronDown className="ml-auto h-4 w-4" />
-                          ) : (
-                            <ChevronUp className="ml-auto h-4 w-4" />
-                          )}
-                        </div>
-                      </SidebarMenuButton>
-                    </AccordionTrigger>
+                    <Link
+                      href={{
+                        pathname: `/trips/${tripId}/itinerary`,
+                      }}
+                      className="flex items-center gap-2"
+                    >
+                      {" "}
+                      <AccordionTrigger asChild>
+                        <SidebarMenuButton
+                          asChild
+                          onClick={() => setChevronDown(!chevronDown)}
+                        >
+                          <div className="flex w-full items-center gap-2">
+                            <Calendar />
+                            <span>Daily Itinerary</span>
+                            {chevronDown ? (
+                              <ChevronUp className="ml-auto" />
+                            ) : (
+                              <ChevronDown className="ml-auto" />
+                            )}
+                          </div>
+                        </SidebarMenuButton>
+                      </AccordionTrigger>
+                    </Link>
 
                     <AccordionContent className="flex flex-col gap-2 pl-8">
                       {dates.map((date, index) => (
@@ -131,31 +140,9 @@ export function AppSidebar() {
                           <span className="pr-1 text-gray-400">
                             Day {index + 1}:
                           </span>
-                          {format(date, "EEEE, MMMM d")}
+                          {format(date, "EEE, MMMM d")}
                         </a>
                       ))}
-                      {/* Uncomment below to add static links for demo purposes */}
-                      {/* <a
-                        href={`${tripUrl}/day-1`}
-                        className="text-sm hover:underline"
-                      {/* <a
-                        href={`${tripUrl}/day-1`}
-                        className="text-sm hover:underline"
-                      >
-                        Day 1: Arrival
-                      </a>
-                      <a
-                        href={`${tripUrl}/day-2`}
-                        className="text-sm hover:underline"
-                      >
-                        Day 2: City Tour
-                      </a>
-                      <a
-                        href={`${tripUrl}/day-3`}
-                        className="text-sm hover:underline"
-                      >
-                        Day 3: Beach
-                      </a> */}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
