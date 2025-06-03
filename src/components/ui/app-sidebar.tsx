@@ -4,14 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "~/components/ui/dropdown-menu";
-import {
-  Calendar,
-  ChevronUp,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-} from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -25,12 +18,12 @@ import {
   SidebarMenuItem,
 } from "~/components/ui/sidebar";
 import NavAvatarMenu from "../common/NavAvatarMenu";
+import { Separator } from "./separator";
 
-// Menu items.
 const items = [
-  { title: "Home", url: "#", icon: Home },
-  { title: "Inbox", url: "#", icon: Inbox },
-  { title: "Calendar", url: "#", icon: Calendar },
+  { title: "Trip Home", url: "#", icon: Home },
+  { title: "Accommodations", url: "#", icon: Inbox },
+  { title: "Itinerary", url: "#", icon: Calendar },
   { title: "Search", url: "#", icon: Search },
   { title: "Settings", url: "#", icon: Settings },
 ];
@@ -38,7 +31,7 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-white p-2">
         <SidebarGroup>
           <SidebarGroupLabel>Voya</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -58,7 +51,8 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="pb-6">
+      <SidebarFooter className="bg-white pb-6">
+        <Separator className="mb-2" />
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
@@ -72,10 +66,9 @@ export function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="mb-4 w-[--radix-popper-anchor-width] bg-slate-50 p-4"
+                className="mb-4 w-[--radix-popper-anchor-width] p-4"
               >
                 <DropdownMenuItem>Account</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
