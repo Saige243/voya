@@ -29,7 +29,7 @@ export function AppSidebar() {
   const tripUrl = `/trips/${tripId}/itinerary`;
 
   const items = [
-    // { title: "Trip Home", url: "/", icon: Home },
+    { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
     { title: "Itinerary", url: tripUrl, icon: Calendar },
   ];
 
@@ -40,6 +40,15 @@ export function AppSidebar() {
           <SidebarGroupLabel>Voya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href={`/`} className="flex items-center gap-2">
+                    <Home />
+                    <span>Home</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <Separator className="my-2" />
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
