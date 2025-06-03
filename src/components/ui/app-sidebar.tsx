@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -19,14 +21,18 @@ import {
 } from "~/components/ui/sidebar";
 import NavAvatarMenu from "../common/NavAvatarMenu";
 import { Separator } from "./separator";
-
-const items = [
-  { title: "Trip Home", url: "/", icon: Home },
-  // { title: "Accommodations", url: "#", icon: Inbox },
-  { title: "Itinerary", url: "#", icon: Calendar },
-];
+import { useParams } from "next/navigation";
 
 export function AppSidebar() {
+  const params = useParams();
+  const tripId = params.id as string;
+  const tripUrl = `/trips/${tripId}/itinerary`;
+
+  const items = [
+    // { title: "Trip Home", url: "/", icon: Home },
+    { title: "Itinerary", url: tripUrl, icon: Calendar },
+  ];
+
   return (
     <Sidebar>
       <SidebarContent className="bg-white p-2">
