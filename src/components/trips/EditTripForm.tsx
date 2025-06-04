@@ -9,6 +9,7 @@ import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { type Trip } from "@prisma/client";
+import { updateTrip } from "~/app/trips/actions/updateTrip";
 
 type FormData = {
   title: string;
@@ -28,7 +29,7 @@ const validationSchema = yup.object().shape({
 
 const EditTripDetailsForm = ({
   trip,
-  // userId,
+  userId,
 }: {
   trip: Trip;
   userId: string;
@@ -45,7 +46,7 @@ const EditTripDetailsForm = ({
       destination: trip.destination,
       startDate: trip.startDate.toISOString().split("T")[0],
       endDate: trip.endDate.toISOString().split("T")[0],
-      description: trip.description,
+      description: trip.description ?? "",
     },
   });
 
@@ -55,7 +56,7 @@ const EditTripDetailsForm = ({
       destination: trip.destination,
       startDate: trip.startDate.toISOString().split("T")[0],
       endDate: trip.endDate.toISOString().split("T")[0],
-      description: trip.description,
+      description: trip.description ?? "",
     });
   }, [trip, reset]);
 
@@ -69,24 +70,27 @@ const EditTripDetailsForm = ({
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
 
-    // const newData = {
-    //   ...data,
-    //   startDate,
-    //   endDate,
-    // };
-    // console.log("New Data:", newData);
+    const newData = {
+      ...data,
+      startDate,
+      endDate,
+    };
 
-    // try {
-    //   await updateTrip({
-    //     formData: {
-    //       ...newData,
-    //       id: trip.id,
-    //       userId: userId,
-    //     },
-    //   });
-    // } catch (error) {
-    //   console.error("Error updating trip:", error);
-    // }
+    try {
+      await updateTrip({
+        formData: {
+          ...newData,
+          id: trip.id,
+          userId: userId,
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error updating trip:", error.message);
+      } else {
+        console.error("Error updating trip:", error);
+      }
+    }
   };
 
   return (
@@ -126,7 +130,7 @@ const EditTripDetailsForm = ({
           id="description"
           placeholder={!trip.description ? "Enter description" : ""}
           className="w-full dark:bg-white"
-          defaultValue={trip.description}
+          defaultValue={trip.description ?? ""}
           {...register("description", { required: true })}
         />
         {errors.description && (

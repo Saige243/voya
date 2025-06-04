@@ -1,7 +1,6 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "../components/common/Navbar";
 import { getServerAuthSession } from "~/server/auth";
 import SessionWrapper from "../components/auth/SessionWrapper";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
@@ -30,7 +29,6 @@ export default async function RootLayout({
                 <AppSidebar />
                 <SidebarTrigger />
                 <div className="w-screen overflow-x-hidden px-12 text-white">
-                  {/* {session && <Navbar />} */}
                   {children}
                 </div>
               </SidebarProvider>
