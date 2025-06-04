@@ -255,7 +255,7 @@ export default async function TripDetailsPage({
 
   const editTripButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
-      <Button variant="ghost">
+      <Button variant="ghost" className="w-full justify-start">
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
         Edit
       </Button>

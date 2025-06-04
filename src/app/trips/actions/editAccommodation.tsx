@@ -26,7 +26,10 @@ export async function editAccommodation({
 
     console.log("ADD ACCOMMODATION", formData);
 
-    const updatedAccommodation = await api.accommodation.update(formData);
+    const updatedAccommodation = await api.accommodation.update({
+      ...formData,
+      notes: formData.notes ?? undefined,
+    });
 
     if (!updatedAccommodation) {
       throw new Error("Failed to update the accommodation");
