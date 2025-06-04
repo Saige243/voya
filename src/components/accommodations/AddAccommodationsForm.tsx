@@ -15,28 +15,70 @@ type FormData = {
   location: string;
   checkIn: string;
   checkOut: string;
-  notes: string;
+  notes?: string;
   phoneNumber: string;
   website: string;
 };
 
-const validationSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  location: yup.string().required("Location is required"),
-  checkIn: yup.string().required("Check-In Date is required"),
-  checkOut: yup.string().required("Check-Out Date is required"),
-  notes: yup.string().required("Notes are required"),
-  phoneNumber: yup.string().required("Phone Number is required"),
-  website: yup.string().required("Website is required"),
-});
-
 const AddAccommodationsForm = ({
   trip,
   userId,
+  tripStartDate,
+  tripEndDate,
 }: {
   trip: Trip;
   userId: string;
+  tripStartDate?: Date;
+  tripEndDate?: Date;
 }) => {
+  const validationSchema = React.useMemo(
+    () =>
+      yup.object().shape({
+        name: yup.string().required("Name is required"),
+        location: yup.string().required("Location is required"),
+        checkIn: yup
+          .string()
+          .required("Check-In Date is required")
+          .test(
+            "check-in-after-trip-start",
+            "Check-In Date cannot be before trip start date",
+            function (value) {
+              if (!value || !tripStartDate) return false;
+              const checkInDate = new Date(value);
+              return checkInDate >= tripStartDate;
+            },
+          )
+          .test(
+            "check-in-before-check-out",
+            "Check-In Date cannot be after Check-Out Date",
+            function (value) {
+              const parent = this.parent as { checkOut?: string };
+              if (!value || !parent.checkOut) return true;
+              return new Date(value) <= new Date(parent.checkOut);
+            },
+          ),
+        checkOut: yup
+          .string()
+          .required("Check-Out Date is required")
+          .test(
+            "check-out-before-trip-end",
+            "Check-Out Date cannot be after trip end date",
+            function (value) {
+              if (!value || !tripEndDate) return false;
+              const checkOutDate = new Date(value);
+              return checkOutDate <= tripEndDate;
+            },
+          ),
+        notes: yup.string().optional(),
+        phoneNumber: yup.string().required("Phone Number is required"),
+        website: yup
+          .string()
+          .required("Website is required")
+          .url("Website must be a valid URL"),
+      }),
+    [tripStartDate, tripEndDate],
+  );
+
   const {
     register,
     handleSubmit,
@@ -57,16 +99,12 @@ const AddAccommodationsForm = ({
   const onSubmit = async (data: FormData) => {
     const checkIn = new Date(data.checkIn);
     const checkOut = new Date(data.checkOut);
-    console.log("Errors:", errors);
-    console.log("Data:", data);
-    console.log("TRIP:", trip);
 
     const newData = {
       ...data,
       checkIn,
       checkOut,
     };
-    console.log("New Data:", newData);
 
     try {
       await addAccommodation({
@@ -74,6 +112,7 @@ const AddAccommodationsForm = ({
           ...newData,
           tripId: trip.id,
           id: Number(userId),
+          notes: newData.notes ?? "",
         },
       });
     } catch (error) {
@@ -98,6 +137,9 @@ const AddAccommodationsForm = ({
             className="mt-1 w-full dark:bg-white"
             {...register("name")}
           />
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+          )}
         </div>
 
         <div>
@@ -110,6 +152,11 @@ const AddAccommodationsForm = ({
             placeholder="City, State, Country"
             className="mt-1 w-full dark:bg-white"
           />
+          {errors.location && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.location.message}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -124,6 +171,11 @@ const AddAccommodationsForm = ({
               {...register("checkIn")}
               style={{ colorScheme: "light" }}
             />
+            {errors.checkIn && (
+              <p className="mt-1 text-sm text-red-500">
+                {errors.checkIn.message}
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="checkOut" className="block text-sm text-gray-500">
@@ -135,6 +187,11 @@ const AddAccommodationsForm = ({
               {...register("checkOut")}
               style={{ colorScheme: "light" }}
             />
+            {errors.checkOut && (
+              <p className="mt-1 text-sm text-red-500">
+                {errors.checkOut.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -148,6 +205,9 @@ const AddAccommodationsForm = ({
             placeholder="Any additional notes"
             className="mt-1 w-full dark:bg-white"
           />
+          {errors.notes && (
+            <p className="mt-1 text-sm text-red-500">{errors.notes.message}</p>
+          )}
         </div>
 
         <div>
@@ -160,6 +220,11 @@ const AddAccommodationsForm = ({
             {...register("phoneNumber")}
             className="mt-1 w-full dark:bg-white"
           />
+          {errors.phoneNumber && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.phoneNumber.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -172,6 +237,11 @@ const AddAccommodationsForm = ({
             placeholder="www.hotel.com"
             className="mt-1 w-full dark:bg-white"
           />
+          {errors.website && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.website.message}
+            </p>
+          )}
         </div>
       </div>
 

@@ -35,7 +35,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   if (!trip) {
     return <div>Trip not found</div>;
   }
-
+  console.log("ACC PAGE IS RENDERING");
   const accommodations = trip.accommodations || [];
 
   const header = (

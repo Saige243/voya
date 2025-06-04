@@ -26,7 +26,10 @@ export async function addAccommodation({
 
     console.log("ADD ACCOMMODATION", formData);
 
-    const updatedTrip = await api.accommodation.create(formData);
+    const updatedTrip = await api.accommodation.create({
+      ...formData,
+      notes: formData.notes ?? "",
+    });
 
     if (!updatedTrip) {
       throw new Error("Failed to update the trip");
