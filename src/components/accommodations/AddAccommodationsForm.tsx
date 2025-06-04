@@ -23,14 +23,13 @@ type FormData = {
 const AddAccommodationsForm = ({
   trip,
   userId,
-  tripStartDate,
-  tripEndDate,
 }: {
   trip: Trip;
   userId: string;
-  tripStartDate?: Date;
-  tripEndDate?: Date;
 }) => {
+  const tripStartDate = trip.startDate.toLocaleDateString();
+  const tripEndDate = trip.endDate.toLocaleDateString();
+
   const validationSchema = React.useMemo(
     () =>
       yup.object().shape({
@@ -41,16 +40,16 @@ const AddAccommodationsForm = ({
           .required("Check-In Date is required")
           .test(
             "check-in-after-trip-start",
-            "Check-In Date cannot be before trip start date",
+            `Check-in date cannot be before trip start date (${tripStartDate ? tripStartDate : "N/A"})`,
             function (value) {
               if (!value || !tripStartDate) return false;
               const checkInDate = new Date(value);
-              return checkInDate >= tripStartDate;
+              return checkInDate >= new Date(trip.startDate);
             },
           )
           .test(
             "check-in-before-check-out",
-            "Check-In Date cannot be after Check-Out Date",
+            `Check-in date cannot be after check-out Date (${tripEndDate ? tripEndDate : "N/A"})`,
             function (value) {
               const parent = this.parent as { checkOut?: string };
               if (!value || !parent.checkOut) return true;
@@ -62,11 +61,11 @@ const AddAccommodationsForm = ({
           .required("Check-Out Date is required")
           .test(
             "check-out-before-trip-end",
-            "Check-Out Date cannot be after trip end date",
+            `Check-Out Date cannot be after trip end date (${tripEndDate ? tripEndDate : "N/A"})`,
             function (value) {
               if (!value || !tripEndDate) return false;
               const checkOutDate = new Date(value);
-              return checkOutDate <= tripEndDate;
+              return checkOutDate < new Date(trip.endDate);
             },
           ),
         notes: yup.string().optional(),
@@ -78,6 +77,8 @@ const AddAccommodationsForm = ({
       }),
     [tripStartDate, tripEndDate],
   );
+
+  console.log("Trip Start Date:", tripStartDate);
 
   const {
     register,
