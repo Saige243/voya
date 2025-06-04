@@ -4,9 +4,10 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import AddAccommodationsForm from "../../../../components/accommodations/AddAccommodationsForm";
 import AccommodationsForm from "../../../../components/accommodations/AccommodationsForm";
-import BackButton from "../../../_components/trips/BackButton";
+import BackButton from "~/components/trips/BackButton";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
+import * as yup from "yup";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
@@ -65,7 +66,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
         )}
         <div>
           <h2 className="flex content-center justify-center pb-2 pt-6 text-xl font-bold text-black dark:text-white">
-            Add Accommodations:
+            Additional Accommodations:
           </h2>
           <ShowAccommodationFormButton trip={trip} userId={session.user.id} />
         </div>

@@ -16,7 +16,7 @@ type FormData = {
   location: string;
   checkIn: string;
   checkOut: string;
-  notes: string;
+  notes?: string;
   phoneNumber: string;
   website: string;
 };
@@ -26,7 +26,7 @@ const validationSchema = yup.object().shape({
   location: yup.string().required("Location is required"),
   checkIn: yup.string().required("Check-In Date is required"),
   checkOut: yup.string().required("Check-Out Date is required"),
-  notes: yup.string().required("Notes are required"),
+  notes: yup.string().optional(),
   phoneNumber: yup.string().required("Phone Number is required"),
   website: yup.string().required("Website is required"),
 });
@@ -49,7 +49,7 @@ const AccommodationsForm = ({
       location: acc.location,
       checkIn: acc.checkIn.toISOString().split("T")[0],
       checkOut: acc.checkOut.toISOString().split("T")[0],
-      notes: acc.notes,
+      notes: acc.notes ?? "",
       phoneNumber: acc.phoneNumber,
       website: acc.website,
     },
@@ -66,6 +66,7 @@ const AccommodationsForm = ({
       ...data,
       checkIn,
       checkOut,
+      notes: data.notes ?? null,
     };
     console.log("New Data:", newData);
 

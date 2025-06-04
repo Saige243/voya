@@ -60,7 +60,7 @@ model Accommodation {
   location    String
   checkIn     DateTime
   checkOut    DateTime
-  notes       String
+  notes       String?
   createdAt   DateTime @default(now())
   phoneNumber String
   website     String
@@ -75,7 +75,7 @@ model Itinerary {
   tripId    Int
   datetime  DateTime
   location  String
-  notes     String
+  notes     String?
   createdAt DateTime   @default(now())
   ItineraryItem  ItineraryItem[]
   trip      Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
