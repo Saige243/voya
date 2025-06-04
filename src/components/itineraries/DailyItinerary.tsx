@@ -44,7 +44,7 @@ function DailyItinerary() {
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatTripDates(startDate, endDate);
   return (
-    <div>
+    <>
       <div>
         <Typography variant="heading2" className="text-black dark:text-white">
           Daily Itinerary
@@ -73,13 +73,12 @@ function DailyItinerary() {
                     </Typography>
                   </AccordionContent>
                 </AccordionItem>
-                {/* <ItineraryBlock trip={trip} itineraries={trip.itineraries} /> */}
               </Accordion>
             </CardContent>
           </Card>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

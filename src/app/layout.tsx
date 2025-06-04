@@ -27,12 +27,12 @@ export default async function RootLayout({
           <SessionWrapper session={session}>
             <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
               <SidebarProvider>
-                {/* <div className="w-screen overflow-x-hidden px-12 text-white"> */}
-                {/* {session && <Navbar />} */}
                 <AppSidebar />
                 <SidebarTrigger />
-                {children}
-                {/* </div> */}
+                <div className="w-screen overflow-x-hidden px-12 text-white">
+                  {/* {session && <Navbar />} */}
+                  {children}
+                </div>
               </SidebarProvider>
             </div>
           </SessionWrapper>

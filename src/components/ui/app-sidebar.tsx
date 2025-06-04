@@ -66,8 +66,6 @@ export function AppSidebar() {
       ? formatTripDates(new Date(startDate), new Date(endDate))
       : [];
 
-  console.log("Trip Dates:", dates);
-
   const items = [
     { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
     // { title: "Itinerary", url: tripUrl, icon: Calendar },
@@ -111,7 +109,6 @@ export function AppSidebar() {
                       }}
                       className="flex items-center gap-2"
                     >
-                      {" "}
                       <AccordionTrigger asChild>
                         <SidebarMenuButton
                           asChild
