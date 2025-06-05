@@ -1,4 +1,3 @@
-import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";

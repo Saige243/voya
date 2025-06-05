@@ -118,18 +118,21 @@ export function AppSidebar() {
                     </Link>
 
                     <AccordionContent className="flex flex-col gap-2 pl-8">
-                      {dates.map((date, index) => (
-                        <a
-                          key={index}
-                          href={`${tripUrl}/day-${index + 1}`}
-                          className="text-sm hover:underline"
-                        >
-                          <span className="pr-1 text-gray-400">
-                            Day {index + 1}:
-                          </span>
-                          {format(date, "EEE, MMMM d")}
-                        </a>
-                      ))}
+                      {dates.map((date, index) => {
+                        const formattedDate = format(date, "EEE, MMMM d");
+                        return (
+                          <Link
+                            key={index}
+                            href={`${tripUrl}/${index + 1}`}
+                            className="text-sm hover:underline"
+                          >
+                            <span className="pr-1 text-gray-400">
+                              Day {index + 1}:
+                            </span>
+                            {formattedDate}
+                          </Link>
+                        );
+                      })}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

@@ -5,20 +5,27 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "@radix-ui/react-accordion";
+} from "~/components/ui/accordion";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import getTrip from "~/app/trips/actions/getTrip";
 import { Typography } from "../common/Typography";
 import { Card, CardContent } from "../ui/card";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
+import { Link, Calendar, ChevronUp, ChevronDown } from "lucide-react";
+import { Button } from "../ui/button";
 
 function DailyItinerary() {
-  type Trip = Awaited<ReturnType<typeof getTrip>>;
-  const [trip, setTrip] = React.useState<Trip | null>(null);
   const params = useParams();
   const tripId = params.id as string;
+  type Trip = Awaited<ReturnType<typeof getTrip>>;
+  const [trip, setTrip] = React.useState<Trip | null>(null);
+  const [chevronDown, setChevronDown] = React.useState(false);
+
+  const dayIndex = parseInt(params.index as string) - 1;
+
+  const dateRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     async function fetchTrip() {
@@ -31,11 +38,61 @@ function DailyItinerary() {
     }
   }, [tripId]);
 
+  useEffect(() => {
+    if (dayIndex >= 0 && dateRefs.current[dayIndex]) {
+      dateRefs.current[dayIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [dayIndex, trip]);
+
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatStartAndEndDates(startDate, endDate);
+
+  function ItineraryAccordion() {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem
+          value="daily-itinerary"
+          className="cursor-pointer border-none"
+        >
+          <AccordionTrigger>
+            <div className="flex w-full items-center gap-2">
+              <Calendar />
+              <span>Daily Itinerary</span>
+            </div>
+          </AccordionTrigger>
+
+          <AccordionContent className="flex flex-col gap-2 pl-8">
+            {dates.map((date, index) => {
+              const formattedDate = format(date, "EEE, MMMM d");
+              return (
+                <Button
+                  variant="ghost"
+                  key={index}
+                  className="text-sm hover:underline"
+                  onClick={() => {
+                    dateRefs.current[index]?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }}
+                >
+                  <span className="pr-1 text-gray-400">Day {index + 1}:</span>
+                  {formattedDate}
+                </Button>
+              );
+            })}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
+
   return (
-    <>
+    <div className="flex flex-row space-x-6">
       <div>
         <Typography variant="heading2" className="text-black dark:text-white">
           Daily Itinerary
@@ -43,6 +100,7 @@ function DailyItinerary() {
         <Typography className="pb-2 text-gray-600 dark:text-gray-400">
           {dates.length} day{dates.length > 1 ? "s" : ""}
         </Typography>
+        <ItineraryAccordion />
       </div>
       <div className="flex flex-col space-y-4">
         {dates.map((date) => (
@@ -69,7 +127,7 @@ function DailyItinerary() {
           </Card>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
