@@ -28,6 +28,7 @@ import React, { useEffect } from "react";
 import getTrip from "~/app/trips/actions/getTrip";
 import { format } from "date-fns";
 import Link from "next/link";
+import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {
   const params = useParams();
@@ -48,22 +49,11 @@ export function AppSidebar() {
     }
   }, [tripId]);
 
-  function formatTripDates(startDate: Date, endDate: Date) {
-    const date = new Date(startDate);
-    const dates: Date[] = [];
-
-    while (date <= endDate) {
-      dates.push(new Date(date));
-      date.setDate(date.getDate() + 1);
-    }
-    return dates;
-  }
-
   const startDate = trip?.startDate;
   const endDate = trip?.endDate ?? new Date();
   const dates =
     startDate && endDate
-      ? formatTripDates(new Date(startDate), new Date(endDate))
+      ? formatStartAndEndDates(new Date(startDate), new Date(endDate))
       : [];
 
   const items = [

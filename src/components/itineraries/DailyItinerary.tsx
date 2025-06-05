@@ -12,23 +12,13 @@ import React, { useEffect } from "react";
 import getTrip from "~/app/trips/actions/getTrip";
 import { Typography } from "../common/Typography";
 import { Card, CardContent } from "../ui/card";
+import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 function DailyItinerary() {
   type Trip = Awaited<ReturnType<typeof getTrip>>;
   const [trip, setTrip] = React.useState<Trip | null>(null);
   const params = useParams();
   const tripId = params.id as string;
-
-  function formatTripDates(startDate: Date, endDate: Date) {
-    const date = new Date(startDate);
-    const dates: Date[] = [];
-
-    while (date <= endDate) {
-      dates.push(new Date(date));
-      date.setDate(date.getDate() + 1);
-    }
-    return dates;
-  }
 
   useEffect(() => {
     async function fetchTrip() {
@@ -40,9 +30,10 @@ function DailyItinerary() {
       fetchTrip().catch(console.error);
     }
   }, [tripId]);
+
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
-  const dates = formatTripDates(startDate, endDate);
+  const dates = formatStartAndEndDates(startDate, endDate);
   return (
     <>
       <div>

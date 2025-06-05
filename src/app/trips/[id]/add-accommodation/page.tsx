@@ -7,35 +7,21 @@ import AccommodationsForm from "../../../../components/accommodations/Accommodat
 import BackButton from "~/components/trips/BackButton";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
-import * as yup from "yup";
+import getTrip from "../../actions/getTrip";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {
   const session = await getServerAuthSession();
+  const tripId = params.id;
+  const trip = await getTrip(tripId);
 
   if (!session) {
     redirect("/");
   }
 
-  async function getTrip() {
-    "use server";
-    const { id } = params;
-    const tripId = parseInt(id);
-
-    const trip = await api.trip.getById({ id: tripId });
-    try {
-      console.log("trip", trip);
-      return trip;
-    } catch (error) {
-      throw new Error("Trip not found");
-    }
-  }
-
-  const trip = await getTrip();
-
   if (!trip) {
     return <div>Trip not found</div>;
   }
-  console.log("ACC PAGE IS RENDERING");
+
   const accommodations = trip.accommodations || [];
 
   const header = (

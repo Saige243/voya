@@ -242,17 +242,6 @@ export default async function TripDetailsPage({
     );
   }
 
-  function formatTripDates(startDate: Date, endDate: Date) {
-    const date = new Date(startDate);
-    const dates: Date[] = [];
-
-    while (date <= endDate) {
-      dates.push(new Date(date));
-      date.setDate(date.getDate() + 1);
-    }
-    return dates;
-  }
-
   const editTripButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
       <Button variant="ghost" className="w-full justify-start">
