@@ -7,7 +7,7 @@ import {
 import { format } from "date-fns";
 import React from "react";
 import { Typography } from "../common/Typography";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardHeader } from "../ui/card";
 
 interface DailyItineraryCardProps {
   date: Date;
@@ -26,7 +26,9 @@ function DailyItineraryCard({ date, i, onRefSet }: DailyItineraryCardProps) {
           defaultValue="item-1"
         >
           <AccordionItem value={date.toISOString()}>
-            <AccordionTrigger>{format(date, "EEE, MMMM d")}</AccordionTrigger>
+            <CardHeader>
+              <AccordionTrigger>{format(date, "EEE, MMMM d")}</AccordionTrigger>
+            </CardHeader>
             <AccordionContent>
               <Typography className="text-gray-600 dark:text-gray-400">
                 No events planned for this day.
