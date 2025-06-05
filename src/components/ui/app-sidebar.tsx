@@ -6,7 +6,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "~/components/ui/dropdown-menu";
-import { Calendar, ChevronDown, ChevronUp, Home } from "lucide-react";
+import {
+  Binoculars,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Home,
+  Plus,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -58,7 +65,11 @@ export function AppSidebar() {
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
-    // { title: "Itinerary", url: tripUrl, icon: Calendar },
+  ];
+
+  const itineraryItems = [
+    { title: "Daily Itinerary", url: tripUrl, icon: Binoculars },
+    { title: "Add Activity", url: `${tripUrl}/add-activity`, icon: Plus },
   ];
 
   return (
@@ -93,46 +104,34 @@ export function AppSidebar() {
                     value="daily-itinerary"
                     className="cursor-pointer border-none"
                   >
-                    <Link
-                      href={{
-                        pathname: `/trips/${tripId}/itinerary`,
-                      }}
-                      className="flex items-center gap-2"
-                    >
-                      <AccordionTrigger asChild>
-                        <SidebarMenuButton
-                          asChild
-                          onClick={() => setChevronDown(!chevronDown)}
-                        >
-                          <div className="flex w-full items-center gap-2">
-                            <Calendar />
-                            <span>Daily Itinerary</span>
-                            {chevronDown ? (
-                              <ChevronUp className="ml-auto" />
-                            ) : (
-                              <ChevronDown className="ml-auto" />
-                            )}
-                          </div>
-                        </SidebarMenuButton>
-                      </AccordionTrigger>
-                    </Link>
+                    <AccordionTrigger asChild>
+                      <SidebarMenuButton
+                        asChild
+                        onClick={() => setChevronDown(!chevronDown)}
+                      >
+                        <div className="flex w-full items-center gap-2">
+                          <Calendar />
+                          <span>Daily Itinerary</span>
+                          {chevronDown ? (
+                            <ChevronUp className="ml-auto" />
+                          ) : (
+                            <ChevronDown className="ml-auto" />
+                          )}
+                        </div>
+                      </SidebarMenuButton>
+                    </AccordionTrigger>
 
                     <AccordionContent className="flex flex-col gap-2 pl-8">
-                      {dates.map((date, index) => {
-                        const formattedDate = format(date, "EEE, MMMM d");
-                        return (
-                          <Link
-                            key={index}
-                            href={`${tripUrl}/${index + 1}`}
-                            className="text-sm hover:underline"
-                          >
-                            <span className="pr-1 text-gray-400">
-                              Day {index + 1}:
-                            </span>
-                            {formattedDate}
-                          </Link>
-                        );
-                      })}
+                      {itineraryItems.map((item) => (
+                        <a
+                          key={item.title}
+                          href={item.url}
+                          className="flex items-center gap-1 py-1 text-sm"
+                        >
+                          <item.icon height={18} className="text-gray-500" />
+                          <span>{item.title}</span>
+                        </a>
+                      ))}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

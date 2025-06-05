@@ -28,7 +28,7 @@ export default async function RootLayout({
               <SidebarProvider defaultOpen={false}>
                 <AppSidebar />
                 <SidebarTrigger />
-                <div className="w-screen overflow-x-hidden px-12 text-white">
+                <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
                   {children}
                 </div>
               </SidebarProvider>
