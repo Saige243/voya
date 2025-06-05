@@ -8,6 +8,8 @@ import { format } from "date-fns";
 import React from "react";
 import { Typography } from "../common/Typography";
 import { Card, CardContent, CardHeader } from "../ui/card";
+import { useRouter, usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 interface DailyItineraryCardProps {
   date: Date;
@@ -16,6 +18,14 @@ interface DailyItineraryCardProps {
 }
 
 function DailyItineraryCard({ date, i, onRefSet }: DailyItineraryCardProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleAddItineraryItem = () => {
+    const newPath = `${pathname}/add-itinerary-item`;
+    router.push(newPath);
+  };
+
   return (
     <Card className="w-[600px]" ref={(el) => onRefSet(i, el)}>
       <CardContent>
@@ -31,8 +41,15 @@ function DailyItineraryCard({ date, i, onRefSet }: DailyItineraryCardProps) {
             </CardHeader>
             <AccordionContent>
               <Typography className="text-gray-600 dark:text-gray-400">
-                No events planned for this day.
+                No itinerary items planned for this day.
               </Typography>
+              <Button
+                variant="outline"
+                onClick={handleAddItineraryItem}
+                className="mt-4 w-full"
+              >
+                Add Itinerary Item
+              </Button>
             </AccordionContent>
           </AccordionItem>
         </Accordion>

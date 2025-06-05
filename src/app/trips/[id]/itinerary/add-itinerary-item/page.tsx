@@ -2,10 +2,14 @@ import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import BackButton from "../../../_components/trips/BackButton";
-import ItineraryForm from "../../../../components/itineraries/ItineraryForm";
+import BackButton from "~/components/trips/BackButton";
+import ItineraryForm from "../../../../../components/itineraries/ItineraryForm";
 
-export default async function EditTrip({ params }: { params: { id: string } }) {
+export default async function AddItineraryItem({
+  params,
+}: {
+  params: { id: string };
+}) {
   const session = await getServerAuthSession();
 
   if (!session) {
@@ -43,7 +47,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     <Card>
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Add Itinerary:
+          Add Itinerary Item:
         </h2>
         <ItineraryForm trip={trip} />
       </CardContent>

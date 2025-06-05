@@ -90,7 +90,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     <Card>
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Add Itinerary:
+          Add Itinerary Item:
         </h2>
         <ItineraryForm trip={trip} />
       </CardContent>
