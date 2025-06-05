@@ -9,6 +9,8 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   async function addItinerary(formData: FormData) {
     "use server";
 
+    console.log("TRIPPPPP =>>>", trip.accommodations);
+
     const date = formData.get("datetime") as string;
 
     const itineraryData = {
@@ -18,8 +20,6 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       location: formData.get("location") as string,
       notes: formData.get("notes") as string,
     };
-
-    console.log("itinerary form data ======>", itineraryData);
 
     const addedItinerary = await api.itinerary.create(itineraryData);
 
@@ -32,7 +32,10 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   }
 
   return (
-    <form action={addItinerary} className="flex flex-col gap-3 text-black">
+    <form
+      action={addItinerary}
+      className="flex w-[500px] flex-col gap-3 text-black"
+    >
       <div>
         <Label htmlFor="title">Title:</Label>
         <Input
@@ -49,7 +52,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
           name="datetime"
           type="datetime-local"
           id="datetime"
-          className="input input-bordered w-full dark:bg-white"
+          className="input input-bordered flex w-full dark:bg-white"
           style={{ colorScheme: "light" }}
         />
       </div>
