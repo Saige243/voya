@@ -158,7 +158,11 @@ export function AppSidebar() {
                 side="top"
                 className="mb-4 w-[--radix-popper-anchor-width] p-4"
               >
-                <DropdownMenuItem>Account</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/profile" className="flex items-center gap-2">
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

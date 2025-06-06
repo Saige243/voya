@@ -9,9 +9,9 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   async function addItinerary(formData: FormData) {
     "use server";
 
-    console.log("TRIPPPPP =>>>", trip.accommodations);
-
     const date = formData.get("datetime") as string;
+    const tripStartDate = trip.startDate;
+    const tripEndDate = trip.endDate;
 
     const itineraryData = {
       tripId: trip.id,
