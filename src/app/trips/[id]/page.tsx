@@ -246,7 +246,7 @@ export default async function TripDetailsPage({
     <a href={`/trips/${tripId}/edit`}>
       <Button variant="ghost" className="w-full justify-start">
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
-        Edit
+        Edit Trip
       </Button>
     </a>
   );
