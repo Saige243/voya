@@ -75,6 +75,7 @@ const AddAccommodationsForm = ({
           .required("Website is required")
           .url("Website must be a valid URL"),
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [tripStartDate, tripEndDate],
   );
 
