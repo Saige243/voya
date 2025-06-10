@@ -18,12 +18,12 @@ import {
 } from "~/components/ui/popover";
 // import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
 import { type ReactNode } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-} from "~/components/ui/accordion";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+// } from "~/components/ui/accordion";
+// import { AccordionTrigger } from "@radix-ui/react-accordion";
 
 // type ItineraryBlockProps = {
 //   trip: Trip;
