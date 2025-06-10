@@ -10,8 +10,8 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
     "use server";
 
     const date = formData.get("datetime") as string;
-    const tripStartDate = trip.startDate;
-    const tripEndDate = trip.endDate;
+    // const tripStartDate = trip.startDate;
+    // const tripEndDate = trip.endDate;
 
     const itineraryData = {
       tripId: trip.id,
