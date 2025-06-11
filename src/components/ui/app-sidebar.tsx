@@ -31,37 +31,37 @@ import { Separator } from "./separator";
 import { useParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem } from "./accordion";
 import { AccordionTrigger } from "@radix-ui/react-accordion";
-import React, { useEffect } from "react";
-import getTrip from "~/app/trips/actions/getTrip";
-import { format } from "date-fns";
+import React from "react";
+// import getTrip from "~/app/trips/actions/getTrip";
+// import { format } from "date-fns";
 import Link from "next/link";
-import formatStartAndEndDates from "~/utils/formatStartandEndDates";
+// import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {
   const params = useParams();
   const tripId = params.id as string;
   const tripUrl = `/trips/${tripId}/itinerary`;
   const [chevronDown, setChevronDown] = React.useState(false);
-  type Trip = Awaited<ReturnType<typeof getTrip>>;
-  const [trip, setTrip] = React.useState<Trip | null>(null);
+  // type Trip = Awaited<ReturnType<typeof getTrip>>;
+  // const [trip, setTrip] = React.useState<Trip | null>(null);
 
-  useEffect(() => {
-    async function fetchTrip() {
-      const data = await getTrip(tripId);
-      setTrip(data);
-    }
+  // useEffect(() => {
+  //   async function fetchTrip() {
+  //     const data = await getTrip(tripId);
+  //     setTrip(data);
+  //   }
 
-    if (tripId) {
-      fetchTrip().catch(console.error);
-    }
-  }, [tripId]);
+  //   if (tripId) {
+  //     fetchTrip().catch(console.error);
+  //   }
+  // }, [tripId]);
 
-  const startDate = trip?.startDate;
-  const endDate = trip?.endDate ?? new Date();
-  const dates =
-    startDate && endDate
-      ? formatStartAndEndDates(new Date(startDate), new Date(endDate))
-      : [];
+  // const startDate = trip?.startDate;
+  // const endDate = trip?.endDate ?? new Date();
+  // // const dates =
+  //   startDate && endDate
+  //     ? formatStartAndEndDates(new Date(startDate), new Date(endDate))
+  //     : [];
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
