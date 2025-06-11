@@ -23,7 +23,10 @@ export async function updateTrip({
 
     console.log("UPDATE TRIP", formData);
 
-    const updatedTrip = await api.trip.update(formData);
+    const updatedTrip = await api.trip.update({
+      ...formData,
+      description: formData.description ?? undefined,
+    });
 
     if (!updatedTrip) {
       throw new Error("Failed to update the trip");
