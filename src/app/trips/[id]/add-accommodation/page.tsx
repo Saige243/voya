@@ -34,7 +34,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     <Card className="h-fit">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Edit Accommodations:
+          Add Accommodations:
         </h2>
         {accommodations.length > 0 ? (
           <>

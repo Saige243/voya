@@ -74,7 +74,7 @@ const AccommodationsForm = ({
         website: yup
           .string()
           .required("Website is required")
-          .url("Website must be a valid URL"),
+          .url("Website must be a valid URL (https://example.com)"),
       }),
     [tripStartDate, tripEndDate],
   );
