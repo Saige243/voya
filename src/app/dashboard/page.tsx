@@ -11,6 +11,8 @@ export default async function Dashboard() {
     redirect("/");
   }
 
+  console.log("Session:", session);
+
   const firstName = session?.user?.name?.split(" ")[0];
 
   const randomTravelPhrase =
