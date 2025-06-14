@@ -15,6 +15,7 @@ import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import DailyItineraryCard from "./DailyItineraryCard";
+import getItineraries from "~/app/trips/actions/getItineraries";
 
 function DailyItinerary() {
   const params = useParams();
