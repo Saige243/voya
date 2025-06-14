@@ -9,23 +9,15 @@ import {
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import React, { useCallback, useEffect, useRef } from "react";
-import getTrip from "~/app/trips/actions/getTrip";
 import { Typography } from "../common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
 import DailyItineraryCard from "./DailyItineraryCard";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 
 function DailyItinerary() {
   const params = useParams();
-  const tripId = params.id as string;
-  type Trip = Awaited<ReturnType<typeof getTrip>>;
-  const [trip, setTrip] = React.useState<Trip | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const { trip: newTrip } = useTrip();
-
-  console.log("NEW TRIP:", newTrip);
+  const { trip } = useTrip();
   const dayIndex = parseInt(params.index as string) - 1;
 
   const dateRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -38,31 +30,13 @@ function DailyItinerary() {
   );
 
   useEffect(() => {
-    async function fetchTrip() {
-      try {
-        setIsLoading(true);
-        const data = await getTrip(tripId);
-        setTrip(data);
-      } catch (error) {
-        console.error("Error fetching trip:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if (tripId) {
-      fetchTrip().catch(console.error);
-    }
-  }, [tripId]);
-
-  useEffect(() => {
-    if (dayIndex >= 0 && dateRefs.current[dayIndex] && !isLoading) {
+    if (dayIndex >= 0 && dateRefs.current[dayIndex]) {
       dateRefs.current[dayIndex]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [dayIndex, trip, isLoading]);
+  }, [dayIndex, trip]);
 
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
@@ -105,13 +79,13 @@ function DailyItinerary() {
     </div>
   );
 
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm dark:bg-black/50">
-        <Loader2 className="h-5 w-5 animate-spin" />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm dark:bg-black/50">
+  //       <Loader2 className="h-5 w-5 animate-spin" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col">
