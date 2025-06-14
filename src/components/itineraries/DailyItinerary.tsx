@@ -15,7 +15,7 @@ import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import DailyItineraryCard from "./DailyItineraryCard";
-import getItineraries from "~/app/trips/actions/getItineraries";
+import { useTrip } from "~/app/trips/contexts/TripContext";
 
 function DailyItinerary() {
   const params = useParams();
@@ -23,7 +23,9 @@ function DailyItinerary() {
   type Trip = Awaited<ReturnType<typeof getTrip>>;
   const [trip, setTrip] = React.useState<Trip | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { trip: newTrip } = useTrip();
 
+  console.log("NEW TRIP:", newTrip);
   const dayIndex = parseInt(params.index as string) - 1;
 
   const dateRefs = useRef<(HTMLDivElement | null)[]>([]);
