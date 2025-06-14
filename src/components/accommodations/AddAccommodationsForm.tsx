@@ -79,8 +79,6 @@ const AddAccommodationsForm = ({
     [tripStartDate, tripEndDate],
   );
 
-  console.log("Trip Start Date:", tripStartDate);
-
   const {
     register,
     handleSubmit,
