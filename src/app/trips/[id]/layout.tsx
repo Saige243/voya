@@ -13,10 +13,5 @@ export default async function TripLayout({
   console.log("params type:", typeof params.id);
   const trip = await getTrip(params.id);
 
-  return (
-    <>
-      {/* {children} */}
-      <TripProvider trip={trip}>{children}</TripProvider>
-    </>
-  );
+  return <TripProvider trip={trip}>{children}</TripProvider>;
 }
