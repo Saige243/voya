@@ -14,13 +14,20 @@ import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "../ui/button";
 import DailyItineraryCard from "./DailyItineraryCard";
 import { useTrip } from "~/app/trips/contexts/TripContext";
+import getItineraries from "~/app/trips/actions/getItineraries";
+import { type Itinerary } from "@prisma/client";
 
 function DailyItinerary() {
   const params = useParams();
   const { trip } = useTrip();
+  const [itineraries, setItineraries] = React.useState<Itinerary[]>([]);
   const dayIndex = parseInt(params.index as string) - 1;
 
   const dateRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  function toArray<T>(item: T | T[] | null | undefined): T[] {
+    return item == null ? [] : Array.isArray(item) ? item : [item];
+  }
 
   const handleRefSet = useCallback(
     (index: number, ref: HTMLDivElement | null) => {
@@ -37,6 +44,31 @@ function DailyItinerary() {
       });
     }
   }, [dayIndex, trip]);
+
+  useEffect(() => {
+    const fetchItineraries = async () => {
+      try {
+        const tripId = trip?.id;
+        if (tripId) {
+          const itineraries = await getItineraries(tripId.toString());
+          if (!itineraries) {
+            console.error(`No itineraries found for trip ID ${tripId}`);
+          }
+          setItineraries(toArray(itineraries));
+        } else {
+          console.error("Trip ID is not available");
+        }
+      } catch (error) {
+        console.error("Error fetching itineraries:", error);
+      }
+    };
+
+    void fetchItineraries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trip]);
+
+  console.log("Trip:", trip);
+  console.log("Itineraries:", itineraries);
 
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
@@ -103,6 +135,7 @@ function DailyItinerary() {
           {dates.map((date, i) => (
             <DailyItineraryCard
               key={i}
+              itineraries={itineraries}
               date={date}
               i={i}
               onRefSet={handleRefSet}

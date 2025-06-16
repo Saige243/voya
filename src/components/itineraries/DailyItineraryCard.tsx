@@ -10,6 +10,7 @@ import { Typography } from "../common/Typography";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "../ui/button";
+import { useTrip } from "~/app/trips/contexts/TripContext";
 
 interface DailyItineraryCardProps {
   date: Date;
@@ -20,6 +21,7 @@ interface DailyItineraryCardProps {
 function DailyItineraryCard({ date, i, onRefSet }: DailyItineraryCardProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { trip } = useTrip();
 
   const handleAddItineraryItem = () => {
     const newPath = `${pathname}/add-itinerary-item`;
