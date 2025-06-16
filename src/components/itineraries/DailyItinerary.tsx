@@ -117,14 +117,6 @@ function DailyItinerary() {
     </div>
   );
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm dark:bg-black/50">
-  //       <Loader2 className="h-5 w-5 animate-spin" />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="flex flex-col">
       <div>
