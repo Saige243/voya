@@ -16,11 +16,13 @@ import DailyItineraryCard from "./DailyItineraryCard";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import getItineraries from "~/app/trips/actions/getItineraries";
 import { type Itinerary } from "@prisma/client";
+import { Card } from "../ui/card";
 
 function DailyItinerary() {
   const params = useParams();
   const { trip } = useTrip();
   const [itineraries, setItineraries] = React.useState<Itinerary[]>([]);
+  const [openItems, setOpenItems] = React.useState<string[]>([]);
   const dayIndex = parseInt(params.index as string) - 1;
 
   const dateRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -70,6 +72,13 @@ function DailyItinerary() {
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatStartAndEndDates(startDate, endDate);
+
+  const allValues = dates.map((date) => date.toISOString());
+  const allOpen = openItems.length === allValues.length;
+
+  const toggleAll = () => {
+    setOpenItems(allOpen ? [] : allValues);
+  };
 
   const itineraryDaysAccordion = (
     <div className="w-full">
@@ -129,15 +138,39 @@ function DailyItinerary() {
       <div className="flex flex-row justify-around">
         <div>{itineraryDaysAccordion}</div>
         <div className="flex flex-col space-y-4">
-          {dates.map((date, i) => (
-            <DailyItineraryCard
-              key={i}
-              itineraries={itineraries}
-              date={date}
-              i={i}
-              onRefSet={handleRefSet}
-            />
-          ))}
+          <Button
+            variant="secondary"
+            className="mt-4 w-full"
+            onClick={toggleAll}
+          >
+            {allOpen ? "Collapse All" : "Expand All"}
+          </Button>
+          <Card className="w-[600px]">
+            <Accordion
+              type="multiple"
+              value={openItems}
+              onValueChange={setOpenItems}
+              className="flex flex-col space-y-4"
+            >
+              {dates.map((date, i) => (
+                <AccordionItem key={i} value={date.toISOString()}>
+                  <AccordionTrigger>
+                    <span className="text-base">
+                      {format(date, "EEE, MMMM d")}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <DailyItineraryCard
+                      itineraries={itineraries}
+                      date={date}
+                      i={i}
+                      onRefSet={handleRefSet}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Card>
         </div>
       </div>
     </div>
