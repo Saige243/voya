@@ -67,9 +67,6 @@ function DailyItinerary() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trip]);
 
-  console.log("Trip:", trip);
-  console.log("Itineraries:", itineraries);
-
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatStartAndEndDates(startDate, endDate);
