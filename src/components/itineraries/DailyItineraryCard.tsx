@@ -32,11 +32,11 @@ function DailyItineraryCard({
     router.push(newPath);
   };
 
-  const editItineraryItemMenu = (tripId: number) => (
-    <a href={`/trips/${tripId}/edit`}>
+  const editItineraryItemMenu = (itemId: number) => (
+    <a href={`/trips/${itemId}/edit`}>
       <Button variant="ghost" className="w-full justify-start">
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
-        Edit Trip
+        Edit Itinerary Item
       </Button>
     </a>
   );
@@ -45,19 +45,24 @@ function DailyItineraryCard({
     <div ref={(el) => onRefSet(i, el)}>
       {dayItineraries && dayItineraries.length > 0 ? (
         dayItineraries.map((item) => (
-          <div key={item.id} className="mb-4 border-b pb-2">
-            <Typography className="text-lg font-medium">
-              {item.title}
-            </Typography>
-            <Typography className="text-sm text-gray-600">
-              {format(new Date(item.datetime), "h:mm a")} — {item.location}
-            </Typography>
-            {item.notes && (
-              <Typography className="mt-1 text-sm text-muted-foreground">
-                {item.notes}
+          <div
+            key={item.id}
+            className="mb-4 flex flex-row justify-between border-b pb-2"
+          >
+            <div>
+              <Typography className="text-lg font-medium">
+                {item.title}
               </Typography>
-            )}
-            <CardMenu>{editItineraryItemMenu(item.tripId)}</CardMenu>
+              <Typography className="text-sm text-gray-600">
+                {format(new Date(item.datetime), "h:mm a")} — {item.location}
+              </Typography>
+              {item.notes && (
+                <Typography className="mt-1 text-sm text-muted-foreground">
+                  {item.notes}
+                </Typography>
+              )}
+            </div>
+            <CardMenu>{editItineraryItemMenu(item.id)}</CardMenu>
           </div>
         ))
       ) : (
