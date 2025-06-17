@@ -55,7 +55,7 @@ model ItineraryItem {
   title       String?
   description String?
   date        DateTime
-  time        DateTime
+  time        DateTime?
   location    String?
   notes       String?
   createdAt   DateTime   @default(now())
