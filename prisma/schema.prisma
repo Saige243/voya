@@ -28,17 +28,30 @@ model Trip {
   endDate        DateTime
   createdAt      DateTime        @default(now())
   accommodations Accommodation[]
-  itinerary_items ItineraryItem[]
   itineraries    Itinerary[]
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("trips")
 }
 
+model Itinerary {
+  id        Int        @id @default(autoincrement())
+  title     String
+  tripId    Int
+  date      DateTime
+  location  String
+  notes     String?
+  createdAt DateTime   @default(now())
+  itineraryItems  ItineraryItem[]
+  trip      Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@map("itineraries")
+  @@index([date])
+}
+
 model ItineraryItem {
   id          Int        @id @default(autoincrement())
   itineraryId Int
-  tripId      Int
   title       String
   description String?
   date        DateTime
@@ -46,11 +59,10 @@ model ItineraryItem {
   location    String
   notes       String?
   createdAt   DateTime   @default(now())
-  trip        Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
-  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 
   @@map("itinerary_items")
-  @@index([tripId])
+  @@index([itineraryId])
 }
 
 model Accommodation {
@@ -69,19 +81,6 @@ model Accommodation {
   @@map("accommodations")
 }
 
-model Itinerary {
-  id        Int        @id @default(autoincrement())
-  title     String
-  tripId    Int
-  datetime  DateTime
-  location  String
-  notes     String?
-  createdAt DateTime   @default(now())
-  ItineraryItem  ItineraryItem[]
-  trip      Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
-
-  @@map("itineraries")
-}
 
 model Account {
   id                       String  @id @default(cuid())

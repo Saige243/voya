@@ -57,10 +57,8 @@ function DailyItineraryCard({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TODO: Replace this with a mutation or TRPC call
     console.log("Submitting:", editFormData);
 
-    // Clear edit state after submit
     setEditingId(null);
     setEditFormData({});
   };
