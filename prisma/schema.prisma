@@ -36,10 +36,10 @@ model Trip {
 
 model Itinerary {
   id        Int        @id @default(autoincrement())
-  title     String
+  title     String?
   tripId    Int
   date      DateTime
-  location  String
+  location  String?
   notes     String?
   createdAt DateTime   @default(now())
   itineraryItems  ItineraryItem[]
