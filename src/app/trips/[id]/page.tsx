@@ -11,13 +11,8 @@ import { Typography } from "~/components/common/Typography";
 import BackButton from "~/components/trips/BackButton";
 import { DeleteTripButton } from "~/components/trips/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
+import CardMenu from "~/components/common/CardMenu";
 // import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
-import { type ReactNode } from "react";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -220,25 +215,6 @@ export default async function TripDetailsPage({
           </div>
         </CardContent>
       </Card>
-    );
-  }
-
-  function CardMenu({ children }: { children: ReactNode }) {
-    return (
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" className="p-2">
-            <Icon
-              name="Menu"
-              className="text-black dark:text-white"
-              size="20"
-            />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="flex w-fit flex-col p-2">
-          {children}
-        </PopoverContent>
-      </Popover>
     );
   }
 

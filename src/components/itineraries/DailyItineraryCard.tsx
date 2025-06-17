@@ -4,6 +4,8 @@ import { Typography } from "../common/Typography";
 import { Button } from "../ui/button";
 import { useRouter, usePathname } from "next/navigation";
 import { type Itinerary } from "@prisma/client";
+import CardMenu from "../common/CardMenu";
+import { Icon } from "../common/Icon";
 
 interface DailyItineraryCardProps {
   date: Date;
@@ -30,6 +32,15 @@ function DailyItineraryCard({
     router.push(newPath);
   };
 
+  const editItineraryItemMenu = (tripId: number) => (
+    <a href={`/trips/${tripId}/edit`}>
+      <Button variant="ghost" className="w-full justify-start">
+        <Icon name="Pencil" className="text-black dark:text-white" size="20" />
+        Edit Trip
+      </Button>
+    </a>
+  );
+
   return (
     <div ref={(el) => onRefSet(i, el)}>
       {dayItineraries && dayItineraries.length > 0 ? (
@@ -46,6 +57,7 @@ function DailyItineraryCard({
                 {item.notes}
               </Typography>
             )}
+            <CardMenu>{editItineraryItemMenu(item.tripId)}</CardMenu>
           </div>
         ))
       ) : (
