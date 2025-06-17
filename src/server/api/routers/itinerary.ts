@@ -18,7 +18,7 @@ export const itineraryRouter = createTRPCRouter({
         data: {
           tripId: input.tripId,
           title: input.title,
-          datetime: input.datetime,
+          date: input.datetime,
           location: input.location,
           notes: input.notes,
         },
