@@ -7,9 +7,9 @@ export const itineraryItemRouter = createTRPCRouter({
     .input(
       z.object({
         tripId: z.number(),
-        date: z.string().datetime(), // ISO string for the itinerary date
+        date: z.string().datetime(),
         title: z.string(),
-        time: z.string().datetime().optional(), // ISO time string (optional)
+        time: z.string().datetime().optional(),
         location: z.string(),
         notes: z.string().optional(),
       }),
@@ -19,7 +19,6 @@ export const itineraryItemRouter = createTRPCRouter({
 
       const itineraryDate = new Date(date);
 
-      // Find or create itinerary for the given date
       let itinerary = await ctx.db.itinerary.findFirst({
         where: { tripId, date: itineraryDate },
       });
@@ -33,7 +32,6 @@ export const itineraryItemRouter = createTRPCRouter({
         });
       }
 
-      // Create the itinerary item
       return ctx.db.itineraryItem.create({
         data: {
           ...rest,
@@ -41,6 +39,59 @@ export const itineraryItemRouter = createTRPCRouter({
           date: itineraryDate,
           time: time ? new Date(time) : undefined,
         },
+      });
+    }),
+
+  getAll: protectedProcedure
+    .input(z.object({ tripId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.itineraryItem.findMany({
+        where: { itinerary: { tripId: input.tripId } },
+        orderBy: { date: "asc", time: "asc" },
+      });
+    }),
+
+  getById: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.itineraryItem.findUnique({
+        where: { id: input.id },
+      });
+    }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        date: z.union([z.string().datetime(), z.date()]).optional(),
+        time: z.union([z.string().datetime(), z.date()]).optional(),
+        location: z.string().optional(),
+        notes: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+
+      if (data.date && typeof data.date === "string") {
+        data.date = new Date(data.date);
+      }
+
+      if (data.time && typeof data.time === "string") {
+        data.time = new Date(data.time);
+      }
+
+      return ctx.db.itineraryItem.update({
+        where: { id },
+        data,
+      });
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.itineraryItem.delete({
+        where: { id: input.id },
       });
     }),
 });
