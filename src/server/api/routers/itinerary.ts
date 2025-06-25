@@ -31,6 +31,7 @@ export const itineraryRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       const allItineraries = ctx.db.itinerary.findMany({
         where: { tripId: input.tripId },
+        include: { itineraryItems: true },
       });
       return allItineraries;
     }),

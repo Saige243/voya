@@ -37,7 +37,6 @@ export const itineraryItemRouter = createTRPCRouter({
         data: {
           ...rest,
           itineraryId: itinerary.id,
-          date: itineraryDate,
           time: time ? new Date(time) : undefined,
         },
       });
@@ -48,7 +47,6 @@ export const itineraryItemRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.itineraryItem.findMany({
         where: { itinerary: { tripId: input.tripId } },
-        orderBy: { date: "asc", time: "asc" },
       });
     }),
 
