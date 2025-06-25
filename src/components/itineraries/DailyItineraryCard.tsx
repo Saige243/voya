@@ -31,7 +31,7 @@ function DailyItineraryCard({
   const [editFormData, setEditFormData] = useState<Partial<Itinerary>>({});
 
   const dayItineraries = itineraries?.filter(
-    (item) => new Date(item.dateTime).toDateString() === date.toDateString(),
+    (item) => new Date(item.date).toDateString() === date.toDateString(),
   );
 
   const handleAddItineraryItem = () => {
@@ -92,11 +92,11 @@ function DailyItineraryCard({
                 className="mb-2"
               />
               <Input
-                name="datetime"
+                name="date"
                 type="datetime-local"
                 value={
                   editFormData.date
-                    ? new Date(editFormData.datetime).toISOString().slice(0, 16)
+                    ? new Date(editFormData.date).toISOString().slice(0, 16)
                     : ""
                 }
                 onChange={handleChange}
@@ -137,7 +137,7 @@ function DailyItineraryCard({
                   {item.title}
                 </Typography>
                 <Typography className="text-sm text-gray-600">
-                  {format(new Date(item.datetime), "h:mm a")} — {item.location}
+                  {format(item.date, "h:mm a")} — {item.location}
                 </Typography>
                 {item.notes && (
                   <Typography className="mt-1 text-sm text-muted-foreground">
