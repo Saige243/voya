@@ -10,7 +10,8 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
     "use server";
 
     const rawDate = formData.get("datetime") as string;
-    const date = new Date(rawDate).toISOString(); // const tripStartDate = trip.startDate;
+    const date = new Date(rawDate).toISOString();
+    // const tripStartDate = trip.startDate;
     // const tripEndDate = trip.endDate;
 
     const itineraryData = {
@@ -28,7 +29,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       return;
     }
 
-    redirect(`/trips/${trip.id}`);
+    redirect(`/trips/${trip.id}/itinerary`);
   }
 
   return (
