@@ -16,6 +16,7 @@ export const itineraryItemRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }): Promise<ItineraryItem> => {
       const { tripId, date, time, ...rest } = input;
+      console.log("Creating itinerary item with data:", input);
 
       const itineraryDate = new Date(date);
 
