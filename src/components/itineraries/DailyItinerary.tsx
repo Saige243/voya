@@ -80,6 +80,8 @@ function DailyItinerary() {
     setOpenItems(allOpen ? [] : allValues);
   };
 
+  console.log("Itineraries:", itineraries);
+
   const itineraryDaysAccordion = (
     <div className="w-full">
       <Accordion defaultChecked type="single" collapsible className="w-full">

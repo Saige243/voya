@@ -22,14 +22,15 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       notes: formData.get("notes") as string,
     };
 
-    const addedItineraryItem = await api.itineraryItem.create(itineraryData);
+    console.log("Adding itinerary item:", itineraryData);
+    // const addedItineraryItem = await api.itineraryItem.create(itineraryData);
 
-    if (!addedItineraryItem) {
-      console.error("Error adding itinerary");
-      return;
-    }
+    // if (!addedItineraryItem) {
+    //   console.error("Error adding itinerary");
+    //   return;
+    // }
 
-    redirect(`/trips/${trip.id}/itinerary`);
+    // redirect(`/trips/${trip.id}/itinerary`);
   }
 
   return (
