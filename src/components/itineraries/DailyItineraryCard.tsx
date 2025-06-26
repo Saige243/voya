@@ -10,6 +10,7 @@ import CardMenu from "../common/CardMenu";
 import { Icon } from "../common/Icon";
 import { Input } from "../ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { updateItineraryItem } from "~/app/trips/actions/updateItineraryItem";
 
 interface DailyItineraryCardProps {
   date: Date;
@@ -57,10 +58,28 @@ function DailyItineraryCard({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     console.log("Submitting:", editFormData);
+
+    try {
+      await updateItineraryItem({
+        formData: {
+          id: editFormData.id!,
+          title: editFormData.title ?? "",
+          location: editFormData.location ?? "",
+          notes: editFormData.notes ?? "",
+          itineraryId: dayItinerary?.id ?? 0,
+          description: null,
+          time: null,
+        },
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error("Failed to update itinerary item:", error);
+    }
 
     setEditingId(null);
     setEditFormData({});
