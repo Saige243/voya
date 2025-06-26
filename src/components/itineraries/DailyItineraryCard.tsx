@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Typography } from "../common/Typography";
 import { Button } from "../ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { type Itinerary } from "@prisma/client";
+import { type ItineraryItem, type Itinerary } from "@prisma/client";
 import CardMenu from "../common/CardMenu";
 import { Icon } from "../common/Icon";
 import { Input } from "../ui/input";
@@ -14,7 +14,7 @@ import { Textarea } from "~/components/ui/textarea";
 interface DailyItineraryCardProps {
   date: Date;
   i: number;
-  itineraries?: Itinerary[];
+  itineraries?: (Itinerary & { itineraryItems: ItineraryItem[] })[];
   onRefSet: (index: number, ref: HTMLDivElement | null) => void;
 }
 
@@ -30,16 +30,19 @@ function DailyItineraryCard({
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<Itinerary>>({});
 
-  const dayItineraries = itineraries?.filter(
-    (item) => new Date(item.date).toDateString() === date.toDateString(),
+  const dayItinerary = itineraries?.find(
+    (itinerary) =>
+      new Date(itinerary.date).toDateString() === date.toDateString(),
   );
+
+  const dayItineraries = dayItinerary?.itineraryItems ?? [];
 
   const handleAddItineraryItem = () => {
     const newPath = `${pathname}/add-itinerary-item`;
     router.push(newPath);
   };
 
-  const handleEditClick = (item: Itinerary) => {
+  const handleEditClick = (item: ItineraryItem) => {
     setEditingId(item.id);
     setEditFormData(item);
   };
@@ -63,7 +66,7 @@ function DailyItineraryCard({
     setEditFormData({});
   };
 
-  const editItineraryItemMenu = (item: Itinerary) => (
+  const editItineraryItemMenu = (item: ItineraryItem) => (
     <Button
       variant="ghost"
       className="w-full justify-start"
@@ -73,6 +76,8 @@ function DailyItineraryCard({
       Edit Itinerary Item
     </Button>
   );
+
+  console.log("dayItineraries:", dayItineraries);
 
   return (
     <div ref={(el) => onRefSet(i, el)}>
@@ -137,7 +142,7 @@ function DailyItineraryCard({
                   {item.title}
                 </Typography>
                 <Typography className="text-sm text-gray-600">
-                  {format(item.date, "h:mm a")} — {item.location}
+                  {format(date, "h:mm a")} — {item.location}
                 </Typography>
                 {item.notes && (
                   <Typography className="mt-1 text-sm text-muted-foreground">
