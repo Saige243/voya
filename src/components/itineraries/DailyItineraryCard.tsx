@@ -77,8 +77,6 @@ function DailyItineraryCard({
     </Button>
   );
 
-  console.log("dayItineraries:", dayItineraries);
-
   return (
     <div ref={(el) => onRefSet(i, el)}>
       {dayItineraries && dayItineraries.length > 0 ? (
