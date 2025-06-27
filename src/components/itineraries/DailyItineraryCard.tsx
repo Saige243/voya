@@ -1,6 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import React, { useState } from "react";
 import { Typography } from "../common/Typography";
 import { Button } from "../ui/button";
@@ -30,6 +30,8 @@ function DailyItineraryCard({
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
+  const [selectedItineraryItem, setSelectedItineraryItem] =
+    useState<ItineraryItem | null>(null);
 
   const dayItinerary = itineraries?.find(
     (itinerary) =>
@@ -44,6 +46,7 @@ function DailyItineraryCard({
   };
 
   const handleEditClick = (item: ItineraryItem) => {
+    setSelectedItineraryItem(item);
     setEditingId(item.id);
     setEditFormData(item);
   };
@@ -67,12 +70,15 @@ function DailyItineraryCard({
       await updateItineraryItem({
         formData: {
           id: editFormData.id!,
-          title: editFormData.title ?? "",
-          location: editFormData.location ?? "",
-          time: editFormData.time ?? null,
-          notes: editFormData.notes ?? "",
-          itineraryId: dayItinerary?.id ?? 0,
-          description: null,
+          title: editFormData.title ?? selectedItineraryItem?.title ?? "",
+          location:
+            editFormData.location ?? selectedItineraryItem?.location ?? "",
+          time: editFormData.time
+            ? new Date(editFormData.time)
+            : (selectedItineraryItem?.time ?? null),
+          notes: editFormData.notes ?? selectedItineraryItem?.notes ?? "",
+          description: selectedItineraryItem?.description ?? null,
+          itineraryId: selectedItineraryItem?.itineraryId ?? 0,
         },
       });
 

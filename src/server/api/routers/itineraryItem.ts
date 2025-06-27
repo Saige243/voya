@@ -10,6 +10,7 @@ export const itineraryItemRouter = createTRPCRouter({
         date: z.string().datetime(),
         title: z.string(),
         time: z.string().datetime().optional(),
+        description: z.string().nullable().optional(),
         location: z.string(),
         notes: z.string().optional(),
       }),
@@ -63,8 +64,8 @@ export const itineraryItemRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string().optional(),
-        date: z.union([z.string().datetime(), z.date()]).optional(),
         time: z.union([z.string().datetime(), z.date()]).optional(),
+        description: z.string().nullable().optional(),
         location: z.string().optional(),
         notes: z.string().optional(),
       }),
@@ -72,8 +73,8 @@ export const itineraryItemRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
 
-      if (data.date && typeof data.date === "string") {
-        data.date = new Date(data.date);
+      if (data.time && typeof data.time === "string") {
+        data.time = new Date(data.time);
       }
 
       if (data.time && typeof data.time === "string") {

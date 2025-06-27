@@ -12,6 +12,7 @@ export async function updateItineraryItem({
   const validationSchema = yup.object().shape({
     title: yup.string().required("Title is required"),
     location: yup.string().required("Location is required"),
+    description: yup.string().nullable(),
     notes: yup.string(),
     time: yup.date().required("Time is required"),
   });
@@ -21,16 +22,17 @@ export async function updateItineraryItem({
 
     console.log("EDIT ITINERARY ITEM", formData);
 
-    const updatedAccommodation = await api.itineraryItem.update({
+    const updatedItineraryItem = await api.itineraryItem.update({
       id: formData.id,
       title: formData.title ?? undefined,
       location: formData.location ?? undefined,
+      description: formData.description ?? null,
       notes: formData.notes ?? undefined,
       time: formData.time ?? undefined,
     });
 
-    if (!updatedAccommodation) {
-      throw new Error("Failed to update the accommodation");
+    if (!updatedItineraryItem) {
+      throw new Error("Failed to update the itinerary item");
     }
   } catch (error) {
     if (error instanceof yup.ValidationError) {
