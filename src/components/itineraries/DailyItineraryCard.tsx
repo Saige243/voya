@@ -29,7 +29,7 @@ function DailyItineraryCard({
   const pathname = usePathname();
 
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editFormData, setEditFormData] = useState<Partial<Itinerary>>({});
+  const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
 
   const dayItinerary = itineraries?.find(
     (itinerary) =>
@@ -69,10 +69,10 @@ function DailyItineraryCard({
           id: editFormData.id!,
           title: editFormData.title ?? "",
           location: editFormData.location ?? "",
+          time: editFormData.time ?? null,
           notes: editFormData.notes ?? "",
           itineraryId: dayItinerary?.id ?? 0,
           description: null,
-          time: null,
         },
       });
 
@@ -114,11 +114,11 @@ function DailyItineraryCard({
                 className="mb-2"
               />
               <Input
-                name="date"
+                name="time"
                 type="datetime-local"
                 value={
-                  editFormData.date
-                    ? new Date(editFormData.date).toISOString().slice(0, 16)
+                  editFormData.time
+                    ? new Date(editFormData.time).toISOString().slice(0, 16)
                     : ""
                 }
                 onChange={handleChange}
