@@ -77,10 +77,6 @@ export const itineraryItemRouter = createTRPCRouter({
         data.time = new Date(data.time);
       }
 
-      if (data.time && typeof data.time === "string") {
-        data.time = new Date(data.time);
-      }
-
       return ctx.db.itineraryItem.update({
         where: { id },
         data,
