@@ -163,14 +163,22 @@ function DailyItineraryCard({
           ) : (
             <div
               key={item.id}
-              className="mb-4 flex flex-row justify-between border-b pb-2"
+              className="mb-4 flex flex-row items-center border-b pb-2"
             >
+              <div className="pr-2">
+                <Icon
+                  name="Clock"
+                  className="text-black dark:text-white"
+                  size="15"
+                />
+              </div>
               <div>
                 <Typography className="text-lg font-medium">
-                  {item.title}
+                  <span className="font-base text-black"> {item.title}</span>
                 </Typography>
                 <Typography className="text-sm text-gray-600">
-                  {formatTime(item.time)} — {item.location}
+                  <span className=" text-black">{formatTime(item.time)}</span> —{" "}
+                  {item.location}
                 </Typography>
                 {item.notes && (
                   <Typography className="mt-1 text-sm text-muted-foreground">

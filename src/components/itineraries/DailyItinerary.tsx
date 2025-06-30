@@ -151,7 +151,7 @@ function DailyItinerary() {
               {dates.map((date, i) => (
                 <AccordionItem key={i} value={date.toISOString()}>
                   <AccordionTrigger>
-                    <span className="text-base">
+                    <span className="decoration-underline text-base text-gray-800 dark:text-gray-200">
                       {format(date, "EEE, MMMM d")}
                     </span>
                   </AccordionTrigger>
