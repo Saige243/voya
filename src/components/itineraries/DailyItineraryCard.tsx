@@ -172,21 +172,25 @@ function DailyItineraryCard({
                   size="15"
                 />
               </div>
-              <div>
-                <Typography className="text-lg font-medium">
-                  <span className="font-base text-black"> {item.title}</span>
-                </Typography>
-                <Typography className="text-sm text-gray-600">
-                  <span className=" text-black">{formatTime(item.time)}</span> —{" "}
-                  {item.location}
-                </Typography>
-                {item.notes && (
-                  <Typography className="mt-1 text-sm text-muted-foreground">
-                    {item.notes}
+              <div className="flex w-full justify-between">
+                <div>
+                  <Typography className="text-lg font-medium">
+                    <span className="font-base text-black"> {item.title}</span>
                   </Typography>
-                )}
+                  <Typography className="text-sm text-gray-600">
+                    <span className=" text-black">{formatTime(item.time)}</span>{" "}
+                    — {item.location}
+                  </Typography>
+                  {item.notes && (
+                    <Typography className="mt-1 text-sm text-muted-foreground">
+                      {item.notes}
+                    </Typography>
+                  )}
+                </div>
+                <div>
+                  <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
+                </div>
               </div>
-              <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
             </div>
           ),
         )
