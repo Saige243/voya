@@ -15,13 +15,15 @@ import { Button } from "../ui/button";
 import DailyItineraryCard from "./DailyItineraryCard";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import getItineraries from "~/app/trips/actions/getItineraries";
-import { type Itinerary } from "@prisma/client";
+import { type ItineraryItem, type Itinerary } from "@prisma/client";
 import { Card } from "../ui/card";
 
 function DailyItinerary() {
   const params = useParams();
   const { trip } = useTrip();
-  const [itineraries, setItineraries] = React.useState<Itinerary[]>([]);
+  const [itineraries, setItineraries] = React.useState<
+    (Itinerary & { itineraryItems: ItineraryItem[] })[]
+  >([]);
   const [openItems, setOpenItems] = React.useState<string[]>([]);
   const dayIndex = parseInt(params.index as string) - 1;
 

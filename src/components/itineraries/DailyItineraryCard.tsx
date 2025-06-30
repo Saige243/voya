@@ -1,6 +1,6 @@
 "use client";
 
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import React, { useState } from "react";
 import { Typography } from "../common/Typography";
 import { Button } from "../ui/button";
@@ -39,6 +39,11 @@ function DailyItineraryCard({
   );
 
   const dayItineraries = dayItinerary?.itineraryItems ?? [];
+
+  const formatTime = (timeDate: Date | null) => {
+    if (!timeDate) return "All day";
+    return format(timeDate, "h:mm a");
+  };
 
   const handleAddItineraryItem = () => {
     const newPath = `${pathname}/add-itinerary-item`;
@@ -165,7 +170,7 @@ function DailyItineraryCard({
                   {item.title}
                 </Typography>
                 <Typography className="text-sm text-gray-600">
-                  {format(date, "h:mm a")} — {item.location}
+                  {formatTime(item.time)} — {item.location}
                 </Typography>
                 {item.notes && (
                   <Typography className="mt-1 text-sm text-muted-foreground">
