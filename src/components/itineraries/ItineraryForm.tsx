@@ -5,7 +5,7 @@ import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { type Trip } from "@prisma/client";
 
-const AddItineraryForm = ({ trip }: { trip: Trip }) => {
+const AddItineraryItemForm = ({ trip }: { trip: Trip }) => {
   async function addItinerary(formData: FormData) {
     "use server";
 
@@ -14,7 +14,7 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
     // const tripStartDate = trip.startDate;
     // const tripEndDate = trip.endDate;
 
-    const itineraryData = {
+    const itinerarItemData = {
       tripId: trip.id,
       title: formData.get("title") as string,
       date: date,
@@ -22,8 +22,8 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
       notes: formData.get("notes") as string,
     };
 
-    console.log("Adding itinerary item:", itineraryData);
-    const addedItineraryItem = await api.itineraryItem.create(itineraryData);
+    console.log("Adding itinerary item:", itinerarItemData);
+    const addedItineraryItem = await api.itineraryItem.create(itinerarItemData);
 
     if (!addedItineraryItem) {
       console.error("Error adding itinerary");
@@ -83,4 +83,4 @@ const AddItineraryForm = ({ trip }: { trip: Trip }) => {
   );
 };
 
-export default AddItineraryForm;
+export default AddItineraryItemForm;
