@@ -25,7 +25,7 @@ export default async function RootLayout({
         <TRPCReactProvider>
           <SessionWrapper session={session}>
             <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
-              <SidebarProvider defaultOpen={false}>
+              <SidebarProvider>
                 <AppSidebar />
                 <SidebarTrigger />
                 <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
