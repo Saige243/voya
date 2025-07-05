@@ -13,8 +13,8 @@ import {
   ChevronUp,
   Home,
   Plus,
+  Briefcase,
 } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -65,12 +65,16 @@ export function AppSidebar() {
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
-    { title: "Packing List", url: `/trips/${tripId}/packing-list`, icon: Home },
+    {
+      title: "Packing List",
+      url: `/trips/${tripId}/packing-list`,
+      icon: Briefcase,
+    },
   ];
 
   const itineraryItems = [
     { title: "Daily Itinerary", url: tripUrl, icon: Binoculars },
-    { title: "Add Activity", url: `${tripUrl}/add-activity`, icon: Plus },
+    { title: "Add Itinerary Item", url: `${tripUrl}/add-activity`, icon: Plus },
   ];
 
   return (
