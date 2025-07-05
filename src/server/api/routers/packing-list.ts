@@ -15,6 +15,7 @@ export const packingListRouter = createTRPCRouter({
           tripId: input.tripId,
         },
       });
+
       return packingList;
     }),
 
@@ -25,6 +26,7 @@ export const packingListRouter = createTRPCRouter({
         where: { tripId: input.tripId },
         include: { groups: true },
       });
+
       return allPackingLists;
     }),
 

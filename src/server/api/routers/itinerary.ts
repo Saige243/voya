@@ -23,6 +23,7 @@ export const itineraryRouter = createTRPCRouter({
           notes: input.notes,
         },
       });
+
       return itinerary;
     }),
 
@@ -33,6 +34,7 @@ export const itineraryRouter = createTRPCRouter({
         where: { tripId: input.tripId },
         include: { itineraryItems: true },
       });
+
       return allItineraries;
     }),
 
