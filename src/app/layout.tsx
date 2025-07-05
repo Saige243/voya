@@ -5,6 +5,7 @@ import { getServerAuthSession } from "~/server/auth";
 import SessionWrapper from "../components/auth/SessionWrapper";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { AppSidebar } from "~/components/ui/app-sidebar";
+import { TripProvider } from "./trips/contexts/TripContext";
 
 export const metadata = {
   title: "Welcome to Voya",
@@ -27,10 +28,12 @@ export default async function RootLayout({
             <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
               <SidebarProvider>
                 <AppSidebar />
-                <SidebarTrigger />
-                <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
-                  {children}
-                </div>
+                <TripProvider trip={""}>
+                  <SidebarTrigger />
+                  <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
+                    {children}
+                  </div>
+                </TripProvider>
               </SidebarProvider>
             </div>
           </SessionWrapper>
