@@ -4,6 +4,7 @@ import { tripRouter } from "./routers/trip";
 import { accommodationRouter } from "./routers/accomodation";
 import { itineraryRouter } from "./routers/itinerary";
 import { itineraryItemRouter } from "./routers/itineraryItem";
+import { packingListRouter } from "./routers/packing-list";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   accommodation: accommodationRouter,
   itinerary: itineraryRouter,
   itineraryItem: itineraryItemRouter,
+  packingList: packingListRouter,
 });
 
 // export type definition of API
