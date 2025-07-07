@@ -50,11 +50,13 @@ function DailyItinerary() {
   }, [dayIndex, trip]);
 
   useEffect(() => {
+    console.log("Fetching itineraries for trip:", trip);
     const fetchItineraries = async () => {
       try {
         const tripId = trip?.id;
         if (tripId) {
           const itineraries = await getItineraries(tripId.toString());
+          console.log("Fetched itineraries:", itineraries);
           if (!itineraries) {
             console.error(`No itineraries found for trip ID ${tripId}`);
           }

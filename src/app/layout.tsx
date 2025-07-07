@@ -6,6 +6,7 @@ import SessionWrapper from "../components/auth/SessionWrapper";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { AppSidebar } from "~/components/ui/app-sidebar";
 import { TripProvider } from "./trips/contexts/TripContext";
+import getAllSortedTrips from "./trips/actions/getAllSortedTrips";
 
 export const metadata = {
   title: "Welcome to Voya",
@@ -19,6 +20,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
+  const allTrips = await getAllSortedTrips();
+  const initialTrip = allTrips && allTrips.length > 0 ? allTrips[0] : null;
+  console.log("Initial trip:", initialTrip);
 
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
@@ -26,15 +30,16 @@ export default async function RootLayout({
         <TRPCReactProvider>
           <SessionWrapper session={session}>
             <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
-              <SidebarProvider>
-                <AppSidebar />
-                <TripProvider trip={""}>
+              <TripProvider trip={initialTrip ?? null}>
+                {/* The SidebarProvider wraps the AppSidebar and SidebarTrigger components */}
+                <SidebarProvider>
+                  <AppSidebar />
                   <SidebarTrigger />
                   <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
                     {children}
                   </div>
-                </TripProvider>
-              </SidebarProvider>
+                </SidebarProvider>
+              </TripProvider>
             </div>
           </SessionWrapper>
         </TRPCReactProvider>

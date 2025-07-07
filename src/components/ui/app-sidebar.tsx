@@ -28,19 +28,16 @@ import {
 } from "~/components/ui/sidebar";
 import NavAvatarMenu from "../common/NavAvatarMenu";
 import { Separator } from "./separator";
-import { useParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem } from "./accordion";
 import { AccordionTrigger } from "@radix-ui/react-accordion";
 import React from "react";
-// import getTrip from "~/app/trips/actions/getTrip";
-// import { format } from "date-fns";
+import { useTrip } from "~/app/trips/contexts/TripContext";
 import Link from "next/link";
 // import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {
-  const params = useParams();
-  const tripId = params.id as string;
-  const tripUrl = `/trips/${tripId}/itinerary`;
+  const { trip } = useTrip();
+  const tripUrl = `/trips/${trip?.id}/itinerary`;
   const [chevronDown, setChevronDown] = React.useState(false);
   // type Trip = Awaited<ReturnType<typeof getTrip>>;
   // const [trip, setTrip] = React.useState<Trip | null>(null);
@@ -64,10 +61,10 @@ export function AppSidebar() {
   //     : [];
 
   const items = [
-    { title: "Trip Dashboard", url: `/trips/${tripId}`, icon: Home },
+    { title: "Trip Dashboard", url: `/trips/${trip?.id}`, icon: Home },
     {
       title: "Packing List",
-      url: `/trips/${tripId}/packing-list`,
+      url: `/trips/${trip?.id}/packing-list`,
       icon: Briefcase,
     },
   ];

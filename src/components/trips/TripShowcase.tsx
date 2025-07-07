@@ -1,4 +1,3 @@
-import { api } from "~/trpc/server";
 import { Button } from "~/components/ui/button";
 import TripCard from "./TripCard";
 import getAllSortedTrips from "~/app/trips/actions/getAllSortedTrips";
@@ -6,7 +5,6 @@ import getAllSortedTrips from "~/app/trips/actions/getAllSortedTrips";
 export default async function TripShowcase() {
   const sortedTrips = await getAllSortedTrips();
   const upcomingTrip = sortedTrips[0];
-  console.log("upcomingTrip", upcomingTrip);
 
   return (
     <div className="flex w-full max-w-xs justify-center">

@@ -10,11 +10,19 @@ type TripContextType = {
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
-export const TripProvider = ({ children }: { children: React.ReactNode }) => {
-  const [trip, setTrip] = useState<Trip | null>(null);
+export const TripProvider = ({
+  trip,
+  children,
+}: {
+  trip: Trip | null;
+  children: React.ReactNode;
+}) => {
+  const [currentTrip, setCurrentTrip] = useState<Trip | null>(trip);
 
   return (
-    <TripContext.Provider value={{ trip, setTrip }}>
+    <TripContext.Provider
+      value={{ trip: currentTrip, setTrip: setCurrentTrip }}
+    >
       {children}
     </TripContext.Provider>
   );
