@@ -1,12 +1,10 @@
 import { api } from "~/trpc/server";
 import { Button } from "~/components/ui/button";
 import TripCard from "./TripCard";
+import getAllSortedTrips from "~/app/trips/actions/getAllSortedTrips";
 
 export default async function TripShowcase() {
-  const trips = await api.trip.getAll();
-  const sortedTrips = trips.sort((a, b) => {
-    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-  });
+  const sortedTrips = await getAllSortedTrips();
   const upcomingTrip = sortedTrips[0];
   console.log("upcomingTrip", upcomingTrip);
 

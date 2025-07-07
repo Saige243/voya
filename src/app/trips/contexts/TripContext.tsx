@@ -1,24 +1,29 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import type { Trip } from "@prisma/client";
 
-const TripContext = createContext<Trip | null>(null);
+type TripContextType = {
+  trip: Trip | null;
+  setTrip: (trip: Trip) => void;
+};
 
-export const TripProvider = ({
-  trip,
-  children,
-}: {
-  trip: Trip;
-  children: React.ReactNode;
-}) => {
-  return <TripContext.Provider value={trip}>{children}</TripContext.Provider>;
+const TripContext = createContext<TripContextType | undefined>(undefined);
+
+export const TripProvider = ({ children }: { children: React.ReactNode }) => {
+  const [trip, setTrip] = useState<Trip | null>(null);
+
+  return (
+    <TripContext.Provider value={{ trip, setTrip }}>
+      {children}
+    </TripContext.Provider>
+  );
 };
 
 export const useTrip = () => {
   const context = useContext(TripContext);
   if (!context) {
-    throw new Error("useTrip must be used wihin a Trip Provider");
+    throw new Error("useTrip must be used within a TripProvider");
   }
-  return { trip: context };
+  return context;
 };
