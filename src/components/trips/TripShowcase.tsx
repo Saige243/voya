@@ -4,7 +4,10 @@ import TripCard from "./TripCard";
 
 export default async function TripShowcase() {
   const trips = await api.trip.getAll();
-  const upcomingTrip = trips[0];
+  const sortedTrips = trips.sort((a, b) => {
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  });
+  const upcomingTrip = sortedTrips[0];
   console.log("upcomingTrip", upcomingTrip);
 
   return (
