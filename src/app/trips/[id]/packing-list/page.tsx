@@ -1,19 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import getPackingList from "../../actions/getPackingList";
 import { useTrip } from "~/app/trips/contexts/TripContext";
+import { Button } from "~/components/ui/button";
 
 function PackingListPage() {
   const { trip } = useTrip();
   const tripId = trip?.id?.toString() ?? "";
-  const packingList = getPackingList(tripId);
+  console.log("Trip ID:", trip);
+
+  useEffect(() => {
+    const fetchPackingList = async () => {
+      try {
+        const list = await getPackingList(tripId);
+        console.log("Fetched packing list:", list);
+      } catch (error) {
+        console.error("Error fetching packing list:", error);
+      }
+    };
+
+    void fetchPackingList();
+  }, [tripId]);
 
   const emptyList = (
     <div>
       <p className="text-gray-500">Your packing list is empty.</p>
       <p className="text-gray-500">Click the button below to add items.</p>
-      <button className="btn btn-primary mt-4">Add Item</button>
+      <Button className="btn btn-primary mt-4">Add Item</Button>
     </div>
   );
 

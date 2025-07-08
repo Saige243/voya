@@ -22,7 +22,6 @@ export default async function RootLayout({
   const session = await getServerAuthSession();
   const allTrips = await getAllSortedTrips();
   const initialTrip = allTrips && allTrips.length > 0 ? allTrips[0] : null;
-  console.log("Initial trip:", initialTrip);
 
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
