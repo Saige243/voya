@@ -1,6 +1,14 @@
+"use client";
+
 import React from "react";
+import getPackingList from "../../actions/getPackingList";
+import { useTrip } from "~/app/trips/contexts/TripContext";
 
 function PackingListPage() {
+  const { trip } = useTrip();
+  const tripId = trip?.id?.toString() ?? "";
+  const packingList = getPackingList(tripId);
+
   const emptyList = (
     <div>
       <p className="text-gray-500">Your packing list is empty.</p>
