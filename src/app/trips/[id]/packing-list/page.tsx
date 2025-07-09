@@ -23,13 +23,13 @@ function PackingListPage() {
     void fetchPackingList();
   }, [tripId]);
 
-  const emptyList = (
-    <div>
-      <p className="text-gray-500">Your packing list is empty.</p>
-      <p className="text-gray-500">Click the button below to add items.</p>
-      <Button className="btn btn-primary mt-4">Add Item</Button>
-    </div>
-  );
+  // const emptyList = (
+  //   <div>
+  //     <p className="text-gray-500">Your packing list is empty.</p>
+  //     <p className="text-gray-500">Click the button below to add items.</p>
+  //     <Button className="btn btn-primary mt-4">Add Item</Button>
+  //   </div>
+  // );
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
