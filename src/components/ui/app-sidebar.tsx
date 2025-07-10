@@ -71,7 +71,11 @@ export function AppSidebar() {
 
   const itineraryItems = [
     { title: "Daily Itinerary", url: tripUrl, icon: Binoculars },
-    { title: "Add Itinerary Item", url: `${tripUrl}/add-activity`, icon: Plus },
+    {
+      title: "Add Itinerary Item",
+      url: `${tripUrl}/add-itinerary-item`,
+      icon: Plus,
+    },
   ];
 
   return (
