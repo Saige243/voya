@@ -1,15 +1,15 @@
 "use client";
 
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 import React from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
-import { Button } from "~/components/ui/button";
-import { DropdownMenu } from "~/components/ui/dropdown-menu";
 import { Input } from "~/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 function PackingListPage() {
   const { trip } = useTrip();
@@ -21,17 +21,16 @@ function PackingListPage() {
       <h1 className="text-2xl font-bold">Packing List</h1>
       <div className="mt-4 flex w-full items-center space-x-2">
         <Input placeholder="Add a new packing list item" />
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            className="w-full focus:outline-none focus:ring-0"
-            asChild
-          >
-            <Button>Select a category</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-100 bg-white p-4">
-            <DropdownMenuItem className="text-black">Sign out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </main>
   );
