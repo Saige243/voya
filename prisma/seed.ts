@@ -13,6 +13,24 @@ async function main() {
     {
       name: "Electronics",
     },
+    {
+      name: "Documents",
+    },
+    {
+      name: "Miscellaneous",
+    },
+    {
+      name: "First Aid",
+    },
+    {
+      name: "Food & Snacks",
+    },
+    {
+      name: "Outdoor Gear",
+    },
+    {
+      name: "Travel Accessories",
+    },
   ];
 
   for (const category of categories) {

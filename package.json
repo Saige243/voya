@@ -7,13 +7,16 @@
     "build": "next build",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "db:seed": "prisma db seed --transpile-only prisma/seed.ts",
+    "db:seed": "prisma db seed",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "SKIP_ENV_VALIDATION=true next lint",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "start": "next start"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
@@ -55,6 +58,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.57",
@@ -69,6 +73,7 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "prisma": "^5.10.2",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.20.3",
     "typescript": "^5.4.2"
   },
   "ct3aMetadata": {
