@@ -7,6 +7,7 @@
     "build": "next build",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
+    "db:seed": "prisma db seed --transpile-only prisma/seed.ts",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "SKIP_ENV_VALIDATION=true next lint",
