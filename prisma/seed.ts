@@ -6,29 +6,12 @@ async function main() {
   const categories = [
     {
       name: "Toiletries",
-      presets: [
-        { name: "Toothbrush" },
-        { name: "Toothpaste" },
-        { name: "Deodorant" },
-        { name: "Shampoo" },
-      ],
     },
     {
       name: "Clothing",
-      presets: [
-        { name: "Shirts" },
-        { name: "Pants" },
-        { name: "Socks" },
-        { name: "Underwear" },
-      ],
     },
     {
       name: "Electronics",
-      presets: [
-        { name: "Phone Charger" },
-        { name: "Laptop" },
-        { name: "Headphones" },
-      ],
     },
   ];
 
@@ -38,12 +21,6 @@ async function main() {
       update: {},
       create: {
         name: category.name,
-        presets: {
-          create: category.presets.map((preset) => ({
-            name: preset.name,
-            quantity: 1,
-          })),
-        },
       },
     });
     console.log(`Seeded category: ${createdCategory.name}`);

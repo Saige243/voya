@@ -94,21 +94,11 @@ model PackingList {
   @@index([tripId])
 }
 
-model PackingItemPreset {
-  id        Int                   @id @default(autoincrement())
-  name      String
-  quantity  Int                   @default(1)
-  notes     String?
-  categoryId Int
-  category  PackingCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-}
-
 model PackingCategory {
   id        Int      @id @default(autoincrement())
   name      String   @unique      // "Toiletries", "Clothing", etc.
   createdAt DateTime @default(now())
   items     PackingListItem[]
-  presets   PackingItemPreset[]
 }
 
 model PackingListItem {
