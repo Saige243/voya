@@ -19,7 +19,6 @@ function AddItemPage() {
   const [packingCategories, setPackingCategories] = React.useState<
     PackingCategory[]
   >([]);
-  console.log("Packing Categories:", packingCategories);
 
   useEffect(() => {
     const fetchPackingCategories = async () => {
@@ -45,9 +44,11 @@ function AddItemPage() {
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            {packingCategories.map((category) => (
+              <SelectItem key={category.id} value={category.name}>
+                {category.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
