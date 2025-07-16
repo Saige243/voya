@@ -31,6 +31,9 @@ async function main() {
     {
       name: "Travel Accessories",
     },
+    {
+      name: "Entertainment",
+    },
   ];
 
   for (const category of categories) {

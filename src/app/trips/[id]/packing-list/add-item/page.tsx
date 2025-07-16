@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import { Input } from "~/components/ui/input";
 import {
@@ -10,11 +10,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import getPackingCategories from "~/app/trips/actions/getPackingCategories";
+import { type PackingCategory } from "@prisma/client";
 
-function PackingListPage() {
+function AddItemPage() {
   const { trip } = useTrip();
   const tripId = trip?.id?.toString() ?? "";
-  console.log("Trip ID:", trip);
+  const [packingCategories, setPackingCategories] = React.useState<
+    PackingCategory[]
+  >([]);
+  console.log("Packing Categories:", packingCategories);
+
+  useEffect(() => {
+    const fetchPackingCategories = async () => {
+      try {
+        const categories = await getPackingCategories();
+        console.log("Fetched packing categories:", categories);
+        setPackingCategories(categories);
+      } catch (error) {
+        console.error("Error fetching packing categories:", error);
+      }
+    };
+
+    void fetchPackingCategories();
+  }, [tripId]);
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
@@ -36,4 +55,4 @@ function PackingListPage() {
   );
 }
 
-export default PackingListPage;
+export default AddItemPage;
