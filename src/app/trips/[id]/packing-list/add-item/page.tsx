@@ -12,13 +12,14 @@ import {
 } from "~/components/ui/select";
 import getPackingCategories from "~/app/trips/actions/getPackingCategories";
 import { type PackingCategory, type PackingListItem } from "@prisma/client";
-import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
+import { SelectGroup } from "@radix-ui/react-select";
 import { Card, CardContent } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 
 function AddItemPage() {
   const { trip } = useTrip();
   const tripId = trip?.id?.toString() ?? "";
+
   const [packingCategories, setPackingCategories] = React.useState<
     PackingCategory[]
   >([]);
@@ -39,49 +40,103 @@ function AddItemPage() {
   }, [tripId]);
 
   const handleAddMore = () => {
-    setItems([
-      ...items,
+    setItems((prev) => [
+      ...prev,
       {
+        id: Date.now(),
+        createdAt: new Date(),
+        packingListId: 0,
+        categoryId: 0,
         name: "",
         quantity: 1,
-        categoryId: "",
         isPacked: false,
-        packingListId: tripId,
         notes: "",
       },
     ]);
   };
 
-  return (
-    <main className="flex min-h-full flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold">Packing List</h1>
-      <div className="mt-4 flex w-full items-center space-x-2">
-        <Card className="w-full">
-          <CardContent>
-            <div className="flex w-full flex-row">
-              <Input
-                className="input input-bordered w-full dark:bg-white"
-                placeholder="Add a new packing list item"
-              />
+  const handleItemChange = <K extends keyof PackingListItem>(
+    index: number,
+    key: K,
+    value: PackingListItem[K],
+  ) => {
+    setItems((prev) => {
+      const newItems = [...prev];
+      const defaultItem: PackingListItem = {
+        id: Date.now(),
+        createdAt: new Date(),
+        packingListId: 0,
+        categoryId: 0,
+        name: "",
+        quantity: 1,
+        isPacked: false,
+        notes: "",
+      };
+      const currentItem = newItems[index] ?? defaultItem;
+      newItems[index] = {
+        ...currentItem,
+        [key]: value,
+        name: currentItem.name ?? "",
+        id: currentItem.id ?? Date.now(),
+        createdAt: currentItem.createdAt ?? new Date(),
+        packingListId: currentItem.packingListId ?? 0,
+        categoryId: currentItem.categoryId ?? 0,
+        quantity: currentItem.quantity ?? 1,
+        isPacked: currentItem.isPacked ?? false,
+        notes: currentItem.notes ?? "",
+      };
+      return newItems;
+    });
+  };
 
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Theme" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {packingCategories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <Button className="mt-4 w-full">Add Item</Button>
-          </CardContent>
+  return (
+    <main className="flex min-h-full flex-col items-center justify-center p-4">
+      <h1 className="text-2xl font-bold">Packing List</h1>
+
+      <div className="mt-4 w-full space-y-4">
+        <Card>
+          {items.map((item, index) => (
+            <CardContent key={item.id} className="space-y-2 pt-4">
+              <div className="flex flex-row space-x-2">
+                <Input
+                  className="w-full dark:bg-white"
+                  placeholder="Item name"
+                  value={item.name}
+                  onChange={(e) =>
+                    handleItemChange(index, "name", e.target.value)
+                  }
+                />
+
+                <Select
+                  value={item.categoryId.toString()}
+                  onValueChange={(value) =>
+                    handleItemChange(index, "categoryId", parseInt(value))
+                  }
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {packingCategories.map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={category.id.toString()}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          ))}
         </Card>
+
+        <Button className="w-full" onClick={handleAddMore}>
+          Add Another Item
+        </Button>
       </div>
     </main>
   );

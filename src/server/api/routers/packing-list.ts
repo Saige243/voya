@@ -59,16 +59,6 @@ export const packingListRouter = createTRPCRouter({
         where: { tripId: input.tripId },
       });
 
-      return packingList;
-    }),
-
-  getAll: protectedProcedure
-    .input(z.object({ tripId: z.number() }))
-    .query(({ ctx, input }) => {
-      const allPackingLists = ctx.db.packingList.findMany({
-        where: { tripId: input.tripId },
-      });
-
       return allPackingLists;
     }),
 
