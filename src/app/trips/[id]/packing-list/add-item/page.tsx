@@ -11,9 +11,10 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import getPackingCategories from "~/app/trips/actions/getPackingCategories";
-import { type PackingCategory } from "@prisma/client";
+import { type PackingCategory, type PackingListItem } from "@prisma/client";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
 import { Card, CardContent } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
 
 function AddItemPage() {
   const { trip } = useTrip();
@@ -21,6 +22,7 @@ function AddItemPage() {
   const [packingCategories, setPackingCategories] = React.useState<
     PackingCategory[]
   >([]);
+  const [items, setItems] = React.useState<PackingListItem[]>([]);
 
   useEffect(() => {
     const fetchPackingCategories = async () => {
@@ -35,6 +37,20 @@ function AddItemPage() {
 
     void fetchPackingCategories();
   }, [tripId]);
+
+  const handleAddMore = () => {
+    setItems([
+      ...items,
+      {
+        name: "",
+        quantity: 1,
+        categoryId: "",
+        isPacked: false,
+        packingListId: tripId,
+        notes: "",
+      },
+    ]);
+  };
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
@@ -55,7 +71,7 @@ function AddItemPage() {
                 <SelectContent>
                   <SelectGroup>
                     {packingCategories.map((category) => (
-                      <SelectItem key={category.id} value={category.name}>
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
                       </SelectItem>
                     ))}
@@ -63,6 +79,7 @@ function AddItemPage() {
                 </SelectContent>
               </Select>
             </div>
+            <Button className="mt-4 w-full">Add Item</Button>
           </CardContent>
         </Card>
       </div>

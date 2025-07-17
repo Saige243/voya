@@ -24,7 +24,6 @@ export const packingListRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       const allPackingLists = ctx.db.packingList.findMany({
         where: { tripId: input.tripId },
-        include: { groups: true },
       });
 
       return allPackingLists;
