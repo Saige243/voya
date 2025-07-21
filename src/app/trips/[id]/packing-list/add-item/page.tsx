@@ -90,7 +90,19 @@ function AddItemPage() {
   ) => {
     setItems((prev) => {
       const newItems = [...prev];
-      newItems[index] = { ...newItems[index], [key]: value };
+      const currentItem = newItems[index] ?? {
+        categoryId: 0,
+        name: "",
+        quantity: 1,
+        isPacked: false,
+      };
+      newItems[index] = {
+        categoryId: currentItem.categoryId ?? 0,
+        name: currentItem.name ?? "",
+        quantity: currentItem.quantity ?? 1,
+        isPacked: currentItem.isPacked ?? false,
+        [key]: value,
+      };
       return newItems;
     });
   };
