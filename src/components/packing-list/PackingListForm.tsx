@@ -16,7 +16,6 @@ type FormData = {
   location: string;
   checkIn: string;
   checkOut: string;
-  notes?: string;
   phoneNumber: string;
   website: string;
 };
@@ -69,7 +68,6 @@ const AccommodationsForm = ({
               return checkOutDate <= tripEndDate;
             },
           ),
-        notes: yup.string().optional(),
         phoneNumber: yup.string().required("Phone Number is required"),
         website: yup
           .string()
@@ -91,7 +89,6 @@ const AccommodationsForm = ({
       location: "",
       checkIn: "",
       checkOut: "",
-      notes: "",
       phoneNumber: "",
       website: "",
     },
@@ -109,7 +106,6 @@ const AccommodationsForm = ({
       ...data,
       checkIn,
       checkOut,
-      notes: data.notes ?? null,
     };
 
     try {
@@ -197,21 +193,6 @@ const AccommodationsForm = ({
               </p>
             )}
           </div>
-        </div>
-
-        <div>
-          <Label htmlFor="notes" className="block text-sm ">
-            Notes:
-          </Label>
-          <Input
-            id="notes"
-            placeholder="Any additional notes"
-            className="mt-1 w-full dark:bg-white"
-            {...register("notes")}
-          />
-          {errors.notes && (
-            <p className="mt-1 text-xs text-red-500">{errors.notes.message}</p>
-          )}
         </div>
 
         <div>
