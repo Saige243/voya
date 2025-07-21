@@ -23,7 +23,18 @@ function AddItemPage() {
   const [packingCategories, setPackingCategories] = React.useState<
     PackingCategory[]
   >([]);
-  const [items, setItems] = React.useState<PackingListItem[]>([]);
+  const [items, setItems] = React.useState<PackingListItem[]>([
+    {
+      id: Date.now(),
+      createdAt: new Date(),
+      packingListId: 0,
+      categoryId: 0,
+      name: "",
+      quantity: 1,
+      isPacked: false,
+      notes: "",
+    },
+  ]);
 
   useEffect(() => {
     const fetchPackingCategories = async () => {
@@ -62,29 +73,7 @@ function AddItemPage() {
   ) => {
     setItems((prev) => {
       const newItems = [...prev];
-      const defaultItem: PackingListItem = {
-        id: Date.now(),
-        createdAt: new Date(),
-        packingListId: 0,
-        categoryId: 0,
-        name: "",
-        quantity: 1,
-        isPacked: false,
-        notes: "",
-      };
-      const currentItem = newItems[index] ?? defaultItem;
-      newItems[index] = {
-        ...currentItem,
-        [key]: value,
-        name: currentItem.name ?? "",
-        id: currentItem.id ?? Date.now(),
-        createdAt: currentItem.createdAt ?? new Date(),
-        packingListId: currentItem.packingListId ?? 0,
-        categoryId: currentItem.categoryId ?? 0,
-        quantity: currentItem.quantity ?? 1,
-        isPacked: currentItem.isPacked ?? false,
-        notes: currentItem.notes ?? "",
-      };
+      newItems[index] = { ...newItems[index], [key]: value } as PackingListItem;
       return newItems;
     });
   };
