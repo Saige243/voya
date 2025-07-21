@@ -15,6 +15,8 @@ import { type PackingCategory, type PackingListItem } from "@prisma/client";
 import { SelectGroup } from "@radix-ui/react-select";
 import { Card, CardContent } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Label } from "~/components/ui/label";
 
 function AddItemPage() {
   const { trip } = useTrip();
@@ -30,7 +32,7 @@ function AddItemPage() {
       packingListId: 0,
       categoryId: 0,
       name: "",
-      quantity: 1,
+      quantity: null,
       isPacked: false,
       notes: "",
     },
@@ -86,38 +88,73 @@ function AddItemPage() {
         <Card>
           {items.map((item, index) => (
             <CardContent key={item.id} className="space-y-2 pt-4">
-              <div className="flex flex-row space-x-2">
-                <Input
-                  className="w-full dark:bg-white"
-                  placeholder="Item name"
-                  value={item.name}
-                  onChange={(e) =>
-                    handleItemChange(index, "name", e.target.value)
-                  }
-                />
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-12">
+                <div className="sm:col-span-6">
+                  <Label htmlFor={`name-${index}`}>Item Name</Label>
+                  <Input
+                    id={`name-${index}`}
+                    className="w-full dark:bg-white"
+                    placeholder="Item name"
+                    value={item.name}
+                    onChange={(e) =>
+                      handleItemChange(index, "name", e.target.value)
+                    }
+                  />
+                </div>
 
-                <Select
-                  value={item.categoryId.toString()}
-                  onValueChange={(value) =>
-                    handleItemChange(index, "categoryId", parseInt(value))
-                  }
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {packingCategories.map((category) => (
-                        <SelectItem
-                          key={category.id}
-                          value={category.id.toString()}
-                        >
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <div className="sm:col-span-2">
+                  <Label htmlFor={`quantity-${index}`}>Quantity</Label>
+                  <Input
+                    id={`quantity-${index}`}
+                    className="w-full dark:bg-white"
+                    type="number"
+                    placeholder="Quantity"
+                    value={item.quantity ?? ""}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value);
+                      handleItemChange(index, "quantity", isNaN(val) ? 0 : val);
+                    }}
+                  />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <Label htmlFor={`category-${index}`}>Category</Label>
+                  <Select
+                    value={item.categoryId.toString()}
+                    onValueChange={(value) =>
+                      handleItemChange(index, "categoryId", parseInt(value))
+                    }
+                  >
+                    <SelectTrigger id={`category-${index}`} className="w-full">
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {packingCategories.map((category) => (
+                          <SelectItem
+                            key={category.id}
+                            value={category.id.toString()}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="sm:col-span-1">
+                  <div className="flex flex-col items-center space-y-2">
+                    <Label htmlFor={`packed-${index}`}>Packed?</Label>
+                    <Checkbox
+                      id={`packed-${index}`}
+                      checked={item.isPacked}
+                      onCheckedChange={(checked) =>
+                        handleItemChange(index, "isPacked", checked)
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </CardContent>
           ))}
