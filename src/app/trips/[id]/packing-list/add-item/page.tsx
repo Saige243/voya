@@ -32,7 +32,7 @@ function AddItemPage() {
       packingListId: 0,
       categoryId: 0,
       name: "",
-      quantity: null,
+      quantity: 1,
       isPacked: false,
       notes: "",
     },
@@ -112,7 +112,7 @@ function AddItemPage() {
                     value={item.quantity ?? ""}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
-                      handleItemChange(index, "quantity", isNaN(val) ? 0 : val);
+                      handleItemChange(index, "quantity", val);
                     }}
                   />
                 </div>
@@ -150,7 +150,7 @@ function AddItemPage() {
                       id={`packed-${index}`}
                       checked={item.isPacked}
                       onCheckedChange={(checked) =>
-                        handleItemChange(index, "isPacked", checked)
+                        handleItemChange(index, "isPacked", checked === true)
                       }
                     />
                   </div>
