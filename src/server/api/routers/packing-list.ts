@@ -19,33 +19,42 @@ export const packingListRouter = createTRPCRouter({
       return packingList;
     }),
 
-  addItems: protectedProcedure
+  createMany: protectedProcedure
     .input(
       z.object({
         tripId: z.number(),
         items: z.array(
           z.object({
-            packingListId: z.number(),
             categoryId: z.number(),
             name: z.string(),
             quantity: z.number().optional().default(1),
             isPacked: z.boolean().optional().default(false),
-            notes: z.string().optional().default(""),
           }),
         ),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const { items } = input;
+      const { tripId, items } = input;
 
+      // 1. Find or create the packing list
+      let packingList = await ctx.db.packingList.findUnique({
+        where: { tripId },
+      });
+
+      if (!packingList) {
+        packingList = await ctx.db.packingList.create({
+          data: { tripId },
+        });
+      }
+
+      // 2. Create items with that packing list ID
       const createdItems = await ctx.db.packingListItem.createMany({
         data: items.map((item) => ({
-          packingListId: item.packingListId,
+          packingListId: packingList.id,
           categoryId: item.categoryId,
           name: item.name,
           quantity: item.quantity ?? 1,
           isPacked: item.isPacked ?? false,
-          notes: item.notes ?? "",
         })),
       });
 

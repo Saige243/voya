@@ -17,32 +17,51 @@ import { Card, CardContent } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
+import { Icon } from "~/components/common/Icon";
+import { api } from "~/trpc/react";
+
+type NewPackingListItem = Omit<
+  PackingListItem,
+  "id" | "createdAt" | "packingListId"
+>;
 
 function AddItemPage() {
   const { trip } = useTrip();
-  const tripId = trip?.id?.toString() ?? "";
+  const tripId = trip?.id;
 
   const [packingCategories, setPackingCategories] = React.useState<
     PackingCategory[]
   >([]);
-  const [items, setItems] = React.useState<PackingListItem[]>([
+  const [items, setItems] = React.useState<NewPackingListItem[]>([
     {
-      id: Date.now(),
-      createdAt: new Date(),
-      packingListId: 0,
       categoryId: 0,
       name: "",
       quantity: 1,
       isPacked: false,
-      notes: "",
     },
   ]);
+
+  const createMany = api.packingList.createMany.useMutation({
+    onSuccess: () => {
+      console.log("Items saved successfully");
+      setItems([
+        {
+          categoryId: 0,
+          name: "",
+          quantity: 1,
+          isPacked: false,
+        },
+      ]);
+    },
+    onError: (error) => {
+      console.error("Error saving items:", error);
+    },
+  });
 
   useEffect(() => {
     const fetchPackingCategories = async () => {
       try {
         const categories = await getPackingCategories();
-        console.log("Fetched packing categories:", categories);
         setPackingCategories(categories);
       } catch (error) {
         console.error("Error fetching packing categories:", error);
@@ -56,27 +75,40 @@ function AddItemPage() {
     setItems((prev) => [
       ...prev,
       {
-        id: Date.now(),
-        createdAt: new Date(),
-        packingListId: 0,
         categoryId: 0,
         name: "",
         quantity: 1,
         isPacked: false,
-        notes: "",
       },
     ]);
   };
 
-  const handleItemChange = <K extends keyof PackingListItem>(
+  const handleItemChange = <K extends keyof NewPackingListItem>(
     index: number,
     key: K,
-    value: PackingListItem[K],
+    value: NewPackingListItem[K],
   ) => {
     setItems((prev) => {
       const newItems = [...prev];
-      newItems[index] = { ...newItems[index], [key]: value } as PackingListItem;
+      newItems[index] = { ...newItems[index], [key]: value };
       return newItems;
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!tripId) return console.warn("No trip ID");
+
+    createMany.mutate({
+      tripId,
+      items: items.map((item) => {
+        return {
+          categoryId: item.categoryId ?? 0,
+          name: item.name ?? "",
+          quantity: item.quantity ?? 1,
+          isPacked: item.isPacked ?? false,
+        } as NewPackingListItem;
+      }),
     });
   };
 
@@ -84,10 +116,10 @@ function AddItemPage() {
     <main className="flex min-h-full flex-col items-center justify-center p-4">
       <h1 className="text-2xl font-bold">Packing List</h1>
 
-      <div className="mt-4 w-full space-y-4">
+      <form onSubmit={handleSubmit} className="mt-4 w-full space-y-4">
         <Card>
           {items.map((item, index) => (
-            <CardContent key={item.id} className="space-y-2 pt-4">
+            <CardContent key={index} className="space-y-2 pt-4">
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-12">
                 <div className="sm:col-span-6">
                   <Label htmlFor={`name-${index}`}>Item Name</Label>
@@ -109,10 +141,10 @@ function AddItemPage() {
                     className="w-full dark:bg-white"
                     type="number"
                     placeholder="Quantity"
-                    value={item.quantity ?? ""}
+                    value={item.quantity}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
-                      handleItemChange(index, "quantity", val);
+                      handleItemChange(index, "quantity", isNaN(val) ? 1 : val);
                     }}
                   />
                 </div>
@@ -160,10 +192,14 @@ function AddItemPage() {
           ))}
         </Card>
 
-        <Button className="w-full" onClick={handleAddMore}>
-          Add Another Item
+        <Button type="button" className="w-full" onClick={handleAddMore}>
+          <Icon size="sm" name="Plus" /> Add Another Item
         </Button>
-      </div>
+
+        <Button className="w-full text-black" type="submit" variant="outline">
+          {items.length > 1 ? "Save Items" : "Save Item"}
+        </Button>
+      </form>
     </main>
   );
 }
