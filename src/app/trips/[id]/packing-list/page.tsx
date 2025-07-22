@@ -1,33 +1,29 @@
-"use client";
-
-import React, { useEffect } from "react";
+import React from "react";
 import getPackingList from "../../actions/getPackingList";
-import { useTrip } from "~/app/trips/contexts/TripContext";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-function PackingListPage() {
-  const { trip } = useTrip();
-  if (!trip) {
+type Props = {
+  params: { id?: string };
+};
+
+async function PackingListPage({ params }: Props) {
+  const tripId = params.id;
+  console.log("Trip ID:", tripId);
+
+  if (!tripId || tripId === "undefined" || tripId === "null") {
     redirect("/");
   }
-  const tripId = trip?.id?.toString() ?? "";
-  console.log("Trip ID:", trip);
+  console.log("Fetching packing list for trip ID:", tripId, params);
 
-  useEffect(() => {
-    const fetchPackingList = async () => {
-      try {
-        const list = await getPackingList(tripId);
-        console.log("Fetched packing list:", list);
-      } catch (error) {
-        console.warn("Error fetching packing list:", error);
-      }
-    };
-
-    void fetchPackingList();
-  }, [tripId]);
+  try {
+    const list = await getPackingList(tripId);
+    console.log("Fetched packing list:", list);
+  } catch (error) {
+    console.warn("Error fetching packing list:", error);
+  }
 
   const emptyList = (
     <div>

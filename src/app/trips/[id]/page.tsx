@@ -25,15 +25,16 @@ export default async function TripDetailsPage({
   params: { id: string };
 }) {
   const session = await getServerAuthSession();
+  const tripId = params.id;
+  let trip: Trip | null = null;
+  let accommodations: Accommodation[] = [];
 
   if (!session) {
     redirect("/");
   }
 
-  let trip: Trip | null = null;
-  let accommodations: Accommodation[] = [];
   try {
-    trip = await getTrip(params.id);
+    trip = await getTrip(tripId);
     accommodations = await getAccommodations(trip.id.toString());
   } catch (error) {
     console.error("Error fetching trip details:", error);
