@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { tripRouter } from "./routers/trip";
 import { accommodationRouter } from "./routers/accomodation";
@@ -13,7 +12,6 @@ import { packingCategoryRouter } from "./routers/packingCategory";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   trip: tripRouter,
   accommodation: accommodationRouter,
   itinerary: itineraryRouter,

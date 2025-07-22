@@ -18,7 +18,7 @@ function PackingListPage() {
         const list = await getPackingList(tripId);
         console.log("Fetched packing list:", list);
       } catch (error) {
-        console.error("Error fetching packing list:", error);
+        console.warn("Error fetching packing list:", error);
       }
     };
 
