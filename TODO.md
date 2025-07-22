@@ -1,4 +1,9 @@
 # Todos
 
+## TODO
+
 - [ ] Create 'New User' flow
-- [ ] Create Packing List
+
+## DONE
+
+- [x] Create Packing List

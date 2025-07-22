@@ -3,7 +3,7 @@ import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/components/common/Icon";
-import { type Accommodation } from "@prisma/client";
+import { type Trip, type Accommodation } from "@prisma/client";
 import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
@@ -12,57 +12,38 @@ import BackButton from "~/components/trips/BackButton";
 import { DeleteTripButton } from "~/components/trips/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
 import CardMenu from "~/components/common/CardMenu";
-// import { DeleteItineraryButton } from "~/components/itineraries/DeleteItineraryButton";
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-// } from "~/components/ui/accordion";
-// import { AccordionTrigger } from "@radix-ui/react-accordion";
-
-// type ItineraryBlockProps = {
-//   trip: Trip;
-//   itineraries: Itinerary[] | null;
-// };
+import getAccommodations from "../actions/getAccommodations";
+import getTrip from "../actions/getTrip";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
   tripId: number;
 };
 
-async function getTrip(id: string) {
-  const tripId = parseInt(id);
-  const trip = await api.trip.getById({ id: tripId });
-  if (!trip) throw new Error("Trip not found");
-  return trip;
-}
-
-async function getAccommodations(id: string) {
-  const tripId = parseInt(id);
-  try {
-    return await api.accommodation.getAll({ tripId });
-  } catch (error) {
-    console.error("Error fetching accommodations:", error);
-    throw new Error("No accommodations found");
-  }
-}
-
 export default async function TripDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const trip = await getTrip(params.id);
-  const accommodations = await getAccommodations(trip.id.toString());
   const session = await getServerAuthSession();
   if (!session) {
     redirect("/");
   }
 
-  function AccommodationList({
+  let trip: Trip | null = null;
+  let accommodations: Accommodation[] = [];
+  try {
+    trip = await getTrip(params.id);
+    accommodations = await getAccommodations(trip.id.toString());
+  } catch (error) {
+    console.error("Error fetching trip details:", error);
+    redirect("/");
+  }
+
+  const AccommodationList = ({
     accommodations,
     tripId,
-  }: AccommodationListProps) {
+  }: AccommodationListProps) => {
     if (accommodations.length === 0) {
       return (
         <div className="text-center">
@@ -81,86 +62,15 @@ export default async function TripDetailsPage({
         ))}
       </div>
     );
-  }
+  };
 
-  // function ItineraryBlock({ trip, itineraries }: ItineraryBlockProps) {
-  //   return (
-  //     <div className="w-full">
-  //       {itineraries && itineraries.length > 0 ? (
-  //         <div className="space-y-4">
-  //           {itineraries.map((itinerary) => (
-  //             <div
-  //               key={itinerary.id}
-  //               className="max-w-[500px] rounded-lg border bg-white p-6 text-black shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-  //             >
-  //               <div className="flex items-center justify-between">
-  //                 <Typography variant="heading1">{itinerary.title}</Typography>
-  //               </div>
-  //               <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
-  //                 <div>
-  //                   <Label htmlFor={`datetime-${itinerary.id}`}>Date:</Label>
-  //                   <Typography>
-  //                     {format(
-  //                       new Date(itinerary.datetime as string | number | Date),
-  //                       "MMM dd, yyyy",
-  //                     )}
-  //        `           </Typography>
-  //                 </div>
-  //                 <div>
-  //                   <Label htmlFor={`datetime-${itinerary.id}`}>Time:</Label>
-  //                   <Typography>
-  //                     {format(
-  //                       new Date(itinerary.datetime as string | number | Date),
-  //                       "hh:mm a",
-  //                     )}
-  //                   </Typography>
-  //                 </div>
-  //               </div>
-  //               {itinerary.location && (
-  //                 <div className="mb-4">
-  //                   <Label htmlFor={`location-${itinerary.id}`}>
-  //                     Location:
-  //                   </Label>
-  //                   <Typography>{itinerary.location}</Typography>
-  //                 </div>
-  //               )}
-  //               {itinerary.notes && (
-  //                 <div className="mb-4">
-  //                   <Label htmlFor={`notes-${itinerary.id}`}>Notes:</Label>
-  //                   <Typography>{itinerary.notes}</Typography>
-  //                 </div>
-  //               )}
-  //               <div className="mt-4 flex justify-end">
-  //                 <CardMenu>
-  //                   {editTripButton(trip.id)}
-  //                   <DeleteItineraryButton id={itinerary.id} />
-  //                 </CardMenu>
-  //               </div>
-  //             </div>
-  //           ))}
-  //         </div>
-  //       ) : (
-  //         <div className="text-center">
-  //           <p className="text-gray-600">No itineraries!</p>
-  //           <a
-  //             href={`/trips/${trip?.id}/add-itinerary`}
-  //             className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-  //           >
-  //             Add Itinerary
-  //           </a>
-  //         </div>
-  //       )}
-  //     </div>
-  //   );
-  // }
-
-  function AccommodationCard({
+  const AccommodationCard = ({
     accommodation,
     tripId,
   }: {
     accommodation: Accommodation;
     tripId: number;
-  }) {
+  }) => {
     return (
       <Card>
         <CardContent>
@@ -216,7 +126,7 @@ export default async function TripDetailsPage({
         </CardContent>
       </Card>
     );
-  }
+  };
 
   const editTripButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
@@ -274,9 +184,6 @@ export default async function TripDetailsPage({
       <div className="flex flex-col gap-8 pt-12 md:flex-row">
         <div className="flex-col">
           <div className="w-[450px]">{tripDetails}</div>
-          {/* <div>
-            <ItineraryBlock trip={trip} itineraries={trip.itineraries} />
-          </div> */}
           <AccommodationList tripId={trip.id} accommodations={accommodations} />
         </div>
       </div>
