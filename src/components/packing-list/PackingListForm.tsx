@@ -4,7 +4,6 @@ import React from "react";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
-// import { DatePicker } from "~/components/ui/datepicker";
 import { type Accommodation } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -94,7 +93,6 @@ const AccommodationsForm = ({
     },
   });
 
-  // Add this right after your useForm hook
   console.log("Current errors:", errors);
   console.log("Form is valid:", Object.keys(errors).length === 0);
 

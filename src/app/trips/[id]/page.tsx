@@ -1,5 +1,4 @@
 import { Button } from "~/components/ui/button";
-import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { Icon } from "~/components/common/Icon";
@@ -26,6 +25,7 @@ export default async function TripDetailsPage({
   params: { id: string };
 }) {
   const session = await getServerAuthSession();
+
   if (!session) {
     redirect("/");
   }

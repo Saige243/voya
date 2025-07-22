@@ -6,9 +6,13 @@ import { useTrip } from "~/app/trips/contexts/TripContext";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 function PackingListPage() {
   const { trip } = useTrip();
+  if (!trip) {
+    redirect("/");
+  }
   const tripId = trip?.id?.toString() ?? "";
   console.log("Trip ID:", trip);
 
