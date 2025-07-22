@@ -19,6 +19,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
 import { Icon } from "~/components/common/Icon";
 import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 type NewPackingListItem = Omit<
   PackingListItem,
@@ -27,6 +28,7 @@ type NewPackingListItem = Omit<
 
 function AddItemPage() {
   const { trip } = useTrip();
+  const router = useRouter();
   const tripId = trip?.id;
 
   const [packingCategories, setPackingCategories] = React.useState<
@@ -59,6 +61,10 @@ function AddItemPage() {
   });
 
   useEffect(() => {
+    if (!trip) {
+      router.replace("/");
+    }
+
     const fetchPackingCategories = async () => {
       try {
         const categories = await getPackingCategories();

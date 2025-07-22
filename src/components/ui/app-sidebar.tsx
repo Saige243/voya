@@ -39,26 +39,6 @@ export function AppSidebar() {
   const { trip } = useTrip();
   const tripUrl = `/trips/${trip?.id}/itinerary`;
   const [chevronDown, setChevronDown] = React.useState(false);
-  // type Trip = Awaited<ReturnType<typeof getTrip>>;
-  // const [trip, setTrip] = React.useState<Trip | null>(null);
-
-  // useEffect(() => {
-  //   async function fetchTrip() {
-  //     const data = await getTrip(tripId);
-  //     setTrip(data);
-  //   }
-
-  //   if (tripId) {
-  //     fetchTrip().catch(console.error);
-  //   }
-  // }, [tripId]);
-
-  // const startDate = trip?.startDate;
-  // const endDate = trip?.endDate ?? new Date();
-  // // const dates =
-  //   startDate && endDate
-  //     ? formatStartAndEndDates(new Date(startDate), new Date(endDate))
-  //     : [];
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${trip?.id}`, icon: Home },
@@ -104,44 +84,46 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              <SidebarMenuItem>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem
-                    value="daily-itinerary"
-                    className="cursor-pointer border-none"
-                  >
-                    <AccordionTrigger asChild>
-                      <SidebarMenuButton
-                        asChild
-                        onClick={() => setChevronDown(!chevronDown)}
-                      >
-                        <div className="flex w-full items-center gap-2">
-                          <Calendar />
-                          <span>Daily Itinerary</span>
-                          {chevronDown ? (
-                            <ChevronUp className="ml-auto" />
-                          ) : (
-                            <ChevronDown className="ml-auto" />
-                          )}
-                        </div>
-                      </SidebarMenuButton>
-                    </AccordionTrigger>
-
-                    <AccordionContent className="flex flex-col gap-2 pl-8">
-                      {itineraryItems.map((item) => (
-                        <a
-                          key={item.title}
-                          href={item.url}
-                          className="flex items-center gap-1 py-1 text-sm"
+              {trip && (
+                <SidebarMenuItem>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem
+                      value="daily-itinerary"
+                      className="cursor-pointer border-none"
+                    >
+                      <AccordionTrigger asChild>
+                        <SidebarMenuButton
+                          asChild
+                          onClick={() => setChevronDown(!chevronDown)}
                         >
-                          <item.icon height={18} className="text-gray-500" />
-                          <span>{item.title}</span>
-                        </a>
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </SidebarMenuItem>
+                          <div className="flex w-full items-center gap-2">
+                            <Calendar />
+                            <span>Daily Itinerary</span>
+                            {chevronDown ? (
+                              <ChevronUp className="ml-auto" />
+                            ) : (
+                              <ChevronDown className="ml-auto" />
+                            )}
+                          </div>
+                        </SidebarMenuButton>
+                      </AccordionTrigger>
+
+                      <AccordionContent className="flex flex-col gap-2 pl-8">
+                        {itineraryItems.map((item) => (
+                          <a
+                            key={item.title}
+                            href={item.url}
+                            className="flex items-center gap-1 py-1 text-sm"
+                          >
+                            <item.icon height={18} className="text-gray-500" />
+                            <span>{item.title}</span>
+                          </a>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
