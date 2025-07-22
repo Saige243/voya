@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
-  const allTrips = await getAllSortedTrips();
+  const allTrips = session ? await getAllSortedTrips() : [];
   const initialTrip = allTrips && allTrips.length > 0 ? allTrips[0] : null;
 
   return (
@@ -32,8 +32,8 @@ export default async function RootLayout({
               <TripProvider trip={initialTrip ?? null}>
                 {/* The SidebarProvider wraps the AppSidebar and SidebarTrigger components */}
                 <SidebarProvider>
-                  <AppSidebar />
-                  <SidebarTrigger />
+                  {session && <AppSidebar />}
+                  {session && <SidebarTrigger />}
                   <div className="w-screen overflow-x-hidden px-12 py-12 text-white">
                     {children}
                   </div>
