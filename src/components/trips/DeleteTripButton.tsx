@@ -5,22 +5,21 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/common/Icon";
 import { api } from "~/trpc/react";
 import { redirect } from "next/navigation";
+import router from "next/router";
 
 type DeleteTripButtonProps = {
   id: number;
 };
 
 export function DeleteTripButton({ id }: DeleteTripButtonProps) {
-  const [isPending, startTransition] = useTransition();
-
   const deleteTrip = api.trip.delete.useMutation({
     onSuccess: () => {
-      startTransition(() => {
-        redirect("/trips");
-      });
+      console.log("Trip deleted successfully");
+
+      void router.push("/trips");
     },
     onError: (error) => {
-      console.error("Error deleting trip", error);
+      console.error("Error deleting trip:", error);
     },
   });
 
@@ -28,21 +27,17 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
     const confirmed = window.prompt(
       "Are you sure you want to delete this trip and its associated data? This action cannot be undone. Type 'DELETE TRIP' to confirm.",
     );
+
     if (confirmed !== "DELETE TRIP") {
       return;
     }
-    try {
-      deleteTrip.mutate(id);
-      console.log("Trip deleted successfully");
-      window.location.href = "/dashboard";
-    } catch (error) {
-      console.error("Error deleting trip", error);
-    }
+
+    deleteTrip.mutate(id);
   };
 
   return (
-    <Button onClick={handleDelete} disabled={isPending} variant="ghost">
-      <Icon name="Trash" color={isPending ? "gray" : "red"} size="20" />
+    <Button onClick={handleDelete} variant="ghost">
+      <Icon name="Trash" color="red" size="20" />
       <span className="text-red-500">Delete Trip</span>
     </Button>
   );
