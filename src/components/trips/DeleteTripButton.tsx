@@ -3,7 +3,6 @@
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/common/Icon";
 import { api } from "~/trpc/react";
-import { toast } from "sonner";
 
 type DeleteTripButtonProps = {
   id: number;
@@ -14,7 +13,7 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
     onSuccess: () => {
       console.log("Trip deleted successfully");
 
-      window.location.href = "/trips";
+      window.location.href = "/trips?deleted=true";
     },
     onError: (error) => {
       console.error("Error deleting trip:", error);
@@ -30,27 +29,11 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
       return;
     }
 
-    toast.promise(
-      new Promise((resolve, reject) => {
-        deleteTrip.mutate(id, {
-          onSuccess: (data) => resolve(data),
-          onError: (error) => reject(error),
-        });
-      }),
-      {
-        loading: "Deleting your trip...",
-        success: () => {
-          setTimeout(() => {
-            window.location.href = "/trips";
-          }, 3000);
-          return `Trip deleted successfully!`;
-        },
-        error: (error) => {
-          console.error("Error deleting trip:", error);
-          return "Failed to delete trip. Please try again.";
-        },
-      },
-    );
+    try {
+      await deleteTrip.mutateAsync(id);
+    } catch (error) {
+      console.error("Error deleting trip:", error);
+    }
   };
 
   return (

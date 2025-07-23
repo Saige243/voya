@@ -1,6 +1,7 @@
+"use client";
+
 import { Button } from "~/components/ui/button";
-import { redirect } from "next/navigation";
-import { getServerAuthSession } from "~/server/auth";
+import { redirect, useSearchParams } from "next/navigation";
 import { Icon } from "~/components/common/Icon";
 import { type Trip, type Accommodation } from "@prisma/client";
 import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
@@ -13,32 +14,70 @@ import { Card, CardContent } from "~/components/ui/card";
 import CardMenu from "~/components/common/CardMenu";
 import getAccommodations from "../actions/getAccommodations";
 import getTrip from "../actions/getTrip";
+import { toast } from "sonner";
+import { useState, useEffect, useRef } from "react";
+import { useSession } from "next-auth/react";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
   tripId: number;
 };
 
-export default async function TripDetailsPage({
+export default function TripDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const session = await getServerAuthSession();
+  const searchParams = useSearchParams();
   const tripId = params.id;
-  let trip: Trip | null = null;
-  let accommodations: Accommodation[] = [];
+  const { data: session, status } = useSession();
+  const [trip, setTrip] = useState<Trip | null>(null);
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const hasShownToast = useRef(false);
 
-  if (!session) {
+  if (trip === null) {
     redirect("/");
   }
 
-  try {
-    trip = await getTrip(tripId);
-    accommodations = await getAccommodations(trip.id.toString());
-  } catch (error) {
-    console.error("Error fetching trip details:", error);
-    redirect("/");
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setTrip(await getTrip(tripId));
+        setAccommodations(await getAccommodations(tripId));
+      } catch (error) {
+        console.error("Error fetching trip details:", error);
+        redirect("/");
+      }
+    }
+    if (session) {
+      void fetchData();
+    }
+  }, [session, tripId]);
+
+  useEffect(() => {
+    if (hasShownToast.current) return;
+
+    const toastType =
+      searchParams.get("created") === "true"
+        ? "created"
+        : searchParams.get("deleted") === "true"
+          ? "deleted"
+          : null;
+
+    if (toastType) {
+      const title = searchParams.get("title");
+      toast.success(`Trip "${title}" ${toastType} successfully!`);
+      window.history.replaceState({}, "", window.location.pathname);
+      hasShownToast.current = true;
+    }
+  }, [searchParams]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    redirect("/login");
   }
 
   const AccommodationList = ({
@@ -141,18 +180,18 @@ export default async function TripDetailsPage({
   const tripDetails = (
     <Card className="mb-6 w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
       <CardContent>
-        <Typography variant="heading1">{trip.title}</Typography>
+        <Typography variant="heading1">{trip?.title}</Typography>
         <div className="mb-2">
-          <Typography>{trip.destination}</Typography>
+          <Typography>{trip?.destination}</Typography>
         </div>
         <div className="mb-2">
-          <Typography>{trip.description}</Typography>
+          <Typography>{trip?.description}</Typography>
         </div>
         <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
           <div>
             <Label htmlFor="start-date">Start Date:</Label>
             <Typography>
-              {trip.startDate
+              {trip?.startDate
                 ? format(new Date(trip.startDate), "MMM dd, yyyy")
                 : "N/A"}
             </Typography>
@@ -160,17 +199,19 @@ export default async function TripDetailsPage({
           <div>
             <Label htmlFor="end-date">End Date:</Label>
             <Typography>
-              {trip.endDate
+              {trip?.endDate
                 ? format(new Date(trip.endDate), "MMM dd, yyyy")
                 : "N/A"}
             </Typography>
           </div>
         </div>
         <div className="mt-8 flex justify-end">
-          <CardMenu>
-            {editTripButton(trip.id)}
-            <DeleteTripButton id={trip.id} />
-          </CardMenu>
+          {trip?.id && (
+            <CardMenu>
+              {editTripButton(trip.id)}
+              <DeleteTripButton id={trip.id} />
+            </CardMenu>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -185,7 +226,12 @@ export default async function TripDetailsPage({
       <div className="flex flex-col gap-8 pt-12 md:flex-row">
         <div className="flex-col">
           <div className="w-[450px]">{tripDetails}</div>
-          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+          {trip && (
+            <AccommodationList
+              tripId={trip.id}
+              accommodations={accommodations}
+            />
+          )}
         </div>
       </div>
     </main>
