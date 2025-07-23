@@ -1,11 +1,8 @@
 "use client";
 
-import { useTransition } from "react";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/common/Icon";
 import { api } from "~/trpc/react";
-import { redirect } from "next/navigation";
-import router from "next/router";
 
 type DeleteTripButtonProps = {
   id: number;
@@ -16,7 +13,7 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
     onSuccess: () => {
       console.log("Trip deleted successfully");
 
-      void router.push("/trips");
+      window.location.href = "/trips";
     },
     onError: (error) => {
       console.error("Error deleting trip:", error);

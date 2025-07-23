@@ -7,7 +7,6 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { Card, CardContent } from "~/components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import { parse } from "date-fns";
 import { Input } from "~/components/ui/input";
 
 type FormData = {
@@ -67,9 +66,10 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     console.log("errors", errors);
 
     try {
-      await createTrip({
+      const createdTrip = await createTrip({
         tripData,
       });
+      window.location.href = `/trips/${createdTrip.id}`;
     } catch (error) {
       console.error("Error creating trip:", error);
       return;
