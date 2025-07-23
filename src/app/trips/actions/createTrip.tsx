@@ -3,7 +3,6 @@
 import { api } from "~/trpc/server";
 import * as yup from "yup";
 import { type Trip } from "@prisma/client";
-import { redirect } from "next/navigation";
 
 export async function createTrip({
   tripData,

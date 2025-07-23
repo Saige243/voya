@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Card, CardContent } from "~/components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "~/components/ui/input";
+import { toast } from "sonner";
 
 type FormData = {
   title: string;
@@ -65,15 +66,19 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     console.log("tripData", tripData);
     console.log("errors", errors);
 
-    try {
-      const createdTrip = await createTrip({
-        tripData,
-      });
-      window.location.href = `/trips/${createdTrip.id}`;
-    } catch (error) {
-      console.error("Error creating trip:", error);
-      return;
-    }
+    toast.promise(createTrip({ tripData }), {
+      loading: "Creating your trip...",
+      success: (createdTrip) => {
+        setTimeout(() => {
+          window.location.href = `/trips/${createdTrip.id}`;
+        }, 1500);
+        return `Trip "${createdTrip.title}" created successfully!`;
+      },
+      error: (error) => {
+        console.error("Error creating trip:", error);
+        return "Failed to create trip. Please try again.";
+      },
+    });
   }
 
   return (
