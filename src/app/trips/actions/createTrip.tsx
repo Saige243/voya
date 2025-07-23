@@ -50,7 +50,7 @@ export async function createTrip({
       throw new Error("Failed to update the trip");
     }
 
-    redirect(`/trips/${createdTrip.id}`);
+    return createdTrip;
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       console.error("Validation errors:", error.errors);

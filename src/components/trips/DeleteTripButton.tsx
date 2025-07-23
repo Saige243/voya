@@ -33,6 +33,8 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
     }
     try {
       deleteTrip.mutate(id);
+      console.log("Trip deleted successfully");
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Error deleting trip", error);
     }

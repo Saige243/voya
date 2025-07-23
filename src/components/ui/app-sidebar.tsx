@@ -33,12 +33,18 @@ import { AccordionTrigger } from "@radix-ui/react-accordion";
 import React from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { Button } from "~/components/ui/button";
 // import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {
   const { trip } = useTrip();
   const tripUrl = `/trips/${trip?.id}/itinerary`;
   const [chevronDown, setChevronDown] = React.useState(false);
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${trip?.id}`, icon: Home },
@@ -151,7 +157,15 @@ export function AppSidebar() {
                     Profile
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button
+                    variant="ghost"
+                    onClick={handleSignOut}
+                    className="flex items-center gap-2"
+                  >
+                    Sign out
+                  </Button>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
