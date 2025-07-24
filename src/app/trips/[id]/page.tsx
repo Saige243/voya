@@ -21,10 +21,8 @@ type AccommodationListProps = {
 
 export default async function TripDetailsPage({
   params,
-  searchParams,
 }: {
   params: { id: string };
-  searchParams: Record<string, string | string[] | undefined>;
 }) {
   let trip: Trip | null = null;
   let accommodations: Accommodation[] = [];
@@ -38,8 +36,6 @@ export default async function TripDetailsPage({
   }
 
   if (!trip) redirect("/trips");
-
-  const wasDeleted = searchParams?.deleted === "true";
 
   const AccommodationList = ({
     accommodations,
@@ -180,7 +176,6 @@ export default async function TripDetailsPage({
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <ToastHandler />
       <div className="flex-start flex w-full items-center text-center">
         <BackButton />
         <h1 className="pl-2 text-2xl font-bold">Dashboard</h1>

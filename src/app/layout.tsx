@@ -8,6 +8,7 @@ import { AppSidebar } from "~/components/ui/app-sidebar";
 import { TripProvider } from "./trips/contexts/TripContext";
 import getAllSortedTrips from "./trips/actions/getAllSortedTrips";
 import { Toaster } from "~/components/ui/sonner";
+import { ToastHandler } from "~/components/common/Toast";
 
 export const metadata = {
   title: "Welcome to Voya",
@@ -32,6 +33,8 @@ export default async function RootLayout({
             <div className="bg-gradient-to-b from-[#74ebd5] to-[#ACB6E5]">
               <TripProvider trip={initialTrip ?? null}>
                 <Toaster />
+                <ToastHandler />
+
                 {/* The SidebarProvider wraps the AppSidebar and SidebarTrigger components */}
                 <SidebarProvider>
                   {session && <AppSidebar />}
