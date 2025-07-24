@@ -11,7 +11,6 @@ import { Card, CardContent } from "~/components/ui/card";
 import CardMenu from "~/components/common/CardMenu";
 import { redirect } from "next/navigation";
 import getTrip from "../actions/getTrip";
-import { ToastHandler } from "~/components/common/Toast";
 import getAccommodations from "../actions/getAccommodations";
 
 type AccommodationListProps = {

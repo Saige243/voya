@@ -5,8 +5,6 @@ import { toast } from "sonner";
 
 export function ToastHandler() {
   useEffect(() => {
-    console.log("ToastHandler mounted");
-
     const url = new URL(window.location.href);
     let shouldReplace = false;
 

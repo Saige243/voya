@@ -34,8 +34,6 @@ export default async function RootLayout({
               <TripProvider trip={initialTrip ?? null}>
                 <Toaster />
                 <ToastHandler />
-
-                {/* The SidebarProvider wraps the AppSidebar and SidebarTrigger components */}
                 <SidebarProvider>
                   {session && <AppSidebar />}
                   {session && <SidebarTrigger />}
