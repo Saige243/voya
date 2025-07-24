@@ -1,7 +1,4 @@
-"use client";
-
 import { Button } from "~/components/ui/button";
-import { redirect, useSearchParams } from "next/navigation";
 import { Icon } from "~/components/common/Icon";
 import { type Trip, type Accommodation } from "@prisma/client";
 import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
@@ -12,73 +9,31 @@ import BackButton from "~/components/trips/BackButton";
 import { DeleteTripButton } from "~/components/trips/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
 import CardMenu from "~/components/common/CardMenu";
-import getAccommodations from "../actions/getAccommodations";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 import getTrip from "../actions/getTrip";
-import { toast } from "sonner";
-import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
   tripId: number;
 };
 
-export default function TripDetailsPage({
+// const tripIdSchema = z.coerce.number().int().positive();
+
+export default async function TripDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const searchParams = useSearchParams();
-  const tripId = params.id;
-  const { data: session, status } = useSession();
-  const [trip, setTrip] = useState<Trip | null>(null);
-  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
-  const hasShownToast = useRef(false);
+  // const result = tripIdSchema.safeParse(params.id);
 
-  if (trip === null) {
-    redirect("/");
-  }
+  // if (!result.success) {
+  //   return redirect("/trips");
+  // }
+  console.log("TYTPE:", typeof params.id);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setTrip(await getTrip(tripId));
-        setAccommodations(await getAccommodations(tripId));
-      } catch (error) {
-        console.error("Error fetching trip details:", error);
-        redirect("/");
-      }
-    }
-    if (session) {
-      void fetchData();
-    }
-  }, [session, tripId]);
-
-  useEffect(() => {
-    if (hasShownToast.current) return;
-
-    const toastType =
-      searchParams.get("created") === "true"
-        ? "created"
-        : searchParams.get("deleted") === "true"
-          ? "deleted"
-          : null;
-
-    if (toastType) {
-      const title = searchParams.get("title");
-      toast.success(`Trip "${title}" ${toastType} successfully!`);
-      window.history.replaceState({}, "", window.location.pathname);
-      hasShownToast.current = true;
-    }
-  }, [searchParams]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  if (!session) {
-    redirect("/login");
-  }
+  const trip: Trip = await getTrip(params.id);
+  if (!trip) redirect("/trips");
 
   const AccommodationList = ({
     accommodations,

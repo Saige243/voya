@@ -71,18 +71,6 @@ const NewTripForm = ({ userId }: { userId: string }) => {
     } catch (error) {
       console.error("Error creating trip:", error);
     }
-    // toast.promise(createTrip({ tripData }), {
-    //   loading: "Creating your trip...",
-    //   success: (createdTrip) => {
-    //     setTimeout(() => {
-    //     }, 1500);
-    //     return `Trip "${createdTrip.title}" created successfully!`;
-    //   },
-    //   error: (error) => {
-    //     console.error("Error creating trip:", error);
-    //     return "Failed to create trip. Please try again.";
-    //   },
-    // });
   }
 
   return (

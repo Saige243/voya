@@ -13,7 +13,7 @@ export function DeleteTripButton({ id }: DeleteTripButtonProps) {
     onSuccess: () => {
       console.log("Trip deleted successfully");
 
-      window.location.href = "/trips?deleted=true";
+      window.location.href = "/?deleted=true";
     },
     onError: (error) => {
       console.error("Error deleting trip:", error);
