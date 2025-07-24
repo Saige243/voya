@@ -18,21 +18,20 @@ type AccommodationListProps = {
   tripId: number;
 };
 
-// const tripIdSchema = z.coerce.number().int().positive();
-
 export default async function TripDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  // const result = tripIdSchema.safeParse(params.id);
+  let trip: Trip | null = null;
 
-  // if (!result.success) {
-  //   return redirect("/trips");
-  // }
-  console.log("TYTPE:", typeof params.id);
+  try {
+    trip = await getTrip(params.id);
+  } catch (error) {
+    console.error(error);
+    redirect("/trips");
+  }
 
-  const trip: Trip = await getTrip(params.id);
   if (!trip) redirect("/trips");
 
   const AccommodationList = ({
