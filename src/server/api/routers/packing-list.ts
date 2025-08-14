@@ -61,7 +61,7 @@ export const packingListRouter = createTRPCRouter({
       return createdItems;
     }),
 
-  getAll: protectedProcedure
+  getById: protectedProcedure
     .input(
       z.object({
         tripId: z.number(),
@@ -72,22 +72,12 @@ export const packingListRouter = createTRPCRouter({
           .optional(),
       }),
     )
-    .query(({ ctx, input }) => {
-      const allPackingLists = ctx.db.packingList.findMany({
+    .query(async ({ ctx, input }) => {
+      const packingList = await ctx.db.packingList.findUnique({
         where: { tripId: input.tripId },
         include: {
           items: input.include?.items ?? false,
         },
-      });
-
-      return allPackingLists;
-    }),
-
-  getById: protectedProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ ctx, input }) => {
-      const packingList = await ctx.db.packingList.findUnique({
-        where: { id: input.id },
       });
 
       return packingList;

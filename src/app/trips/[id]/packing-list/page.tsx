@@ -4,7 +4,7 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { type PackingList } from "@prisma/client";
+import { type PackingListItem, type PackingList } from "@prisma/client";
 
 type Props = {
   params: { id?: string };
@@ -17,10 +17,11 @@ async function PackingListPage({ params }: Props) {
     redirect("/");
   }
 
-  let list: PackingList[] = [];
+  let listItems: PackingListItem[] = [];
 
   try {
-    list = await getPackingList(tripId);
+    const list = await getPackingList(tripId);
+    listItems = list.items;
     console.log("Fetched packing list:", list);
   } catch (error) {
     console.warn("Error fetching packing list:", error);
@@ -33,10 +34,22 @@ async function PackingListPage({ params }: Props) {
     </div>
   );
 
+  const listView = (
+    <div>
+      <ul>
+        {listItems.map((li) => (
+          <li key={li.id}>{li.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
       <h1 className="text-2xl font-bold">Packing List</h1>
-      {list.length === 0 && emptyList}
+      {listItems.length === 0 && emptyList}
+      {/* {list.length > 0 && listView} */}
+      {listView}
       <Button className="btn btn-primary my-4" asChild>
         <Link
           className={cn(

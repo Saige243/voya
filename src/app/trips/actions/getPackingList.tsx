@@ -4,7 +4,7 @@ import { api } from "~/trpc/server";
 async function getPackingList(id: string) {
   const tripId = parseInt(id);
 
-  const packingList = await api.packingList.getAll({
+  const packingList = await api.packingList.getById({
     tripId: tripId,
     include: {
       items: true,

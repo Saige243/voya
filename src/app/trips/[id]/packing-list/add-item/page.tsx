@@ -139,7 +139,7 @@ function AddItemPage() {
         <Card>
           {items.map((item, index) => (
             <CardContent key={index} className="space-y-2 pt-4">
-              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-12">
+              <div className="grid w-full grid-cols-1 items-center gap-4 sm:grid-cols-12">
                 <div className="sm:col-span-6">
                   <Label htmlFor={`name-${index}`}>Item Name</Label>
                   <Input
@@ -195,7 +195,7 @@ function AddItemPage() {
                 </div>
 
                 <div className="sm:col-span-1">
-                  <div className="flex flex-col items-center space-y-2">
+                  <div className="flex flex-col items-center justify-center space-y-2">
                     <Label htmlFor={`packed-${index}`}>Packed?</Label>
                     <Checkbox
                       id={`packed-${index}`}
