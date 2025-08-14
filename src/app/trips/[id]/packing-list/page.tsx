@@ -38,7 +38,9 @@ async function PackingListPage({ params }: Props) {
     <div>
       <ul>
         {listItems.map((li) => (
-          <li key={li.id}>{li.name}</li>
+          <li key={li.id}>
+            {li.name} - {li.quantity} - {li.isPacked}
+          </li>
         ))}
       </ul>
     </div>
@@ -48,8 +50,7 @@ async function PackingListPage({ params }: Props) {
     <main className="flex min-h-full flex-col items-center justify-center">
       <h1 className="text-2xl font-bold">Packing List</h1>
       {listItems.length === 0 && emptyList}
-      {/* {list.length > 0 && listView} */}
-      {listView}
+      {listItems.length > 0 && listView}
       <Button className="btn btn-primary my-4" asChild>
         <Link
           className={cn(
