@@ -30,7 +30,6 @@ async function PackingListPage({ params }: Props) {
     <div className="text-center">
       <p className="text-gray-500">Your packing list is empty.</p>
       <p className="text-gray-500">Click the button below to add items.</p>
-      <Button className="btn btn-primary my-4">Add Item</Button>
     </div>
   );
 
@@ -38,18 +37,17 @@ async function PackingListPage({ params }: Props) {
     <main className="flex min-h-full flex-col items-center justify-center">
       <h1 className="text-2xl font-bold">Packing List</h1>
       {list.length === 0 && emptyList}
-      <p className="text-gray-500">
-        This is where you can manage your packing list.
-      </p>
-      <Link
-        className={cn(
-          buttonVariants({ variant: "link" }),
-          "no-underline hover:no-underline",
-        )}
-        href={`/trips/${tripId}/packing-list/add-item`}
-      >
-        Add Item
-      </Link>
+      <Button className="btn btn-primary my-4" asChild>
+        <Link
+          className={cn(
+            buttonVariants({ variant: "link" }),
+            "mt-4 no-underline hover:no-underline",
+          )}
+          href={`/trips/${tripId}/packing-list/add-item`}
+        >
+          Add Item
+        </Link>
+      </Button>
     </main>
   );
 }
