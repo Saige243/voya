@@ -4,7 +4,9 @@ import { Button, buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { type PackingListItem, type PackingList } from "@prisma/client";
+import { type PackingListItem } from "@prisma/client";
+import { Checkbox } from "~/_components/ui/checkbox";
+import { Label } from "~/_components/ui/label";
 
 type Props = {
   params: { id?: string };
@@ -35,11 +37,31 @@ async function PackingListPage({ params }: Props) {
   );
 
   const listView = (
-    <div>
+    <div className="w-full">
       <ul>
+        <div className="m-2 flex flex-row items-center justify-between rounded-md p-2 text-black">
+          <Label>Item</Label>
+          <Label>Packed?</Label>
+        </div>
         {listItems.map((li) => (
-          <li key={li.id}>
-            {li.name} - {li.quantity} - {li.isPacked}
+          <li
+            key={li.id}
+            className="m-2 flex flex-row items-center justify-between rounded-md bg-white p-2 text-black"
+          >
+            <p className="px-2">
+              {li.name}{" "}
+              <span className="text-sm text-gray-500">(x{li.quantity})</span>
+            </p>
+            <div>
+              <Checkbox
+                className="border-black"
+                id={`packed-${li.name}`}
+                checked={li.isPacked}
+                // onCheckedChange={(checked) =>
+                //   handleItemChange(index, "isPacked", checked === true)
+                // }
+              />
+            </div>
           </li>
         ))}
       </ul>
