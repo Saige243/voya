@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getServerAuthSession } from "~/server/auth";
-import TripShowcase from "~/components/trips/TripShowcase";
+import TripShowcase from "~/app/trips/_components/TripShowcase";
 import { travelPhrases } from "~/constants/travel-phrases";
 
 export default async function Dashboard() {

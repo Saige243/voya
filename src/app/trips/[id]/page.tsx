@@ -5,8 +5,8 @@ import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAcc
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
 import { Typography } from "~/components/common/Typography";
-import BackButton from "~/components/trips/BackButton";
-import { DeleteTripButton } from "~/components/trips/DeleteTripButton";
+import BackButton from "~/app/trips/_components/BackButton";
+import { DeleteTripButton } from "~/app/trips/_components/DeleteTripButton";
 import { Card, CardContent } from "~/components/ui/card";
 import CardMenu from "~/components/common/CardMenu";
 import { redirect } from "next/navigation";

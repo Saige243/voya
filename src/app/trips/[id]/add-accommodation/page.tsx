@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import AddAccommodationsForm from "../../../../components/accommodations/AddAccommodationsForm";
 import AccommodationsForm from "../../../../components/accommodations/AccommodationsForm";
-import BackButton from "~/components/trips/BackButton";
+import BackButton from "~/app/trips/_components/BackButton";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
 import getTrip from "../../actions/getTrip";

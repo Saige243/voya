@@ -1,5 +1,5 @@
 import { getServerAuthSession } from "~/server/auth";
-import NewTripForm from "~/components/trips/NewTripForm";
+import NewTripForm from "~/app/trips/_components/NewTripForm";
 import { redirect } from "next/navigation";
 
 export default async function NewTrip() {

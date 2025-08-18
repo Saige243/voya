@@ -2,7 +2,7 @@ import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import BackButton from "~/components/trips/BackButton";
+import BackButton from "~/app/trips/_components/BackButton";
 import ItineraryForm from "../../../../../components/itineraries/ItineraryForm";
 
 export default async function AddItineraryItem({
