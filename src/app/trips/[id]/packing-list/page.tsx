@@ -43,7 +43,7 @@ async function PackingListPage({ params }: Props) {
     <div className="flex w-full flex-col gap-8">
       <div>
         <Label className="text-lg">Unpacked</Label>
-        <ul className="rounded-md bg-slate-100 p-2 pb-4">
+        <ul className="rounded-md bg-slate-200 p-2 pb-4">
           <div className="m-2 flex flex-row items-center justify-between rounded-md p-2 text-black">
             <Label>Item</Label>
             <Label>Packed?</Label>

@@ -7,10 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/_components/ui/card";
 import { format } from "date-fns";
 import Link from "next/link";
-import { buttonVariants } from "~/components/ui/button";
+import { buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
 
 function TripCard(trip: Trip) {

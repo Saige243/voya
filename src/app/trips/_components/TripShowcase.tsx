@@ -1,4 +1,4 @@
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 import TripCard from "./TripCard";
 import getAllSortedTrips from "~/app/trips/actions/getAllSortedTrips";
 
