@@ -3,7 +3,7 @@
 import { useState } from "react";
 import AddAccommodationsForm from "./AddAccommodationsForm";
 import { type Trip } from "@prisma/client";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 
 export default function ShowAccommodationFormButton({
   trip,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useTransition } from "react";
-import { Icon } from "~/components/common/Icon";
-import { Button } from "~/components/ui/button";
+import { Icon } from "~/_components/common/Icon";
+import { Button } from "~/_components/ui/button";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 

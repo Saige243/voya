@@ -1,4 +1,4 @@
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent } from "~/_components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import AddAccommodationsForm from "./_components/AddAccommodationsForm";

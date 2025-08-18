@@ -17,7 +17,7 @@ import getItineraries from "~/app/trips/actions/getItineraries";
 import { type ItineraryItem, type Itinerary } from "@prisma/client";
 import { Card } from "~/components/ui/card";
 import { redirect } from "next/navigation";
-import DailyItineraryCard from "~/components/itineraries/DailyItineraryCard";
+import DailyItineraryCard from "~/app/trips/[id]/itinerary/_components/DailyItineraryCard";
 
 export default function ItineraryPage() {
   const params = useParams();

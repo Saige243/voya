@@ -1,6 +1,6 @@
 import React from "react";
 import getPackingList from "../../actions/getPackingList";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";

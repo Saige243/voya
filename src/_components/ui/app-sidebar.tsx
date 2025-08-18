@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "~/components/ui/dropdown-menu";
+} from "~/_components/ui/dropdown-menu";
 import {
   Binoculars,
   Calendar,
@@ -25,7 +25,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "~/components/ui/sidebar";
+} from "~/_components/ui/sidebar";
 import NavAvatarMenu from "../common/NavAvatarMenu";
 import { Separator } from "./separator";
 import { Accordion, AccordionContent, AccordionItem } from "./accordion";
@@ -34,7 +34,7 @@ import React from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 // import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {

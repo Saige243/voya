@@ -2,13 +2,13 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
 import { getServerAuthSession } from "~/server/auth";
-import SessionWrapper from "../components/auth/SessionWrapper";
-import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
-import { AppSidebar } from "~/components/ui/app-sidebar";
+import SessionWrapper from "./auth/_components/SessionWrapper";
+import { SidebarProvider, SidebarTrigger } from "~/_components/ui/sidebar";
+import { AppSidebar } from "~/_components/ui/app-sidebar";
 import { TripProvider } from "./trips/contexts/TripContext";
 import getAllSortedTrips from "./trips/actions/getAllSortedTrips";
-import { Toaster } from "~/components/ui/sonner";
-import { ToastHandler } from "~/components/common/Toast";
+import { Toaster } from "~/_components/ui/sonner";
+import { ToastHandler } from "~/_components/common/Toast";
 
 export const metadata = {
   title: "Welcome to Voya",

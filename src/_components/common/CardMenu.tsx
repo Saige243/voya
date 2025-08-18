@@ -2,10 +2,10 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "~/components/ui/popover";
-import { Icon } from "~/components/common/Icon";
+} from "~/_components/ui/popover";
+import { Icon } from "~/_components/common/Icon";
 import { type ReactNode } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 
 export default function CardMenu({ children }: { children: ReactNode }) {
   return (

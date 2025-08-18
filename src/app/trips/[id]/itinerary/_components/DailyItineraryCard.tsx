@@ -2,14 +2,14 @@
 
 import { format } from "date-fns";
 import React, { useState } from "react";
-import { Typography } from "../common/Typography";
-import { Button } from "../ui/button";
+import { Typography } from "../../../../../_components/common/Typography";
+import { Button } from "../../../../../_components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
 import { type ItineraryItem, type Itinerary } from "@prisma/client";
-import CardMenu from "../common/CardMenu";
-import { Icon } from "../common/Icon";
-import { Input } from "../ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import CardMenu from "../../../../../_components/common/CardMenu";
+import { Icon } from "../../../../../_components/common/Icon";
+import { Input } from "../../../../../_components/ui/input";
+import { Textarea } from "~/_components/ui/textarea";
 import { updateItineraryItem } from "~/app/trips/actions/updateItineraryItem";
 
 interface DailyItineraryCardProps {

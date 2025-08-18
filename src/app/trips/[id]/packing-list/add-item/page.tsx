@@ -2,22 +2,22 @@
 
 import React, { useEffect } from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
-import { Input } from "~/components/ui/input";
+import { Input } from "~/_components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from "~/_components/ui/select";
 import getPackingCategories from "~/app/trips/actions/getPackingCategories";
 import { type PackingCategory, type PackingListItem } from "@prisma/client";
 import { SelectGroup } from "@radix-ui/react-select";
-import { Card, CardContent } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
-import { Label } from "~/components/ui/label";
-import { Icon } from "~/components/common/Icon";
+import { Card, CardContent } from "~/_components/ui/card";
+import { Button } from "~/_components/ui/button";
+import { Checkbox } from "~/_components/ui/checkbox";
+import { Label } from "~/_components/ui/label";
+import { Icon } from "~/_components/common/Icon";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 

@@ -1,9 +1,9 @@
 "use client";
 
 // import { signOut } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar";
 // import { PopoverTrigger } from "@radix-ui/react-popover";
-// import { Button } from "~/components/ui/button";
+// import { Button } from "~/_components/ui/button";
 import { useSession } from "next-auth/react";
 
 function NavAvatarMenu() {

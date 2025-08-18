@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/input";
+import { Button } from "~/_components/ui/button";
+import { Label } from "~/_components/ui/label";
+import { Input } from "~/_components/ui/input";
 import { type Trip } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";

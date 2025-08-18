@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/common/Icon";
+import { Button } from "~/_components/ui/button";
+import { Icon } from "~/_components/common/Icon";
 import { api } from "~/trpc/react";
 
 type DeleteTripButtonProps = {

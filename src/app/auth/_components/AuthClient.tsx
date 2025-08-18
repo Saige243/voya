@@ -13,9 +13,9 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from "~/components/ui/card";
+} from "~/_components/ui/card";
 // import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 
 export default function AuthClient({
   providers,

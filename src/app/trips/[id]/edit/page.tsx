@@ -6,7 +6,7 @@ import EditTripForm from "~/app/trips/_components/EditTripForm";
 import AddAccommodationsForm from "../../../../components/accommodations/AddAccommodationsForm";
 import AccommodationsForm from "../../../../components/accommodations/AccommodationsForm";
 import BackButton from "~/app/trips/_components/BackButton";
-import ItineraryForm from "../../../../components/itineraries/ItineraryForm";
+import ItineraryForm from "../itinerary/_components/ItineraryForm";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
 
