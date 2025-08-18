@@ -1,11 +1,11 @@
 import { Card, CardContent } from "~/components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import AddAccommodationsForm from "../../../../components/accommodations/AddAccommodationsForm";
-import AccommodationsForm from "../../../../components/accommodations/AccommodationsForm";
+import AddAccommodationsForm from "./_components/AddAccommodationsForm";
+import AccommodationsForm from "./_components/AccommodationsForm";
 import BackButton from "~/app/trips/_components/BackButton";
 import { type Accommodation } from "@prisma/client";
-import ShowAccommodationFormButton from "~/components/accommodations/ShowAccommodationFormButton";
+import ShowAccommodationFormButton from "./_components/ShowAccommodationFormButton";
 import getTrip from "../../actions/getTrip";
 
 export default async function EditTrip({ params }: { params: { id: string } }) {

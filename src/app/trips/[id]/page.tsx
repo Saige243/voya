@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/common/Icon";
 import { type Trip, type Accommodation } from "@prisma/client";
-import { DeleteAccommodationButton } from "~/components/accommodations/DeleteAccommodationButton";
+import { DeleteAccommodationButton } from "./add-accommodation/_components/DeleteAccommodationButton";
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
 import { Typography } from "~/components/common/Typography";
