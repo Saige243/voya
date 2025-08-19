@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import getPackingList from "../../actions/getPackingList";
 import { Button, buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
@@ -7,30 +9,38 @@ import { redirect } from "next/navigation";
 import { type PackingListItem } from "@prisma/client";
 import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
+import { api } from "~/trpc/react";
 
 type Props = {
   params: { id?: string };
 };
 
-async function PackingListPage({ params }: Props) {
+function PackingListPage({ params }: Props) {
   const tripId = params.id;
+  const [listItems, setListItems] = useState<PackingListItem[]>([]);
 
   if (!tripId || tripId === "undefined" || tripId === "null") {
     redirect("/");
   }
 
-  let listItems: PackingListItem[] = [];
+  useEffect(() => {
+    const fetchPackingList = async () => {
+      try {
+        const list = await getPackingList(tripId);
+        setListItems(list.items);
+        console.log("Fetched packing list:", list);
+      } catch (error) {
+        console.warn("Error fetching packing list:", error);
+      }
+    };
 
-  try {
-    const list = await getPackingList(tripId);
-    listItems = list.items;
-    console.log("Fetched packing list:", list);
-  } catch (error) {
-    console.warn("Error fetching packing list:", error);
-  }
+    void fetchPackingList();
+  }, [listItems]);
 
   const packedListItems = listItems.filter((i) => i.isPacked);
   const unpackedListItems = listItems.filter((i) => !i.isPacked);
+
+  const updateItem = api.packingList.updateItem.useMutation();
 
   const emptyList = (
     <div className="text-center">
@@ -60,11 +70,14 @@ async function PackingListPage({ params }: Props) {
               <div>
                 <Checkbox
                   className="border-black"
-                  id={`packed-${li.name}`}
+                  id={`packed-${li.id}`}
                   checked={li.isPacked}
-                  // onCheckedChange={(checked) =>
-                  //   handleItemChange(index, "isPacked", checked === true)
-                  // }
+                  onCheckedChange={(checked) =>
+                    updateItem.mutate({
+                      id: li.id,
+                      isPacked: checked === true,
+                    })
+                  }
                 />
               </div>
             </li>
@@ -92,9 +105,12 @@ async function PackingListPage({ params }: Props) {
                   className="border-black"
                   id={`packed-${li.name}`}
                   checked={li.isPacked}
-                  // onCheckedChange={(checked) =>
-                  //   handleItemChange(index, "isPacked", checked === true)
-                  // }
+                  onCheckedChange={(checked) =>
+                    updateItem.mutate({
+                      id: li.id,
+                      isPacked: checked === true,
+                    })
+                  }
                 />
               </div>
             </li>

@@ -99,6 +99,24 @@ export const packingListRouter = createTRPCRouter({
       });
     }),
 
+  updateItem: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        isPacked: z.boolean().optional(),
+        name: z.string().optional(),
+        quantity: z.number().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+
+      return ctx.db.packingListItem.update({
+        where: { id },
+        data,
+      });
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {

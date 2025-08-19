@@ -5,17 +5,17 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "~/components/ui/accordion";
+} from "~/_components/ui/accordion";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import React, { useCallback, useEffect, useRef } from "react";
-import { Typography } from "~/components/common/Typography";
+import { Typography } from "~/_components/common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/_components/ui/button";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import getItineraries from "~/app/trips/actions/getItineraries";
 import { type ItineraryItem, type Itinerary } from "@prisma/client";
-import { Card } from "~/components/ui/card";
+import { Card } from "~/_components/ui/card";
 import { redirect } from "next/navigation";
 import DailyItineraryCard from "~/app/trips/[id]/itinerary/_components/DailyItineraryCard";
 
