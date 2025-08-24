@@ -5,7 +5,6 @@ import { DeleteAccommodationButton } from "./add-accommodation/_components/Delet
 import { format } from "date-fns";
 import { Label } from "~/_components/ui/label";
 import { Typography } from "~/_components/common/Typography";
-import BackButton from "~/app/trips/_components/BackButton";
 import { DeleteTripButton } from "~/app/trips/_components/DeleteTripButton";
 import { Card, CardContent } from "~/_components/ui/card";
 import CardMenu from "~/_components/common/CardMenu";
@@ -136,29 +135,29 @@ export default async function TripDetailsPage({
   const tripDetails = (
     <Card className="mb-6 w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
       <CardContent>
-        <Typography variant="heading1">{trip?.title}</Typography>
-        <div className="mb-2">
-          <Typography>{trip?.destination}</Typography>
-        </div>
-        <div className="mb-2">
-          <Typography>{trip?.description}</Typography>
-        </div>
-        <div className="mb-4 mt-4 grid grid-cols-2 gap-4">
+        <Typography variant="heading1" className="mb-4">
+          {trip?.title}
+        </Typography>
+        <div className="mb-2 flex justify-between">
           <div>
-            <Label htmlFor="start-date">Start Date:</Label>
-            <Typography>
-              {trip?.startDate
-                ? format(new Date(trip.startDate), "MMM dd, yyyy")
-                : "N/A"}
-            </Typography>
+            <Label>Destination</Label>
+            <Typography>{trip?.destination}</Typography>
           </div>
           <div>
-            <Label htmlFor="end-date">End Date:</Label>
-            <Typography>
-              {trip?.endDate
-                ? format(new Date(trip.endDate), "MMM dd, yyyy")
-                : "N/A"}
-            </Typography>
+            <Typography variant="label">Duration:</Typography>
+            <div className="flex">
+              <Typography variant="body">
+                {trip?.startDate
+                  ? format(new Date(trip.startDate), "MMM dd")
+                  : "N/A"}
+                {" - "}
+              </Typography>
+              <Typography variant="body">
+                {trip?.endDate
+                  ? format(new Date(trip.endDate), "dd, yyyy")
+                  : "N/A"}
+              </Typography>
+            </div>
           </div>
         </div>
         <div className="mt-8 flex justify-end">
@@ -174,17 +173,12 @@ export default async function TripDetailsPage({
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
-      <div className="flex flex-col gap-8 pt-12 md:flex-row">
-        <div className="flex-col">
-          <div className="w-[450px]">{tripDetails}</div>
-          {trip && (
-            <AccommodationList
-              tripId={trip.id}
-              accommodations={accommodations}
-            />
-          )}
-        </div>
+    <main className="flex min-h-screen flex-col">
+      <div className="flex justify-between">
+        <div className="w-[450px]">{tripDetails}</div>
+        {trip && (
+          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+        )}
       </div>
     </main>
   );

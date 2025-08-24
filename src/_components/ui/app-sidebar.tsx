@@ -71,14 +71,6 @@ export function AppSidebar() {
           <SidebarGroupLabel>Voya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href={`/`} className="flex items-center gap-2">
-                    <Home />
-                    <span>Home</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
               <Separator className="my-2" />
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
