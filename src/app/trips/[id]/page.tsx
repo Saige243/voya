@@ -2,7 +2,7 @@ import { Button } from "~/_components/ui/button";
 import { Icon } from "~/_components/common/Icon";
 import { type Trip, type Accommodation } from "@prisma/client";
 import { DeleteAccommodationButton } from "./add-accommodation/_components/DeleteAccommodationButton";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
 import { Label } from "~/_components/ui/label";
 import { Typography } from "~/_components/common/Typography";
 import { DeleteTripButton } from "~/app/trips/_components/DeleteTripButton";
@@ -158,6 +158,12 @@ export default async function TripDetailsPage({
                   : "N/A"}
               </Typography>
             </div>
+          </div>
+          <div>
+            <Label>Countdown</Label>
+            <Typography>
+              {differenceInDays(trip?.startDate, new Date())}
+            </Typography>
           </div>
         </div>
         <div className="mt-8 flex justify-end">
