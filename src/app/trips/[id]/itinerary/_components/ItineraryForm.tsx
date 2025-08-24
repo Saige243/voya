@@ -49,10 +49,7 @@ const AddItineraryItemForm = ({ trip }: { trip: Trip }) => {
   }
 
   return (
-    <form
-      action={addItinerary}
-      className="flex w-[500px] flex-col gap-3 text-black"
-    >
+    <form action={addItinerary} className="flex flex-col gap-3 text-black">
       <div>
         <Label htmlFor="title">Title:</Label>
         <Input

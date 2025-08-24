@@ -5,7 +5,6 @@ import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "~/app/trips/_components/EditTripForm";
 import AddAccommodationsForm from "../add-accommodation/_components/AddAccommodationsForm";
 import AccommodationsForm from "../add-accommodation/_components/AccommodationsForm";
-import BackButton from "~/app/trips/_components/BackButton";
 import ItineraryForm from "../itinerary/_components/ItineraryForm";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "../add-accommodation/_components/ShowAccommodationFormButton";
@@ -40,14 +39,13 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   const accommodations = trip.accommodations || [];
 
   const header = (
-    <div className="flex items-center space-x-4">
-      <BackButton />
+    <div className="flex items-center space-x-4 pb-8">
       <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
     </div>
   );
 
   const tripDetailsForm = (
-    <Card>
+    <Card className="w-1/3">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Trip Details:
@@ -58,7 +56,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const accommodationForm = (
-    <Card>
+    <Card className="w-1/3">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Edit Accommodations:
@@ -87,7 +85,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const itineraryForm = (
-    <Card>
+    <Card className="w-1/3">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Add Itinerary Item:
@@ -98,9 +96,9 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   return (
-    <div>
+    <div className="w-full">
       {header}
-      <main className="flex min-h-screen flex-col items-center justify-center">
+      <main className="flex min-h-screen flex-col">
         <div className="flex flex-col gap-4 lg:flex-row">
           {tripDetailsForm}
           {accommodationForm}
