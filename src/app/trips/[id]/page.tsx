@@ -175,10 +175,6 @@ export default async function TripDetailsPage({
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <div className="flex-start flex w-full items-center text-center">
-        <BackButton />
-        <h1 className="pl-2 text-2xl font-bold">Dashboard</h1>
-      </div>
       <div className="flex flex-col gap-8 pt-12 md:flex-row">
         <div className="flex-col">
           <div className="w-[450px]">{tripDetails}</div>
