@@ -153,6 +153,7 @@ export default async function TripDetailsPage({
                 {" - "}
               </Typography>
               <Typography variant="body">
+                &nbsp;
                 {trip?.endDate
                   ? format(new Date(trip.endDate), "dd, yyyy")
                   : "N/A"}

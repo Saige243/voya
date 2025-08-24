@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 // import { updateTrip } from "../../trips/actions/updateTrip";
-import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
+import { Label } from "~/_components/ui/label";
+import { Input } from "~/_components/ui/input";
+import { Button } from "~/_components/ui/button";
 import { type Trip } from "@prisma/client";
 import { updateTrip } from "~/app/trips/actions/updateTrip";
 
