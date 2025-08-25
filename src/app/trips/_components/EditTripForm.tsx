@@ -139,12 +139,6 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="startDate">Start Date:</Label>
-        <Input
-          type="date"
-          id="startDate"
-          className="hidden"
-          {...register("startDate", { required: true })}
-        />
         <DatePicker
           name="startDate"
           value={startDate ? new Date(startDate) : trip.startDate}
@@ -160,13 +154,14 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="endDate">End Date:</Label>
-        <Input
-          type="date"
-          id="endDate"
-          className="w-full dark:bg-white"
-          defaultValue={trip.endDate.toISOString().split("T")[0]}
-          style={{ colorScheme: "light" }}
-          {...register("endDate", { required: true })}
+        <DatePicker
+          name="endDate"
+          value={endDate ? new Date(endDate) : trip.endDate}
+          onChange={(date: Date | undefined) => {
+            setValue("endDate", date?.toISOString().split("T")[0] ?? "", {
+              shouldValidate: true,
+            });
+          }}
         />
         {errors.endDate && (
           <p className="text-sm text-red-500">{errors.endDate.message}</p>
