@@ -184,8 +184,8 @@ const AddAccommodationsForm = ({
             <Input
               type="date"
               className="Input Input-bordered mt-1 w-full dark:bg-white"
-              {...register("checkOut")}
               style={{ colorScheme: "light" }}
+              {...register("checkOut")}
             />
             {errors.checkOut && (
               <p className="mt-1 text-sm text-red-500">

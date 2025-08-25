@@ -10,6 +10,8 @@ import { Input } from "~/_components/ui/input";
 import { Button } from "~/_components/ui/button";
 import { type Trip } from "@prisma/client";
 import { updateTrip } from "~/app/trips/actions/updateTrip";
+import { DatePicker } from "~/_components/ui/datepicker";
+import { format } from "date-fns";
 
 type FormData = {
   title: string;
@@ -34,6 +36,7 @@ const EditTripDetailsForm = ({
   trip: Trip;
   userId: string;
 }) => {
+  const { setValue, watch } = useForm<FormData>();
   const {
     register,
     handleSubmit,
@@ -50,6 +53,9 @@ const EditTripDetailsForm = ({
     },
   });
 
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
+
   useEffect(() => {
     reset({
       title: trip.title,
@@ -63,12 +69,6 @@ const EditTripDetailsForm = ({
   const onSubmit = async (data: FormData) => {
     const startDate = new Date(data.startDate);
     const endDate = new Date(data.endDate);
-    console.log("Errors:", errors);
-    console.log("Data:", data);
-    console.log("TRIP:", trip);
-
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
 
     const newData = {
       ...data,
@@ -142,9 +142,17 @@ const EditTripDetailsForm = ({
         <Input
           type="date"
           id="startDate"
-          className="w-full dark:bg-white"
-          defaultValue={trip.startDate.toISOString().split("T")[0]}
+          className="hidden"
           {...register("startDate", { required: true })}
+        />
+        <DatePicker
+          name="startDate"
+          value={startDate ? new Date(startDate) : trip.startDate}
+          onChange={(date: Date | undefined) => {
+            setValue("startDate", date?.toISOString().split("T")[0] ?? "", {
+              shouldValidate: true,
+            });
+          }}
         />
         {errors.startDate && (
           <p className="text-sm text-red-500">{errors.startDate.message}</p>
@@ -157,6 +165,7 @@ const EditTripDetailsForm = ({
           id="endDate"
           className="w-full dark:bg-white"
           defaultValue={trip.endDate.toISOString().split("T")[0]}
+          style={{ colorScheme: "light" }}
           {...register("endDate", { required: true })}
         />
         {errors.endDate && (
