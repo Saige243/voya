@@ -13,11 +13,11 @@ import { Typography } from "~/_components/common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "~/_components/ui/button";
 import { useTrip } from "~/app/trips/contexts/TripContext";
-import getItineraries from "~/app/trips/actions/getItineraries";
 import { type ItineraryItem, type Itinerary } from "@prisma/client";
 import { Card } from "~/_components/ui/card";
 import { redirect } from "next/navigation";
 import DailyItineraryCard from "~/app/trips/[id]/itinerary/_components/DailyItineraryCard";
+import { api } from "~/trpc/react";
 
 export default function ItineraryPage() {
   const params = useParams();
@@ -32,10 +32,6 @@ export default function ItineraryPage() {
 
   if (!trip) {
     redirect("/");
-  }
-
-  function toArray<T>(item: T | T[] | null | undefined): T[] {
-    return item == null ? [] : Array.isArray(item) ? item : [item];
   }
 
   const handleRefSet = useCallback(
@@ -54,28 +50,16 @@ export default function ItineraryPage() {
     }
   }, [dayIndex, trip]);
 
-  useEffect(() => {
-    const fetchItineraries = async () => {
-      try {
-        const tripId = trip?.id;
-        if (tripId) {
-          const itineraries = await getItineraries(tripId.toString());
-          console.log("Fetched itineraries:", itineraries);
-          if (!itineraries) {
-            console.error(`No itineraries found for trip ID ${tripId}`);
-          }
-          setItineraries(toArray(itineraries));
-        } else {
-          console.error("Trip ID is not available");
-        }
-      } catch (error) {
-        console.error("Error fetching itineraries:", error);
-      }
-    };
+  const { data, isLoading } = api.itinerary.getAll.useQuery(
+    { tripId: trip?.id },
+    { enabled: !!trip?.id },
+  );
 
-    void fetchItineraries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trip]);
+  useEffect(() => {
+    if (data) {
+      setItineraries(data);
+    }
+  }, [data]);
 
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
