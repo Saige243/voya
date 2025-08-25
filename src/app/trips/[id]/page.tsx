@@ -163,7 +163,10 @@ export default async function TripDetailsPage({
           <div>
             <Label>Countdown</Label>
             <Typography>
-              {differenceInDays(trip?.startDate, new Date())}
+              {differenceInDays(trip?.startDate, new Date())}{" "}
+              {differenceInDays(trip?.startDate, new Date()) === 1
+                ? "day"
+                : "days"}
             </Typography>
           </div>
         </div>
@@ -181,10 +184,15 @@ export default async function TripDetailsPage({
 
   return (
     <main className="flex min-h-screen flex-col">
-      <div className="flex justify-between">
-        <div className="w-[450px]">{tripDetails}</div>
+      <div className="flex flex-col justify-between gap-4 md:flex-row">
+        <div className="w-full md:w-1/2">{tripDetails}</div>
         {trip && (
-          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+          <div className="w-full md:w-1/2">
+            <AccommodationList
+              tripId={trip.id}
+              accommodations={accommodations}
+            />
+          </div>
         )}
       </div>
     </main>

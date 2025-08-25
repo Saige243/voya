@@ -1,8 +1,7 @@
 import { api } from "~/trpc/server";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent } from "~/_components/ui/card";
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
-import BackButton from "~/app/trips/_components/BackButton";
 import ItineraryForm from "../_components/ItineraryForm";
 
 export default async function AddItineraryItem({
@@ -38,7 +37,6 @@ export default async function AddItineraryItem({
 
   const header = (
     <div className="flex items-center space-x-4 pb-20">
-      <BackButton />
       <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
     </div>
   );

@@ -24,8 +24,6 @@ export async function addAccommodation({
   try {
     await validationSchema.validate(formData, { abortEarly: false });
 
-    console.log("ADD ACCOMMODATION", formData);
-
     const updatedTrip = await api.accommodation.create({
       ...formData,
       notes: formData.notes ?? "",

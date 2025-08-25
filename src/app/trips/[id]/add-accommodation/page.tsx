@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import AddAccommodationsForm from "./_components/AddAccommodationsForm";
 import AccommodationsForm from "./_components/AccommodationsForm";
-import BackButton from "~/app/trips/_components/BackButton";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "./_components/ShowAccommodationFormButton";
 import getTrip from "../../actions/getTrip";
@@ -24,16 +23,17 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   const accommodations = trip.accommodations || [];
 
   const header = (
-    <div className="flex items-center space-x-4 pb-20">
-      <BackButton />
-      <h1 className="text-2xl font-bold">Edit - {trip?.title}</h1>
+    <div className="flex items-center space-x-4 pb-12">
+      <h1 className="text-2xl font-bold">
+        Add Accommodations for {trip?.title}
+      </h1>
     </div>
   );
 
   const accommodationForm = (
     <Card className="h-fit">
       <CardContent>
-        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
+        <h2 className="pb-4 text-xl font-bold text-black dark:text-white">
           Add Accommodations:
         </h2>
         {accommodations.length > 0 ? (

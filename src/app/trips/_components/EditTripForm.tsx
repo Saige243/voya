@@ -37,7 +37,6 @@ const EditTripDetailsForm = ({
   const {
     register,
     control,
-    watch,
     handleSubmit,
     formState: { errors },
     reset,
