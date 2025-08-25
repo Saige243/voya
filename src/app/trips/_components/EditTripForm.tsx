@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-// import { updateTrip } from "../../trips/actions/updateTrip";
 import { Label } from "~/_components/ui/label";
 import { Input } from "~/_components/ui/input";
 import { Button } from "~/_components/ui/button";
 import { type Trip } from "@prisma/client";
 import { updateTrip } from "~/app/trips/actions/updateTrip";
 import { DatePicker } from "~/_components/ui/datepicker";
-import { format } from "date-fns";
 
 type FormData = {
   title: string;
@@ -36,9 +34,10 @@ const EditTripDetailsForm = ({
   trip: Trip;
   userId: string;
 }) => {
-  const { setValue, watch } = useForm<FormData>();
   const {
     register,
+    control,
+    watch,
     handleSubmit,
     formState: { errors },
     reset,
@@ -52,9 +51,6 @@ const EditTripDetailsForm = ({
       description: trip.description ?? "",
     },
   });
-
-  const startDate = watch("startDate");
-  const endDate = watch("endDate");
 
   useEffect(() => {
     reset({
@@ -139,14 +135,18 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="startDate">Start Date:</Label>
-        <DatePicker
+        <Controller
+          control={control}
           name="startDate"
-          value={startDate ? new Date(startDate) : trip.startDate}
-          onChange={(date: Date | undefined) => {
-            setValue("startDate", date?.toISOString().split("T")[0] ?? "", {
-              shouldValidate: true,
-            });
-          }}
+          rules={{ required: "Start date is required" }}
+          render={({ field }) => (
+            <DatePicker
+              value={field.value ? new Date(field.value) : trip.startDate}
+              onChange={(date: Date | undefined) => {
+                field.onChange(date?.toISOString().split("T")[0] ?? "");
+              }}
+            />
+          )}
         />
         {errors.startDate && (
           <p className="text-sm text-red-500">{errors.startDate.message}</p>
@@ -154,14 +154,18 @@ const EditTripDetailsForm = ({
       </div>
       <div>
         <Label htmlFor="endDate">End Date:</Label>
-        <DatePicker
+        <Controller
+          control={control}
           name="endDate"
-          value={endDate ? new Date(endDate) : trip.endDate}
-          onChange={(date: Date | undefined) => {
-            setValue("endDate", date?.toISOString().split("T")[0] ?? "", {
-              shouldValidate: true,
-            });
-          }}
+          rules={{ required: "End date is required" }}
+          render={({ field }) => (
+            <DatePicker
+              value={field.value ? new Date(field.value) : trip.endDate}
+              onChange={(date: Date | undefined) => {
+                field.onChange(date?.toISOString().split("T")[0] ?? "");
+              }}
+            />
+          )}
         />
         {errors.endDate && (
           <p className="text-sm text-red-500">{errors.endDate.message}</p>
