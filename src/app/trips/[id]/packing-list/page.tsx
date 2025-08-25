@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import getPackingList from "../../actions/getPackingList";
+import React from "react";
 import { Button, buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { type PackingListItem } from "@prisma/client";
 import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
 import { api } from "~/trpc/react";
@@ -16,31 +14,31 @@ type Props = {
 };
 
 function PackingListPage({ params }: Props) {
-  const tripId = params.id;
-  const [listItems, setListItems] = useState<PackingListItem[]>([]);
+  const tripId = params.id ? Number(params.id) : undefined;
+  const utils = api.useUtils();
 
-  if (!tripId || tripId === "undefined" || tripId === "null") {
+  if (!tripId || isNaN(tripId)) {
     redirect("/");
   }
 
-  useEffect(() => {
-    const fetchPackingList = async () => {
-      try {
-        const list = await getPackingList(tripId);
-        setListItems(list.items);
-        console.log("Fetched packing list:", list);
-      } catch (error) {
-        console.warn("Error fetching packing list:", error);
-      }
-    };
+  const { data, isLoading } = api.packingList.getById.useQuery(
+    { tripId, include: { items: true } },
+    { enabled: !!tripId },
+  );
 
-    void fetchPackingList();
-  }, [listItems]);
+  const updateItem = api.packingList.updateItem.useMutation({
+    onSuccess: () => {
+      void utils.packingList.getById.invalidate({ tripId });
+    },
+  });
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const listItems = data?.items ?? [];
   const packedListItems = listItems.filter((i) => i.isPacked);
   const unpackedListItems = listItems.filter((i) => !i.isPacked);
-
-  const updateItem = api.packingList.updateItem.useMutation();
 
   const emptyList = (
     <div className="text-center">
