@@ -50,7 +50,7 @@ export default function ItineraryPage() {
     }
   }, [dayIndex, trip]);
 
-  const { data, isLoading } = api.itinerary.getAll.useQuery(
+  const { data } = api.itinerary.getAll.useQuery(
     { tripId: trip?.id },
     { enabled: !!trip?.id },
   );

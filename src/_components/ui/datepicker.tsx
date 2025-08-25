@@ -19,7 +19,7 @@ type DatePickerProps = {
   name?: string;
 };
 
-export function DatePicker({ value, onChange, name }: DatePickerProps) {
+export function DatePicker({ value, onChange }: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
