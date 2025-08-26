@@ -60,23 +60,17 @@ function AddItemPage() {
     },
   });
 
+  const { data, isLoading } = api.packingCategory.getAll.useQuery();
+
   useEffect(() => {
-    if (!trip) {
-      router.replace("/");
+    if (data) {
+      setPackingCategories(data);
     }
+  }, [data]);
 
-    const fetchPackingCategories = async () => {
-      try {
-        const categories = await getPackingCategories();
-        setPackingCategories(categories);
-      } catch (error) {
-        console.error("Error fetching packing categories:", error);
-      }
-    };
-
-    void fetchPackingCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tripId]);
+  if (!trip) {
+    router.replace("/");
+  }
 
   const handleAddMore = () => {
     setItems((prev) => [
