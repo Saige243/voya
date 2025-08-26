@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
 import { api } from "~/trpc/react";
+import { Skeleton } from "~/_components/ui/skeleton";
 
 type Props = {
   params: { id?: string };
@@ -33,7 +34,14 @@ function PackingListPage({ params }: Props) {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
+        <Skeleton className="h-12 w-1/2" />
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-8 w-1/6" />
+      </div>
+    );
   }
 
   const listItems = data?.items ?? [];
