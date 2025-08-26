@@ -1,4 +1,4 @@
 # TODO
 
-- [ ] Replace all useEffects with React query/trpc calls
+- [x] Replace all useEffects with React query/trpc calls
 - [ ]

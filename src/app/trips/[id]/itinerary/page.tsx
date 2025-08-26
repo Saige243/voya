@@ -55,9 +55,11 @@ export default function ItineraryPage() {
     { enabled: !!trip?.id },
   );
 
-  if (data) {
-    setItineraries(data);
-  }
+  useEffect(() => {
+    if (data) {
+      setItineraries(data);
+    }
+  }, [data]);
 
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();

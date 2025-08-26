@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/_components/ui/select";
-import getPackingCategories from "~/app/trips/actions/getPackingCategories";
 import { type PackingCategory, type PackingListItem } from "@prisma/client";
 import { SelectGroup } from "@radix-ui/react-select";
 import { Card, CardContent } from "~/_components/ui/card";
