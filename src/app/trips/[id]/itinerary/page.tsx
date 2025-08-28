@@ -109,6 +109,36 @@ export default function ItineraryPage() {
     </div>
   );
 
+  const dailyItinerary = (
+    <div className="flex flex-col space-y-4">
+      <Button variant="secondary" className="mt-4 w-full" onClick={toggleAll}>
+        {allOpen ? "Collapse All" : "Expand All"}
+      </Button>
+      <Card className="w-[600px]">
+        lskdjf
+        <Accordion
+          type="multiple"
+          value={openItems}
+          onValueChange={setOpenItems}
+          className="flex flex-col space-y-4"
+        >
+          {dates.map((date, i) => (
+            <AccordionItem key={i} value={date.toISOString()}>
+              <AccordionTrigger>
+                <span className="decoration-underline text-base text-gray-800 dark:text-gray-200">
+                  {format(date, "EEE, MMMM d")}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent>
+                <DailyItineraryCard trip={trip} i={i} onRefSet={handleRefSet} />
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Card>
+    </div>
+  );
+
   return (
     <div className="flex flex-col">
       <div>
@@ -121,41 +151,7 @@ export default function ItineraryPage() {
       </div>
       <div className="flex flex-row justify-around">
         <div>{itineraryDaysAccordion}</div>
-        <div className="flex flex-col space-y-4">
-          <Button
-            variant="secondary"
-            className="mt-4 w-full"
-            onClick={toggleAll}
-          >
-            {allOpen ? "Collapse All" : "Expand All"}
-          </Button>
-          <Card className="w-[600px]">
-            <Accordion
-              type="multiple"
-              value={openItems}
-              onValueChange={setOpenItems}
-              className="flex flex-col space-y-4"
-            >
-              {dates.map((date, i) => (
-                <AccordionItem key={i} value={date.toISOString()}>
-                  <AccordionTrigger>
-                    <span className="decoration-underline text-base text-gray-800 dark:text-gray-200">
-                      {format(date, "EEE, MMMM d")}
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <DailyItineraryCard
-                      itineraries={itineraries}
-                      date={date}
-                      i={i}
-                      onRefSet={handleRefSet}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Card>
-        </div>
+        <div>{dailyItinerary}</div>
       </div>
     </div>
   );

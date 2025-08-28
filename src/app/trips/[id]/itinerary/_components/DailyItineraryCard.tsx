@@ -1,43 +1,56 @@
 "use client";
 
 import { format } from "date-fns";
-import React, { useState } from "react";
-import { Typography } from "../../../../../_components/common/Typography";
-import { Button } from "../../../../../_components/ui/button";
+import React, { useEffect, useState } from "react";
+import { Typography } from "~/_components/common/Typography";
+import { Button } from "~/_components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { type ItineraryItem, type Itinerary } from "@prisma/client";
-import CardMenu from "../../../../../_components/common/CardMenu";
-import { Icon } from "../../../../../_components/common/Icon";
-import { Input } from "../../../../../_components/ui/input";
+import { type ItineraryItem, type Itinerary, type Trip } from "@prisma/client";
+import CardMenu from "~/_components/common/CardMenu";
+import { Icon } from "~/_components/common/Icon";
+import { Input } from "~/_components/ui/input";
 import { Textarea } from "~/_components/ui/textarea";
 import { updateItineraryItem } from "~/app/trips/actions/updateItineraryItem";
+import { api } from "~/trpc/react";
+import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 interface DailyItineraryCardProps {
-  date: Date;
+  trip: Trip;
   i: number;
-  itineraries?: (Itinerary & { itineraryItems: ItineraryItem[] })[];
   onRefSet: (index: number, ref: HTMLDivElement | null) => void;
 }
 
-function DailyItineraryCard({
-  date,
-  i,
-  itineraries,
-  onRefSet,
-}: DailyItineraryCardProps) {
+function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [itineraries, setItineraries] = useState<
+    (Itinerary & { itineraryItems: ItineraryItem[] })[]
+  >([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
   const [selectedItineraryItem, setSelectedItineraryItem] =
     useState<ItineraryItem | null>(null);
 
-  const dayItinerary = itineraries?.find(
-    (itinerary) =>
-      new Date(itinerary.date).toDateString() === date.toDateString(),
+  const { data } = api.itinerary.getAll.useQuery(
+    { tripId: trip?.id },
+    { enabled: !!trip?.id },
   );
 
+  useEffect(() => {
+    if (data) {
+      setItineraries(data);
+    }
+  }, [data]);
+
+  const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
+  const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
+  const dates = formatStartAndEndDates(startDate, endDate);
+
+  const dayItinerary = itineraries?.find(
+    (itinerary) =>
+      new Date(itinerary.date).toDateString() === itinerary.date.toDateString(),
+  );
   const dayItineraries = dayItinerary?.itineraryItems ?? [];
 
   const formatTime = (timeDate: Date | null) => {
