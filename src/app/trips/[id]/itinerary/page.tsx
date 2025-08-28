@@ -61,14 +61,25 @@ export default function ItineraryPage() {
           onValueChange={setOpenItems}
           className="flex flex-col space-y-4"
         >
-          <DailyItineraryCard trip={trip} />
+          {dates.map((date, i) => (
+            <AccordionItem key={i} value={date.toISOString()}>
+              <AccordionTrigger>
+                <span className="decoration-underline text-base text-gray-800 dark:text-gray-200">
+                  {format(date, "EEE, MMMM d")}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent>
+                <DailyItineraryCard trip={trip} />
+              </AccordionContent>
+            </AccordionItem>
+          ))}
         </Accordion>
       </Card>
     </div>
   );
 
   return (
-    <div className="flex flex-col">
+    <div>
       <div>
         <Typography variant="heading2" className="text-black dark:text-white">
           Daily Itinerary
@@ -77,8 +88,10 @@ export default function ItineraryPage() {
           {dates.length} day{dates.length > 1 ? "s" : ""}
         </Typography>
       </div>
-      <div className="flex flex-row justify-around">
-        <div>{dailyItinerary}</div>
+      <div className="flex flex-col items-center">
+        <div className="w-3/4">
+          <DailyItineraryCard trip={trip} />
+        </div>
       </div>
     </div>
   );

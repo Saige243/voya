@@ -185,18 +185,17 @@ export default async function TripDetailsPage({
 
   return (
     <main className="flex min-h-screen flex-col">
-      <div className="flex flex-col justify-between gap-4 md:flex-row">
-        <div className="w-full md:w-1/2">{tripDetails}</div>
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
+        <div className="w-full lg:w-1/2">
+          {tripDetails}
+          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+        </div>
         {trip && (
-          <div className="w-full md:w-1/2">
-            <AccommodationList
-              tripId={trip.id}
-              accommodations={accommodations}
-            />
+          <div className="w-full lg:w-1/2">
+            <DailyItineraryCard trip={trip} />
           </div>
         )}
       </div>
-      <DailyItineraryCard trip={trip} />
     </main>
   );
 }

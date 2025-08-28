@@ -13,6 +13,13 @@ import { Textarea } from "~/_components/ui/textarea";
 import { updateItineraryItem } from "~/app/trips/actions/updateItineraryItem";
 import { api } from "~/trpc/react";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "~/_components/ui/accordion";
+import { Card } from "~/_components/ui/card";
 
 interface DailyItineraryCardProps {
   trip: Trip;
@@ -29,6 +36,7 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
   const [selectedItineraryItem, setSelectedItineraryItem] =
     useState<ItineraryItem | null>(null);
+  const [openItems, setOpenItems] = useState<string[]>([]);
 
   const { data } = api.itinerary.getAll.useQuery(
     { tripId: trip?.id },
@@ -36,12 +44,8 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   );
 
   useEffect(() => {
-    if (data) {
-      setItineraryItems(data);
-    }
+    if (data) setItineraryItems(data);
   }, [data]);
-
-  console.log("data:", data);
 
   const dates = useMemo(() => {
     const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
@@ -49,15 +53,16 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
     return formatStartAndEndDates(startDate, endDate);
   }, [trip?.startDate, trip?.endDate]);
 
-  const formatTime = (timeDate: Date | null) => {
-    if (!timeDate) return "All day";
-    return format(timeDate, "h:mm a");
-  };
+  const allValues = dates.map((date) => date.toISOString());
+  const allOpen = openItems.length === allValues.length;
 
-  const handleAddItineraryItem = () => {
-    const newPath = `${pathname}/add-itinerary-item`;
-    router.push(newPath);
-  };
+  const toggleAll = () => setOpenItems(allOpen ? [] : allValues);
+
+  const formatTime = (timeDate: Date | null) =>
+    !timeDate ? "All day" : format(timeDate, "h:mm a");
+
+  const handleAddItineraryItem = () =>
+    router.push(`${pathname}/add-itinerary-item`);
 
   const handleEditClick = (item: ItineraryItem) => {
     setSelectedItineraryItem(item);
@@ -69,17 +74,11 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setEditFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEditFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log("Submitting:", editFormData);
-
     try {
       await updateItineraryItem({
         formData: {
@@ -95,12 +94,10 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
           itineraryId: selectedItineraryItem?.itineraryId ?? 0,
         },
       });
-
       router.refresh();
-    } catch (error) {
-      console.error("Failed to update itinerary item:", error);
+    } catch (err) {
+      console.error("Failed to update:", err);
     }
-
     setEditingId(null);
     setEditFormData({});
   };
@@ -117,135 +114,141 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   );
 
   return (
-    <div>
-      {dates.map((currentDate) => {
-        const dayItinerary = itineraryItems.find(
-          (itineraryItem) =>
-            new Date(itineraryItem.date).toDateString() ===
-            currentDate.toDateString(),
-        );
-        const dayItineraries = dayItinerary?.itineraryItems ?? [];
-        console.log("dayItineraries:", dayItineraries);
+    <Card className="w-full">
+      <Button variant="secondary" className="mb-4 w-full" onClick={toggleAll}>
+        {allOpen ? "Collapse All" : "Expand All"}
+      </Button>
 
-        return (
-          <div key={currentDate.toISOString()} className="mb-8">
-            <Typography className="mb-2 text-xl font-semibold">
-              {format(currentDate, "EEEE, MMM d")}
-            </Typography>
+      <Accordion
+        type="multiple"
+        value={openItems}
+        onValueChange={setOpenItems}
+        className="flex flex-col space-y-4"
+      >
+        {dates.map((date) => {
+          const dayItinerary = itineraryItems.find(
+            (it) => new Date(it.date).toDateString() === date.toDateString(),
+          );
+          const dayItineraries = dayItinerary?.itineraryItems ?? [];
 
-            {dayItineraries.length > 0 ? (
-              dayItineraries.map((item) =>
-                editingId === item.id ? (
-                  <form
-                    key={item.id}
-                    onSubmit={handleSubmit}
-                    className="mb-4 border-b pb-4"
-                  >
-                    <Input
-                      name="title"
-                      value={editFormData.title ?? ""}
-                      onChange={handleChange}
-                      placeholder="Title"
-                      className="mb-2"
-                    />
-                    <Input
-                      name="time"
-                      type="datetime-local"
-                      value={
-                        editFormData.time
-                          ? new Date(editFormData.time)
-                              .toISOString()
-                              .slice(0, 16)
-                          : ""
-                      }
-                      onChange={handleChange}
-                      className="mb-2"
-                    />
-                    <Input
-                      name="location"
-                      value={editFormData.location ?? ""}
-                      onChange={handleChange}
-                      placeholder="Location"
-                      className="mb-2"
-                    />
-                    <Textarea
-                      name="notes"
-                      value={editFormData.notes ?? ""}
-                      onChange={handleChange}
-                      placeholder="Notes"
-                      className="mb-2"
-                    />
-                    <div className="flex justify-center gap-2">
-                      <Button type="submit">Save</Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={() => setEditingId(null)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </form>
+          return (
+            <AccordionItem key={date.toISOString()} value={date.toISOString()}>
+              <AccordionTrigger>
+                <Typography className="text-lg font-semibold">
+                  {format(date, "EEEE, MMM d")}
+                </Typography>
+              </AccordionTrigger>
+              <AccordionContent>
+                {dayItineraries.length === 0 ? (
+                  <Typography className="mb-2 text-gray-600 dark:text-gray-400">
+                    No itinerary items planned for this day.
+                  </Typography>
                 ) : (
-                  <div
-                    key={item.id}
-                    className="mb-4 flex flex-row items-center border-b pb-2"
-                  >
-                    <div className="pr-2">
-                      <Icon
-                        name="Clock"
-                        className="text-black dark:text-white"
-                        size="15"
-                      />
-                    </div>
-                    <div className="flex w-full justify-between">
-                      <div>
-                        <Typography className="text-lg font-medium">
-                          <span className="font-base text-black">
-                            {item.title}
-                          </span>
-                        </Typography>
-                        <Typography className="text-sm text-gray-600">
-                          <span className=" text-black">
-                            {formatTime(item.time)}
-                          </span>{" "}
-                          — {item.location}
-                        </Typography>
-                        {item.notes && (
-                          <Typography className="mt-1 text-sm text-muted-foreground">
-                            {item.notes}
-                          </Typography>
-                        )}
+                  dayItineraries.map((item) =>
+                    editingId === item.id ? (
+                      <form
+                        key={item.id}
+                        onSubmit={handleSubmit}
+                        className="mb-4 border-b pb-4"
+                      >
+                        <Input
+                          name="title"
+                          value={editFormData.title ?? ""}
+                          onChange={handleChange}
+                          placeholder="Title"
+                          className="mb-2"
+                        />
+                        <Input
+                          name="time"
+                          type="datetime-local"
+                          value={
+                            editFormData.time
+                              ? new Date(editFormData.time)
+                                  .toISOString()
+                                  .slice(0, 16)
+                              : ""
+                          }
+                          onChange={handleChange}
+                          className="mb-2"
+                        />
+                        <Input
+                          name="location"
+                          value={editFormData.location ?? ""}
+                          onChange={handleChange}
+                          placeholder="Location"
+                          className="mb-2"
+                        />
+                        <Textarea
+                          name="notes"
+                          value={editFormData.notes ?? ""}
+                          onChange={handleChange}
+                          placeholder="Notes"
+                          className="mb-2"
+                        />
+                        <div className="flex justify-center gap-2">
+                          <Button type="submit">Save</Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => setEditingId(null)}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </form>
+                    ) : (
+                      <div
+                        key={item.id}
+                        className="mb-4 flex flex-row items-center border-b pb-2"
+                      >
+                        <div className="pr-2">
+                          <Icon
+                            name="Clock"
+                            className="text-black dark:text-white"
+                            size="15"
+                          />
+                        </div>
+                        <div className="flex w-full justify-between">
+                          <div>
+                            <Typography className="text-lg font-medium">
+                              {item.title}
+                            </Typography>
+                            <Typography className="text-sm text-gray-600">
+                              {formatTime(item.time)} — {item.location}
+                            </Typography>
+                            {item.notes && (
+                              <Typography className="mt-1 text-sm text-muted-foreground">
+                                {item.notes}
+                              </Typography>
+                            )}
+                          </div>
+                          <div>
+                            <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
-                      </div>
-                    </div>
-                  </div>
-                ),
-              )
-            ) : (
-              <Typography className="text-gray-600 dark:text-gray-400">
-                No itinerary items planned for this day.
-              </Typography>
-            )}
+                    ),
+                  )
+                )}
 
-            <Button
-              variant="outline"
-              onClick={handleAddItineraryItem}
-              className="mt-4 w-full"
-            >
-              <Icon
-                name="Plus"
-                className="mr-2 text-black dark:text-white"
-                size="20"
-              />
-              Add Itinerary Item
-            </Button>
-          </div>
-        );
-      })}
-    </div>
+                <Button
+                  variant="outline"
+                  className="mt-2 w-full"
+                  onClick={handleAddItineraryItem}
+                >
+                  <Icon
+                    name="Plus"
+                    className="mr-2 text-black dark:text-white"
+                    size="20"
+                  />{" "}
+                  Add Itinerary Item
+                </Button>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </Card>
   );
 }
 
