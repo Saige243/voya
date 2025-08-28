@@ -11,6 +11,7 @@ import CardMenu from "~/_components/common/CardMenu";
 import { redirect } from "next/navigation";
 import getTrip from "../actions/getTrip";
 import getAccommodations from "../actions/getAccommodations";
+import DailyItineraryCard from "./itinerary/_components/DailyItineraryCard";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -195,6 +196,7 @@ export default async function TripDetailsPage({
           </div>
         )}
       </div>
+      <DailyItineraryCard trip={trip} i={0} />
     </main>
   );
 }

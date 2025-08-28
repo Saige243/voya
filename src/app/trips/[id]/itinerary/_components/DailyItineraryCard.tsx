@@ -16,11 +16,10 @@ import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 interface DailyItineraryCardProps {
   trip: Trip;
-  i: number;
-  onRefSet: (index: number, ref: HTMLDivElement | null) => void;
+  onRefSet?: (index: number, ref: HTMLDivElement | null) => void;
 }
 
-function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
+function DailyItineraryCard({ trip, onRefSet }: DailyItineraryCardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -46,15 +45,6 @@ function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatStartAndEndDates(startDate, endDate);
-
-  const currentDate = dates[i];
-
-  const dayItinerary = itineraries?.find(
-    (itinerary) =>
-      new Date(itinerary.date).toDateString() === currentDate?.toDateString(),
-  );
-
-  const dayItineraries = dayItinerary?.itineraryItems ?? [];
 
   const formatTime = (timeDate: Date | null) => {
     if (!timeDate) return "All day";
@@ -123,112 +113,134 @@ function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
     </Button>
   );
 
-  console.log("day itinerarys", dayItineraries);
-
   return (
-    <div ref={(el) => onRefSet(i, el)}>
-      {dayItineraries && dayItineraries.length > 0 ? (
-        dayItineraries.map((item) =>
-          editingId === item.id ? (
-            <form
-              key={item.id}
-              onSubmit={handleSubmit}
-              className="mb-4 border-b pb-4"
+    <div>
+      {dates.map((currentDate) => {
+        const dayItinerary = itineraries.find(
+          (itinerary) =>
+            new Date(itinerary.date).toDateString() ===
+            currentDate.toDateString(),
+        );
+        const dayItineraries = dayItinerary?.itineraryItems ?? [];
+
+        return (
+          <div key={currentDate.toISOString()} className="mb-8">
+            <Typography className="mb-2 text-xl font-semibold">
+              {format(currentDate, "EEEE, MMM d")}
+            </Typography>
+
+            {dayItineraries.length > 0 ? (
+              dayItineraries.map((item) =>
+                editingId === item.id ? (
+                  <form
+                    key={item.id}
+                    onSubmit={handleSubmit}
+                    className="mb-4 border-b pb-4"
+                  >
+                    <Input
+                      name="title"
+                      value={editFormData.title ?? ""}
+                      onChange={handleChange}
+                      placeholder="Title"
+                      className="mb-2"
+                    />
+                    <Input
+                      name="time"
+                      type="datetime-local"
+                      value={
+                        editFormData.time
+                          ? new Date(editFormData.time)
+                              .toISOString()
+                              .slice(0, 16)
+                          : ""
+                      }
+                      onChange={handleChange}
+                      className="mb-2"
+                    />
+                    <Input
+                      name="location"
+                      value={editFormData.location ?? ""}
+                      onChange={handleChange}
+                      placeholder="Location"
+                      className="mb-2"
+                    />
+                    <Textarea
+                      name="notes"
+                      value={editFormData.notes ?? ""}
+                      onChange={handleChange}
+                      placeholder="Notes"
+                      className="mb-2"
+                    />
+                    <div className="flex justify-center gap-2">
+                      <Button type="submit">Save</Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setEditingId(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </form>
+                ) : (
+                  <div
+                    key={item.id}
+                    className="mb-4 flex flex-row items-center border-b pb-2"
+                  >
+                    <div className="pr-2">
+                      <Icon
+                        name="Clock"
+                        className="text-black dark:text-white"
+                        size="15"
+                      />
+                    </div>
+                    <div className="flex w-full justify-between">
+                      <div>
+                        <Typography className="text-lg font-medium">
+                          <span className="font-base text-black">
+                            {item.title}
+                          </span>
+                        </Typography>
+                        <Typography className="text-sm text-gray-600">
+                          <span className=" text-black">
+                            {formatTime(item.time)}
+                          </span>{" "}
+                          — {item.location}
+                        </Typography>
+                        {item.notes && (
+                          <Typography className="mt-1 text-sm text-muted-foreground">
+                            {item.notes}
+                          </Typography>
+                        )}
+                      </div>
+                      <div>
+                        <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
+                      </div>
+                    </div>
+                  </div>
+                ),
+              )
+            ) : (
+              <Typography className="text-gray-600 dark:text-gray-400">
+                No itinerary items planned for this day.
+              </Typography>
+            )}
+
+            <Button
+              variant="outline"
+              onClick={handleAddItineraryItem}
+              className="mt-4 w-full"
             >
-              <Input
-                name="title"
-                value={editFormData.title ?? ""}
-                onChange={handleChange}
-                placeholder="Title"
-                className="mb-2"
+              <Icon
+                name="Plus"
+                className="mr-2 text-black dark:text-white"
+                size="20"
               />
-              <Input
-                name="time"
-                type="datetime-local"
-                value={
-                  editFormData.time
-                    ? new Date(editFormData.time).toISOString().slice(0, 16)
-                    : ""
-                }
-                onChange={handleChange}
-                className="mb-2"
-              />
-              <Input
-                name="location"
-                value={editFormData.location ?? ""}
-                onChange={handleChange}
-                placeholder="Location"
-                className="mb-2"
-              />
-              <Textarea
-                name="notes"
-                value={editFormData.notes ?? ""}
-                onChange={handleChange}
-                placeholder="Notes"
-                className="mb-2"
-              />
-              <div className="flex justify-center gap-2">
-                <Button type="submit">Save</Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => setEditingId(null)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          ) : (
-            <div
-              key={item.id}
-              className="mb-4 flex flex-row items-center border-b pb-2"
-            >
-              <div className="pr-2">
-                <Icon
-                  name="Clock"
-                  className="text-black dark:text-white"
-                  size="15"
-                />
-              </div>
-              <div className="flex w-full justify-between">
-                <div>
-                  <Typography className="text-lg font-medium">
-                    <span className="font-base text-black"> {item.title}</span>
-                  </Typography>
-                  <Typography className="text-sm text-gray-600">
-                    <span className=" text-black">{formatTime(item.time)}</span>{" "}
-                    — {item.location}
-                  </Typography>
-                  {item.notes && (
-                    <Typography className="mt-1 text-sm text-muted-foreground">
-                      {item.notes}
-                    </Typography>
-                  )}
-                </div>
-                <div>
-                  <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
-                </div>
-              </div>
-            </div>
-          ),
-        )
-      ) : (
-        <Typography className="text-gray-600 dark:text-gray-400">
-          No itinerary items planned for this day.
-        </Typography>
-      )}
-      <Button
-        variant="outline"
-        onClick={handleAddItineraryItem}
-        className="mt-4 w-full"
-      >
-        <Icon
-          name="Plus"
-          className="mr-2 text-black dark:text-white"
-          size="20"
-        />
-        Add Itinerary Item
-      </Button>
+              Add Itinerary Item
+            </Button>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -13,11 +13,9 @@ import { Typography } from "~/_components/common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "~/_components/ui/button";
 import { useTrip } from "~/app/trips/contexts/TripContext";
-import { type ItineraryItem, type Itinerary } from "@prisma/client";
 import { Card } from "~/_components/ui/card";
 import { redirect } from "next/navigation";
 import DailyItineraryCard from "~/app/trips/[id]/itinerary/_components/DailyItineraryCard";
-import { api } from "~/trpc/react";
 
 export default function ItineraryPage() {
   const params = useParams();
