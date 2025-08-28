@@ -47,10 +47,13 @@ function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
   const dates = formatStartAndEndDates(startDate, endDate);
 
+  const currentDate = dates[i];
+
   const dayItinerary = itineraries?.find(
     (itinerary) =>
-      new Date(itinerary.date).toDateString() === itinerary.date.toDateString(),
+      new Date(itinerary.date).toDateString() === currentDate?.toDateString(),
   );
+
   const dayItineraries = dayItinerary?.itineraryItems ?? [];
 
   const formatTime = (timeDate: Date | null) => {
@@ -119,6 +122,8 @@ function DailyItineraryCard({ trip, i, onRefSet }: DailyItineraryCardProps) {
       Edit Itinerary Item
     </Button>
   );
+
+  console.log("day itinerarys", dayItineraries);
 
   return (
     <div ref={(el) => onRefSet(i, el)}>

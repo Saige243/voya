@@ -22,9 +22,6 @@ import { api } from "~/trpc/react";
 export default function ItineraryPage() {
   const params = useParams();
   const { trip } = useTrip();
-  const [itineraries, setItineraries] = React.useState<
-    (Itinerary & { itineraryItems: ItineraryItem[] })[]
-  >([]);
   const [openItems, setOpenItems] = React.useState<string[]>([]);
   const dayIndex = parseInt(params.index as string) - 1;
 
@@ -49,17 +46,6 @@ export default function ItineraryPage() {
       });
     }
   }, [dayIndex, trip]);
-
-  const { data } = api.itinerary.getAll.useQuery(
-    { tripId: trip?.id },
-    { enabled: !!trip?.id },
-  );
-
-  useEffect(() => {
-    if (data) {
-      setItineraries(data);
-    }
-  }, [data]);
 
   const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
   const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
