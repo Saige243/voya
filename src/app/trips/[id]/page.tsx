@@ -196,7 +196,7 @@ export default async function TripDetailsPage({
           </div>
         )}
       </div>
-      <DailyItineraryCard trip={trip} i={0} />
+      <DailyItineraryCard trip={trip} />
     </main>
   );
 }

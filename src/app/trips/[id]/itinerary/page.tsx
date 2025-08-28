@@ -8,7 +8,7 @@ import {
 } from "~/_components/ui/accordion";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography } from "~/_components/common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { Button } from "~/_components/ui/button";
@@ -28,13 +28,6 @@ export default function ItineraryPage() {
   if (!trip) {
     redirect("/");
   }
-
-  const handleRefSet = useCallback(
-    (index: number, ref: HTMLDivElement | null) => {
-      dateRefs.current[index] = ref;
-    },
-    [],
-  );
 
   useEffect(() => {
     if (dayIndex >= 0 && dateRefs.current[dayIndex]) {
@@ -56,68 +49,19 @@ export default function ItineraryPage() {
     setOpenItems(allOpen ? [] : allValues);
   };
 
-  const itineraryDaysAccordion = (
-    <div className="w-full">
-      <Accordion defaultChecked type="single" collapsible className="w-full">
-        <AccordionItem
-          value="daily-itinerary"
-          className="cursor-pointer border-none"
-        >
-          <AccordionTrigger className="flex min-w-48 items-center justify-between space-x-2 [&>svg]:text-white">
-            <span className="text-base">Daily Itinerary</span>
-          </AccordionTrigger>
-
-          <AccordionContent className="flex flex-col">
-            {dates.map((date, index) => {
-              const formattedDate = format(date, "EEE, MMMM d");
-              return (
-                <Button
-                  variant="ghost"
-                  key={index}
-                  className="w-full justify-start text-left text-sm"
-                  onClick={() => {
-                    dateRefs.current[index]?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }}
-                >
-                  <span className="mr-2 text-gray-400">Day {index + 1}:</span>
-                  <span>{formattedDate}</span>
-                </Button>
-              );
-            })}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
-  );
-
   const dailyItinerary = (
     <div className="flex flex-col space-y-4">
       <Button variant="secondary" className="mt-4 w-full" onClick={toggleAll}>
         {allOpen ? "Collapse All" : "Expand All"}
       </Button>
       <Card className="w-[600px]">
-        lskdjf
         <Accordion
           type="multiple"
           value={openItems}
           onValueChange={setOpenItems}
           className="flex flex-col space-y-4"
         >
-          {dates.map((date, i) => (
-            <AccordionItem key={i} value={date.toISOString()}>
-              <AccordionTrigger>
-                <span className="decoration-underline text-base text-gray-800 dark:text-gray-200">
-                  {format(date, "EEE, MMMM d")}
-                </span>
-              </AccordionTrigger>
-              <AccordionContent>
-                <DailyItineraryCard trip={trip} i={i} onRefSet={handleRefSet} />
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          <DailyItineraryCard trip={trip} />
         </Accordion>
       </Card>
     </div>
@@ -134,7 +78,6 @@ export default function ItineraryPage() {
         </Typography>
       </div>
       <div className="flex flex-row justify-around">
-        <div>{itineraryDaysAccordion}</div>
         <div>{dailyItinerary}</div>
       </div>
     </div>

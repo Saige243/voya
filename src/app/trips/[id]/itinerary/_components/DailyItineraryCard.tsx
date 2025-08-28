@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Typography } from "~/_components/common/Typography";
 import { Button } from "~/_components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
@@ -16,14 +16,13 @@ import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 interface DailyItineraryCardProps {
   trip: Trip;
-  onRefSet?: (index: number, ref: HTMLDivElement | null) => void;
 }
 
-function DailyItineraryCard({ trip, onRefSet }: DailyItineraryCardProps) {
+function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [itineraries, setItineraries] = useState<
+  const [itineraryItems, setItineraryItems] = useState<
     (Itinerary & { itineraryItems: ItineraryItem[] })[]
   >([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -38,13 +37,17 @@ function DailyItineraryCard({ trip, onRefSet }: DailyItineraryCardProps) {
 
   useEffect(() => {
     if (data) {
-      setItineraries(data);
+      setItineraryItems(data);
     }
   }, [data]);
 
-  const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
-  const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
-  const dates = formatStartAndEndDates(startDate, endDate);
+  console.log("data:", data);
+
+  const dates = useMemo(() => {
+    const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
+    const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
+    return formatStartAndEndDates(startDate, endDate);
+  }, [trip?.startDate, trip?.endDate]);
 
   const formatTime = (timeDate: Date | null) => {
     if (!timeDate) return "All day";
@@ -116,12 +119,13 @@ function DailyItineraryCard({ trip, onRefSet }: DailyItineraryCardProps) {
   return (
     <div>
       {dates.map((currentDate) => {
-        const dayItinerary = itineraries.find(
-          (itinerary) =>
-            new Date(itinerary.date).toDateString() ===
+        const dayItinerary = itineraryItems.find(
+          (itineraryItem) =>
+            new Date(itineraryItem.date).toDateString() ===
             currentDate.toDateString(),
         );
         const dayItineraries = dayItinerary?.itineraryItems ?? [];
+        console.log("dayItineraries:", dayItineraries);
 
         return (
           <div key={currentDate.toISOString()} className="mb-8">
