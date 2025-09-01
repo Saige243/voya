@@ -5,11 +5,12 @@ import { Button } from "~/_components/ui/button";
 import { Label } from "~/_components/ui/label";
 import { Input } from "~/_components/ui/input";
 import { type Trip } from "@prisma/client";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAccommodation } from "~/app/trips/actions/addAccomodation";
-import { formatInTimeZone } from "date-fns-tz";
+import { DatePicker } from "~/_components/ui/datepicker";
+import { format } from "date-fns";
 
 type FormData = {
   name: string;
@@ -28,11 +29,8 @@ const AddAccommodationsForm = ({
   trip: Trip;
   userId: string;
 }) => {
-  const tripStartDate = formatInTimeZone(trip.startDate, "UTC", "MMMM d, yyyy");
-  const tripEndDate = formatInTimeZone(trip.endDate, "UTC", "MMMM d, yyyy");
-
-  console.log("Trip Start Date:", tripStartDate);
-  console.log("Trip End Date:", tripEndDate);
+  const tripStartDate = format(trip.startDate, "MMMM d, yyyy");
+  const tripEndDate = format(trip.endDate, "MMMM d, yyyy");
 
   const validationSchema = React.useMemo(
     () =>
@@ -44,22 +42,26 @@ const AddAccommodationsForm = ({
           .required("Check-In Date is required")
           .test(
             "check-in-after-trip-start",
-            `Check-In date cannot be before trip start date (${tripStartDate ? tripStartDate : "N/A"})`,
+            `Check-In date cannot be before trip start date (${tripStartDate})`,
             function (value) {
-              if (!value || !tripStartDate) return false;
-              const checkInDate = new Date(value).toLocaleDateString();
-              return (
-                checkInDate > new Date(trip.startDate).toLocaleDateString()
-              );
+              if (!value) return false;
+              const checkInDate = new Date(value);
+              const tripStart = new Date(trip.startDate);
+
+              // normalize to ignore time
+              checkInDate.setHours(0, 0, 0, 0);
+              tripStart.setHours(0, 0, 0, 0);
+
+              return checkInDate >= tripStart;
             },
           )
           .test(
             "check-in-before-check-out",
             `Check-in date cannot be after check-out Date (${tripEndDate ? tripEndDate : "N/A"})`,
             function (value) {
-              const parent = this.parent as { checkOut?: string };
-              if (!value || !parent.checkOut) return true;
-              return new Date(value) <= new Date(parent.checkOut);
+              const tripEnd = new Date(trip.endDate);
+              tripEnd.setHours(0, 0, 0, 0);
+              return new Date(value) <= tripEnd;
             },
           ),
         checkOut: yup
@@ -88,6 +90,7 @@ const AddAccommodationsForm = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -170,12 +173,16 @@ const AddAccommodationsForm = ({
             <Label htmlFor="checkIn" className="block text-sm text-gray-500">
               Check-In Date:
             </Label>
-            <Input
-              id="checkIn"
-              type="date"
-              className="Input Input-bordered mt-1 w-full dark:bg-white"
-              {...register("checkIn")}
-              style={{ colorScheme: "light" }}
+            <Controller
+              control={control}
+              name="checkIn"
+              rules={{ required: "Check-In date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+                />
+              )}
             />
             {errors.checkIn && (
               <p className="mt-1 text-sm text-red-500">
@@ -187,11 +194,16 @@ const AddAccommodationsForm = ({
             <Label htmlFor="checkOut" className="block text-sm text-gray-500">
               Check-Out Date:
             </Label>
-            <Input
-              type="date"
-              className="Input Input-bordered mt-1 w-full dark:bg-white"
-              style={{ colorScheme: "light" }}
-              {...register("checkOut")}
+            <Controller
+              control={control}
+              name="checkOut"
+              rules={{ required: "Check-Out date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+                />
+              )}
             />
             {errors.checkOut && (
               <p className="mt-1 text-sm text-red-500">

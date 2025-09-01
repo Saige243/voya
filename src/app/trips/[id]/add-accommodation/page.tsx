@@ -31,7 +31,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const accommodationForm = (
-    <Card className="h-fit">
+    <Card className="h-fit w-2/3">
       <CardContent>
         <h2 className="pb-4 text-xl font-bold text-black dark:text-white">
           Add Accommodations:
@@ -62,8 +62,8 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   return (
     <div>
       {header}
-      <main className="flex min-h-screen justify-center">
-        <div className="flex flex-col gap-4 md:flex-row">
+      <main className="flex min-h-screen w-full justify-center">
+        <div className="flex w-full flex-col justify-center gap-4 md:flex-row">
           {accommodationForm}
         </div>
       </main>

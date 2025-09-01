@@ -4,12 +4,12 @@ import React from "react";
 import { Button } from "~/_components/ui/button";
 import { Label } from "~/_components/ui/label";
 import { Input } from "~/_components/ui/input";
-// import { DatePicker } from "~/_components/ui/datepicker";
 import { type Accommodation } from "@prisma/client";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editAccommodation } from "~/app/trips/actions/editAccommodation";
+import { DatePicker } from "~/_components/ui/datepicker";
 
 type FormData = {
   name: string;
@@ -45,7 +45,7 @@ const AccommodationsForm = ({
             function (value) {
               if (!value || !tripStartDate) return false;
               const checkInDate = new Date(value);
-              return checkInDate > tripStartDate;
+              return checkInDate >= tripStartDate;
             },
           )
           .test(
@@ -82,6 +82,7 @@ const AccommodationsForm = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -96,10 +97,6 @@ const AccommodationsForm = ({
       website: "",
     },
   });
-
-  // Add this right after your useForm hook
-  console.log("Current errors:", errors);
-  console.log("Form is valid:", Object.keys(errors).length === 0);
 
   const onSubmit = async (data: FormData) => {
     const checkIn = new Date(data.checkIn);
@@ -169,11 +166,16 @@ const AccommodationsForm = ({
             <Label htmlFor="checkIn" className="block text-sm ">
               Check-In Date:
             </Label>
-            <Input
-              id="checkIn"
-              type="date"
-              className="w-full dark:bg-white"
-              {...register("checkIn")}
+            <Controller
+              control={control}
+              name="checkIn"
+              rules={{ required: "Check-In date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+                />
+              )}
             />
             {errors.checkIn && (
               <p className="mt-1 text-xs text-red-500">
@@ -185,11 +187,16 @@ const AccommodationsForm = ({
             <Label htmlFor="checkOut" className="block text-sm ">
               Check-Out Date:
             </Label>
-            <Input
-              id="checkOut"
-              type="date"
-              className="w-full dark:bg-white"
-              {...register("checkOut")}
+            <Controller
+              control={control}
+              name="checkOut"
+              rules={{ required: "Check-Out date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+                />
+              )}
             />
             {errors.checkOut && (
               <p className="mt-1 text-xs text-red-500">
