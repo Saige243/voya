@@ -30,6 +30,9 @@ const AddAccommodationsForm = ({
   const tripStartDate = trip.startDate.toLocaleDateString();
   const tripEndDate = trip.endDate.toLocaleDateString();
 
+  console.log("Trip Start Date:", tripStartDate);
+  console.log("Trip End Date:", tripEndDate);
+
   const validationSchema = React.useMemo(
     () =>
       yup.object().shape({
@@ -40,11 +43,13 @@ const AddAccommodationsForm = ({
           .required("Check-In Date is required")
           .test(
             "check-in-after-trip-start",
-            `Check-in date cannot be before trip start date (${tripStartDate ? tripStartDate : "N/A"})`,
+            `Check-In date cannot be before trip start date (${tripStartDate ? tripStartDate : "N/A"})`,
             function (value) {
               if (!value || !tripStartDate) return false;
-              const checkInDate = new Date(value);
-              return checkInDate >= new Date(trip.startDate);
+              const checkInDate = new Date(value).toLocaleDateString();
+              return (
+                checkInDate > new Date(trip.startDate).toLocaleDateString()
+              );
             },
           )
           .test(

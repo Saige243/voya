@@ -45,7 +45,7 @@ const AccommodationsForm = ({
             function (value) {
               if (!value || !tripStartDate) return false;
               const checkInDate = new Date(value);
-              return checkInDate >= tripStartDate;
+              return checkInDate > tripStartDate;
             },
           )
           .test(
