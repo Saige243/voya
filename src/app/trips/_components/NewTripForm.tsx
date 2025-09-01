@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
+import { Button } from "~/_components/ui/button";
+import { Label } from "~/_components/ui/label";
 import { createTrip } from "~/app/trips/actions/createTrip";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { Card, CardContent } from "~/components/ui/card";
+import { Controller, useForm } from "react-hook-form";
+import { Card, CardContent } from "~/_components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "~/components/ui/input";
+import { Input } from "~/_components/ui/input";
+import { DatePicker } from "~/_components/ui/datepicker";
 
 type FormData = {
   title: string;
