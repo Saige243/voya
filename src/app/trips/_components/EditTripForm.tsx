@@ -10,6 +10,7 @@ import { Button } from "~/_components/ui/button";
 import { type Trip } from "@prisma/client";
 import { updateTrip } from "~/app/trips/actions/updateTrip";
 import { DatePicker } from "~/_components/ui/datepicker";
+import { formatInTimeZone } from "date-fns-tz";
 
 type FormData = {
   title: string;
@@ -45,8 +46,8 @@ const EditTripDetailsForm = ({
     defaultValues: {
       title: trip.title,
       destination: trip.destination,
-      startDate: trip.startDate.toISOString().split("T")[0],
-      endDate: trip.endDate.toISOString().split("T")[0],
+      startDate: trip.startDate.toISOString(),
+      endDate: trip.endDate.toISOString(),
       description: trip.description ?? "",
     },
   });
@@ -55,8 +56,8 @@ const EditTripDetailsForm = ({
     reset({
       title: trip.title,
       destination: trip.destination,
-      startDate: trip.startDate.toISOString().split("T")[0],
-      endDate: trip.endDate.toISOString().split("T")[0],
+      startDate: trip.startDate.toISOString(),
+      endDate: trip.endDate.toISOString(),
       description: trip.description ?? "",
     });
   }, [trip, reset]);
@@ -140,9 +141,14 @@ const EditTripDetailsForm = ({
           rules={{ required: "Start date is required" }}
           render={({ field }) => (
             <DatePicker
-              value={field.value ? new Date(field.value) : trip.startDate}
+              // TODO: Fix all formatInTimeZone type errors
+              value={
+                field.value
+                  ? formatInTimeZone(field.value, "UTC", "MMMM d, yyyy")
+                  : trip.startDate
+              }
               onChange={(date: Date | undefined) => {
-                field.onChange(date?.toISOString().split("T")[0] ?? "");
+                field.onChange(date?.toISOString() ?? "");
               }}
             />
           )}
@@ -159,9 +165,13 @@ const EditTripDetailsForm = ({
           rules={{ required: "End date is required" }}
           render={({ field }) => (
             <DatePicker
-              value={field.value ? new Date(field.value) : trip.endDate}
+              value={
+                field.value
+                  ? formatInTimeZone(field.value, "UTC", "MMMM d, yyyy")
+                  : trip.endDate
+              }
               onChange={(date: Date | undefined) => {
-                field.onChange(date?.toISOString().split("T")[0] ?? "");
+                field.onChange(date?.toISOString() ?? "");
               }}
             />
           )}

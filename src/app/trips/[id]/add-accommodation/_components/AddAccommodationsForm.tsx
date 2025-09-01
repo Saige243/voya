@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAccommodation } from "~/app/trips/actions/addAccomodation";
+import { formatInTimeZone } from "date-fns-tz";
 
 type FormData = {
   name: string;
@@ -27,8 +28,8 @@ const AddAccommodationsForm = ({
   trip: Trip;
   userId: string;
 }) => {
-  const tripStartDate = trip.startDate.toLocaleDateString();
-  const tripEndDate = trip.endDate.toLocaleDateString();
+  const tripStartDate = formatInTimeZone(trip.startDate, "UTC", "MMMM d, yyyy");
+  const tripEndDate = formatInTimeZone(trip.endDate, "UTC", "MMMM d, yyyy");
 
   console.log("Trip Start Date:", tripStartDate);
   console.log("Trip End Date:", tripEndDate);

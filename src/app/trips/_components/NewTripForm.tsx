@@ -4,10 +4,12 @@ import { Button } from "~/_components/ui/button";
 import { Label } from "~/_components/ui/label";
 import { createTrip } from "~/app/trips/actions/createTrip";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Card, CardContent } from "~/_components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "~/_components/ui/input";
+import { DatePicker } from "~/_components/ui/datepicker";
+import { formatInTimeZone } from "date-fns-tz";
 
 type FormData = {
   title: string;
@@ -46,6 +48,7 @@ const NewTripForm = ({ userId }: { userId: string }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -129,28 +132,35 @@ const NewTripForm = ({ userId }: { userId: string }) => {
           </div>
           <div>
             <Label htmlFor="startDate">Start Date:</Label>
-            <Input
-              type="date"
-              id="startDate"
-              className="input input-bordered w-full dark:bg-white"
-              style={{ colorScheme: "light" }}
-              {...register("startDate", {
-                required: true,
-                valueAsDate: true,
-              })}
+            <Controller
+              control={control}
+              name="startDate"
+              rules={{ required: "Start date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  // TODO: Fix all formatInTimeZone type errors
+                  value={field.value}
+                  onChange={(date: Date | undefined) => {
+                    field.onChange(date?.toISOString() ?? "");
+                  }}
+                />
+              )}
             />
           </div>
           <div>
             <Label htmlFor="endDate">End Date:</Label>
-            <Input
-              type="date"
-              id="endDate"
-              className="input input-bordered w-full dark:bg-white"
-              style={{ colorScheme: "light" }}
-              {...register("endDate", {
-                required: true,
-                valueAsDate: true,
-              })}
+            <Controller
+              control={control}
+              name="endDate"
+              rules={{ required: "End date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value}
+                  onChange={(date: Date | undefined) => {
+                    field.onChange(date?.toISOString() ?? "");
+                  }}
+                />
+              )}
             />
             {errors.endDate && (
               <p className="text-sm text-red-500">{errors.endDate.message}</p>
