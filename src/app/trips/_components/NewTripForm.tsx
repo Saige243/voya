@@ -9,7 +9,6 @@ import { Card, CardContent } from "~/_components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "~/_components/ui/input";
 import { DatePicker } from "~/_components/ui/datepicker";
-import { formatInTimeZone } from "date-fns-tz";
 
 type FormData = {
   title: string;
@@ -138,7 +137,6 @@ const NewTripForm = ({ userId }: { userId: string }) => {
               rules={{ required: "Start date is required" }}
               render={({ field }) => (
                 <DatePicker
-                  // TODO: Fix all formatInTimeZone type errors
                   value={field.value}
                   onChange={(date: Date | undefined) => {
                     field.onChange(date?.toISOString() ?? "");

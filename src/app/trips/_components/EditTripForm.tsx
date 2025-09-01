@@ -10,7 +10,6 @@ import { Button } from "~/_components/ui/button";
 import { type Trip } from "@prisma/client";
 import { updateTrip } from "~/app/trips/actions/updateTrip";
 import { DatePicker } from "~/_components/ui/datepicker";
-import { formatInTimeZone } from "date-fns-tz";
 
 type FormData = {
   title: string;
@@ -141,15 +140,8 @@ const EditTripDetailsForm = ({
           rules={{ required: "Start date is required" }}
           render={({ field }) => (
             <DatePicker
-              // TODO: Fix all formatInTimeZone type errors
-              value={
-                field.value
-                  ? formatInTimeZone(field.value, "UTC", "MMMM d, yyyy")
-                  : trip.startDate
-              }
-              onChange={(date: Date | undefined) => {
-                field.onChange(date?.toISOString() ?? "");
-              }}
+              value={field.value ? new Date(field.value) : undefined}
+              onChange={(date) => field.onChange(date?.toISOString() ?? "")}
             />
           )}
         />
@@ -165,14 +157,8 @@ const EditTripDetailsForm = ({
           rules={{ required: "End date is required" }}
           render={({ field }) => (
             <DatePicker
-              value={
-                field.value
-                  ? formatInTimeZone(field.value, "UTC", "MMMM d, yyyy")
-                  : trip.endDate
-              }
-              onChange={(date: Date | undefined) => {
-                field.onChange(date?.toISOString() ?? "");
-              }}
+              value={field.value ? new Date(field.value) : undefined}
+              onChange={(date) => field.onChange(date?.toISOString() ?? "")}
             />
           )}
         />
