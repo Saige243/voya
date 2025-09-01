@@ -4,11 +4,10 @@ import { Button } from "~/_components/ui/button";
 import { Label } from "~/_components/ui/label";
 import { createTrip } from "~/app/trips/actions/createTrip";
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Card, CardContent } from "~/_components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "~/_components/ui/input";
-import { DatePicker } from "~/_components/ui/datepicker";
 
 type FormData = {
   title: string;

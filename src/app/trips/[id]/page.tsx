@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import getTrip from "../actions/getTrip";
 import getAccommodations from "../actions/getAccommodations";
 import DailyItineraryCard from "./itinerary/_components/DailyItineraryCard";
+import { formatInTimeZone } from "date-fns-tz";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -149,14 +150,14 @@ export default async function TripDetailsPage({
             <div className="flex">
               <Typography variant="body">
                 {trip?.startDate
-                  ? format(new Date(trip.startDate), "MMM dd")
+                  ? formatInTimeZone(trip.startDate, "UTC", "MMMM d, yyyy")
                   : "N/A"}
                 {" - "}
               </Typography>
               <Typography variant="body">
                 &nbsp;
                 {trip?.endDate
-                  ? format(new Date(trip.endDate), "dd, yyyy")
+                  ? formatInTimeZone(trip.endDate, "UTC", "MMMM d, yyyy")
                   : "N/A"}
               </Typography>
             </div>

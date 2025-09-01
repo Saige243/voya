@@ -8,10 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "~/_components/ui/card";
-import { format } from "date-fns";
 import Link from "next/link";
 import { buttonVariants } from "~/_components/ui/button";
 import { cn } from "~/lib/utils";
+import { formatInTimeZone } from "date-fns-tz";
 
 function TripCard(trip: Trip) {
   return (
@@ -30,9 +30,9 @@ function TripCard(trip: Trip) {
           </CardHeader>
           <CardFooter>
             <div className="flex w-full text-base">
-              <p>{format(new Date(trip.startDate), "MMMM d, yyyy")}</p>
+              <p>{formatInTimeZone(trip.startDate, "UTC", "MMMM d, yyyy")}</p>
               <span className="px-2">{" - "}</span>
-              <p>{format(new Date(trip.endDate), "MMMM d, yyyy")}</p>
+              <p>{formatInTimeZone(trip.endDate, "UTC", "MMMM d, yyyy")}</p>
             </div>
           </CardFooter>
         </CardContent>
