@@ -20,6 +20,8 @@ export const itineraryItemRouter = createTRPCRouter({
       console.log("Creating itinerary item with data:", input);
 
       const itineraryDate = new Date(date);
+      itineraryDate.setHours(0, 0, 0, 0);
+
       const timeValue = time ? new Date(time) : null;
 
       console.log("Time conversion:", { input: time, output: timeValue });

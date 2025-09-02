@@ -4,12 +4,12 @@ import ItineraryForm from "./ItineraryForm";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Button } from "~/_components/ui/button";
+import { format } from "date-fns";
 
 interface ModalProps {
   tripId: number;
@@ -17,17 +17,16 @@ interface ModalProps {
 }
 
 function NewItineraryModal({ tripId, date }: ModalProps) {
+  const formattedDate = format(date, "MMMM d");
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add Item for Today</Button>
+        <Button>Add Item for {formattedDate}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Item for Today</DialogTitle>
-          <DialogDescription>
-            Please fill out the form below to add a new itinerary item.
-          </DialogDescription>
+          <DialogTitle>Add Itinerary Item for {formattedDate}</DialogTitle>
         </DialogHeader>
         <Card>
           <CardContent>
