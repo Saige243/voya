@@ -32,11 +32,7 @@ function NewItineraryModal({ tripId, date }: ModalProps) {
         </DialogHeader>
         <Card>
           <CardContent>
-            <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-              Add Itinerary Item:
-            </h2>
-            {/* <ItineraryForm trip={trip} /> */}
-            <p>form goes here</p>
+            <ItineraryForm tripId={tripId} date={date} />
           </CardContent>
         </Card>
       </DialogContent>
