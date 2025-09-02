@@ -11,7 +11,7 @@ import CardMenu from "~/_components/common/CardMenu";
 import { redirect } from "next/navigation";
 import getTrip from "../actions/getTrip";
 import getAccommodations from "../actions/getAccommodations";
-import DailyItineraryCard from "./itinerary/_components/DailyItineraryCard";
+import DailyItineraryCard from "./itinerary/_components/DailyItineraryAccordion";
 import { formatInTimeZone } from "date-fns-tz";
 
 type AccommodationListProps = {

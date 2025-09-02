@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
 import { Typography } from "~/_components/common/Typography";
 import { Button } from "~/_components/ui/button";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { type ItineraryItem, type Itinerary, type Trip } from "@prisma/client";
 import CardMenu from "~/_components/common/CardMenu";
 import { Icon } from "~/_components/common/Icon";
@@ -22,11 +22,11 @@ import {
 import { Card } from "~/_components/ui/card";
 import NewItineraryModal from "./NewItineraryModal";
 
-interface DailyItineraryCardProps {
+interface DailyItineraryAccordionProps {
   trip: Trip;
 }
 
-function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
+function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const router = useRouter();
 
   const [itineraryItems, setItineraryItems] = useState<
@@ -243,4 +243,4 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   );
 }
 
-export default DailyItineraryCard;
+export default DailyItineraryAccordion;

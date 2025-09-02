@@ -47,7 +47,7 @@ export default async function AddItineraryItem({
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Add Itinerary Item:
         </h2>
-        <ItineraryForm trip={trip} />
+        <ItineraryForm tripId={trip.id} date={new Date()} />
       </CardContent>
     </Card>
   );

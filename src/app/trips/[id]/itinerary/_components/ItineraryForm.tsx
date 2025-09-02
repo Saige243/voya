@@ -51,7 +51,6 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
   const onSubmit = (data: ItineraryFormValues) => {
     const [hours, minutes] = data.time.split(":").map(Number);
 
-    // Combine the date and time in local time
     const combined = set(data.date, {
       hours,
       minutes,
@@ -59,7 +58,6 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
       milliseconds: 0,
     });
 
-    // Convert to ISO string in UTC
     const datetimeUTC = combined.toISOString();
 
     console.log("UTC datetime to submit:", datetimeUTC);
