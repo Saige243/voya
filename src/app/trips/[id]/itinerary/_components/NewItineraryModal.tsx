@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "~/_components/ui/card";
 import ItineraryForm from "./ItineraryForm";
-import { type Trip } from "@prisma/client";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +19,7 @@ interface ModalProps {
 function NewItineraryModal({ tripId, date }: ModalProps) {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>Add Item for Today</Button>
       </DialogTrigger>
       <DialogContent>

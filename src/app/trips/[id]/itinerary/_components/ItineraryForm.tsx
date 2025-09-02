@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "~/_components/ui/button";
-import { api } from "~/trpc/react"; // ✅ use client-side trpc, not server
+import { api } from "~/trpc/react";
 import { Label } from "~/_components/ui/label";
 import { Input } from "~/_components/ui/input";
 import { DatePicker } from "~/_components/ui/datepicker";
 import { Controller, useForm } from "react-hook-form";
+import { set } from "date-fns";
 
 interface FormProps {
   tripId: number;
@@ -14,7 +15,8 @@ interface FormProps {
 
 type ItineraryFormValues = {
   title: string;
-  datetime: Date;
+  date: Date;
+  time: string;
   location: string;
   notes: string;
 };
@@ -24,12 +26,13 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<ItineraryFormValues>({
     defaultValues: {
       title: "",
-      datetime: date, // pre-fill with current accordion date
+      date: date,
+      time: "",
       location: "",
       notes: "",
     },
@@ -38,7 +41,7 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
   const createItineraryItem = api.itineraryItem.create.useMutation({
     onSuccess: () => {
       console.log("Itinerary item created");
-      reset(); // reset form after success
+      reset();
     },
     onError: (err) => {
       console.error("Error creating itinerary item:", err);
@@ -46,28 +49,28 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
   });
 
   const onSubmit = (data: ItineraryFormValues) => {
-    if (!data.datetime) {
-      console.error("No datetime provided");
-      return;
-    }
+    const [hours, minutes] = data.time.split(":").map(Number);
 
-    // split into date + time parts
-    const dateOnly = new Date(
-      data.datetime.getFullYear(),
-      data.datetime.getMonth(),
-      data.datetime.getDate(),
-    ).toISOString();
+    // Combine the date and time in local time
+    const combined = set(data.date, {
+      hours,
+      minutes,
+      seconds: 0,
+      milliseconds: 0,
+    });
 
-    const payload = {
+    // Convert to ISO string in UTC
+    const datetimeUTC = combined.toISOString();
+
+    console.log("UTC datetime to submit:", datetimeUTC);
+
+    createItineraryItem.mutate({
       tripId,
       title: data.title,
-      date: dateOnly,
-      time: data.datetime.toISOString(), // keep full datetime for time
+      date: combined.toISOString(),
       location: data.location,
       notes: data.notes,
-    };
-
-    createItineraryItem.mutate(payload);
+    });
   };
 
   return (
@@ -92,7 +95,7 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
         <div className="w-1/2">
           <Controller
             control={control}
-            name="datetime"
+            name="date"
             rules={{ required: "Date and time are required" }}
             render={({ field }) => (
               <DatePicker
@@ -102,8 +105,8 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
               />
             )}
           />
-          {errors.datetime && (
-            <p className="text-sm text-red-500">{errors.datetime.message}</p>
+          {errors.date && (
+            <p className="text-sm text-red-500">{errors.date.message}</p>
           )}
         </div>
 
@@ -112,7 +115,7 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
             id="time"
             type="time"
             className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-            {...register("datetime", { valueAsDate: true })}
+            {...register("time")}
           />
         </div>
       </div>

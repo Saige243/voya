@@ -28,7 +28,6 @@ interface DailyItineraryCardProps {
 
 function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   const router = useRouter();
-  const pathname = usePathname();
 
   const [itineraryItems, setItineraryItems] = useState<
     (Itinerary & { itineraryItems: ItineraryItem[] })[]
@@ -49,6 +48,8 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
   useEffect(() => {
     if (data) setItineraryItems(data);
   }, [data]);
+
+  console.log("Itinerary items:", itineraryItems);
 
   const dates = useMemo(() => {
     const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
