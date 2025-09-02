@@ -20,6 +20,7 @@ import {
   AccordionContent,
 } from "~/_components/ui/accordion";
 import { Card } from "~/_components/ui/card";
+import NewItineraryModal from "./NewItineraryModal";
 
 interface DailyItineraryCardProps {
   trip: Trip;
@@ -43,6 +44,8 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
     { enabled: !!trip?.id },
   );
 
+  const tripId = trip?.id;
+
   useEffect(() => {
     if (data) setItineraryItems(data);
   }, [data]);
@@ -60,9 +63,6 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
 
   const formatTime = (timeDate: Date | null) =>
     !timeDate ? "All day" : format(timeDate, "h:mm a");
-
-  const handleAddItineraryItem = () =>
-    router.push(`${pathname}/add-itinerary-item`);
 
   const handleEditClick = (item: ItineraryItem) => {
     setSelectedItineraryItem(item);
@@ -230,19 +230,9 @@ function DailyItineraryCard({ trip }: DailyItineraryCardProps) {
                     ),
                   )
                 )}
-
-                <Button
-                  variant="outline"
-                  className="mt-2 w-full"
-                  onClick={handleAddItineraryItem}
-                >
-                  <Icon
-                    name="Plus"
-                    className="mr-2 text-black dark:text-white"
-                    size="20"
-                  />{" "}
-                  Add Itinerary Item
-                </Button>
+                <div className="flex w-full justify-center">
+                  <NewItineraryModal tripId={tripId} date={date} />
+                </div>
               </AccordionContent>
             </AccordionItem>
           );
