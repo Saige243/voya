@@ -4,8 +4,8 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "~/components/ui/popover";
-import { Button } from "~/components/ui/button";
+} from "~/_components/ui/popover";
+import { Button } from "~/_components/ui/button";
 import NavAvatarMenu from "./NavAvatarMenu";
 
 export default function Navbar() {
