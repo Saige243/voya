@@ -39,8 +39,8 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
   });
 
   const createItineraryItem = api.itineraryItem.create.useMutation({
-    onSuccess: () => {
-      console.log("Itinerary item created");
+    onSuccess: (data) => {
+      console.log("Itinerary item created", data);
       reset();
     },
     onError: (err) => {
@@ -58,14 +58,13 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
       milliseconds: 0,
     });
 
-    const datetimeUTC = combined.toISOString();
-
-    console.log("UTC datetime to submit:", datetimeUTC);
+    console.log("Submitting local datetime", combined);
 
     createItineraryItem.mutate({
       tripId,
       title: data.title,
-      date: combined.toISOString(),
+      date: data.date,
+      time: combined,
       location: data.location,
       notes: data.notes,
     });

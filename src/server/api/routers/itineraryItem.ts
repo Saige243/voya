@@ -7,9 +7,13 @@ export const itineraryItemRouter = createTRPCRouter({
     .input(
       z.object({
         tripId: z.number(),
-        date: z.string().datetime(),
+        date: z
+          .date()
+          .min(new Date(), { message: "Date must be in the future" }),
         title: z.string(),
-        time: z.string().optional().nullable(),
+        time: z
+          .date()
+          .min(new Date(), { message: "Time must be in the future" }),
         description: z.string().nullable().optional(),
         location: z.string(),
         notes: z.string().optional(),
@@ -19,22 +23,15 @@ export const itineraryItemRouter = createTRPCRouter({
       const { tripId, date, time, ...rest } = input;
       console.log("Creating itinerary item with data:", input);
 
-      const itineraryDate = new Date(date);
-      itineraryDate.setHours(0, 0, 0, 0);
-
-      const timeValue = time ? new Date(time) : null;
-
-      console.log("Time conversion:", { input: time, output: timeValue });
-
       let itinerary = await ctx.db.itinerary.findFirst({
-        where: { tripId, date: itineraryDate },
+        where: { tripId, date: date },
       });
 
       if (!itinerary) {
         itinerary = await ctx.db.itinerary.create({
           data: {
             tripId,
-            date: itineraryDate,
+            date: date,
           },
         });
       }
@@ -43,7 +40,7 @@ export const itineraryItemRouter = createTRPCRouter({
         data: {
           ...rest,
           itineraryId: itinerary.id,
-          time: timeValue,
+          time: time,
         },
       });
     }),

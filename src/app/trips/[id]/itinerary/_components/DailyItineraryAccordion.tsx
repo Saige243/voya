@@ -49,8 +49,6 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     if (data) setItineraryItems(data);
   }, [data]);
 
-  console.log("Itinerary items:", itineraryItems);
-
   const dates = useMemo(() => {
     const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
     const endDate = trip?.endDate ? new Date(trip.endDate) : new Date();
@@ -113,6 +111,8 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
       Edit Itinerary Item
     </Button>
   );
+
+  // console.log("itineraryItems:", itineraryItems);
 
   return (
     <Card className="w-full">
