@@ -1,8 +1,8 @@
 import { getServerAuthSession } from "~/server/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Card } from "~/components/ui/card";
-import { CardContent } from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "~/_components/ui/avatar";
+import { Card } from "~/_components/ui/card";
+import { CardContent } from "~/_components/ui/card";
+import { Label } from "~/_components/ui/label";
 
 async function Profile() {
   const session = await getServerAuthSession();
