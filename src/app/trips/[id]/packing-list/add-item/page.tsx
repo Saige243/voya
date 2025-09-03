@@ -59,7 +59,7 @@ function AddItemPage() {
     },
   });
 
-  const { data, isLoading } = api.packingCategory.getAll.useQuery();
+  const { data } = api.packingCategory.getAll.useQuery();
 
   useEffect(() => {
     if (data) {
