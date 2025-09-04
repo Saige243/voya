@@ -13,6 +13,7 @@ import getTrip from "../actions/getTrip";
 import getAccommodations from "../actions/getAccommodations";
 import DailyItineraryCard from "./itinerary/_components/DailyItineraryAccordion";
 import { formatInTimeZone } from "date-fns-tz";
+import PackingList from "./packing-list/_components/PackingList";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
@@ -135,7 +136,7 @@ export default async function TripDetailsPage({
   );
 
   const tripDetails = (
-    <Card className="mb-6 w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
+    <Card className="w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
       <CardContent>
         <Typography variant="heading1" className="mb-4">
           {trip?.title}
@@ -185,14 +186,19 @@ export default async function TripDetailsPage({
   );
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
-        <div className="w-full lg:w-1/2">
+    <main className="min-h-screen">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 ">
+        <div className="flex flex-col gap-4">
           {tripDetails}
           <AccommodationList tripId={trip.id} accommodations={accommodations} />
+          <PackingList
+            params={{
+              id: trip.id,
+            }}
+          />
         </div>
         {trip && (
-          <div className="w-full lg:w-1/2">
+          <div className="w-full">
             <DailyItineraryCard trip={trip} />
           </div>
         )}
