@@ -112,8 +112,6 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     </Button>
   );
 
-  // console.log("itineraryItems:", itineraryItems);
-
   return (
     <Card className="w-full">
       <Button variant="secondary" className="mb-4 w-full" onClick={toggleAll}>
@@ -135,9 +133,18 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
           return (
             <AccordionItem key={date.toISOString()} value={date.toISOString()}>
               <AccordionTrigger>
-                <Typography className="text-lg font-semibold">
-                  {format(date, "EEEE, MMM d")}
-                </Typography>
+                <div className="flex w-full items-center justify-between">
+                  <Typography className="flex items-center text-lg font-semibold">
+                    <Icon
+                      name="Calendar"
+                      className="mr-4 text-black dark:text-white"
+                      size="20"
+                    />
+
+                    {format(date, "EEEE, MMM d")}
+                  </Typography>
+                  <Typography>{dayItineraries.length} Items</Typography>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 {dayItineraries.length === 0 ? (
@@ -200,7 +207,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                     ) : (
                       <div
                         key={item.id}
-                        className="mb-4 flex flex-row items-center border-b pb-2"
+                        className="mb-4 ml-8 flex flex-row items-center border-b pb-2"
                       >
                         <div className="pr-2">
                           <Icon
@@ -211,7 +218,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                         </div>
                         <div className="flex w-full justify-between">
                           <div>
-                            <Typography className="text-lg font-medium">
+                            <Typography className="text-base font-medium">
                               {item.title}
                             </Typography>
                             <Typography className="text-sm text-gray-600">
