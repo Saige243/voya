@@ -5,6 +5,14 @@ import { api } from "~/trpc/react";
 import { Label } from "~/_components/ui/label";
 import { Input } from "~/_components/ui/input";
 import { DatePicker } from "~/_components/ui/datepicker";
+import { Checkbox } from "~/_components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/_components/ui/select";
 import { Controller, useForm } from "react-hook-form";
 import { set } from "date-fns";
 
@@ -19,6 +27,8 @@ type ItineraryFormValues = {
   time: string;
   location: string;
   notes: string;
+  isMeal: boolean;
+  mealType?: string;
 };
 
 const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
@@ -26,6 +36,7 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
     reset,
   } = useForm<ItineraryFormValues>({
@@ -35,8 +46,12 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
       time: "",
       location: "",
       notes: "",
+      isMeal: false,
+      mealType: undefined,
     },
   });
+
+  const isMealChecked = watch("isMeal");
 
   const createItineraryItem = api.itineraryItem.create.useMutation({
     onSuccess: (data) => {
@@ -67,6 +82,8 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
       time: combined,
       location: data.location,
       notes: data.notes,
+      isMeal: data.isMeal,
+      mealType: data.mealType,
     });
   };
 
@@ -125,6 +142,49 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
           {...register("location")}
         />
       </div>
+
+      <div className="flex items-center gap-2">
+        <Controller
+          control={control}
+          name="isMeal"
+          render={({ field }) => (
+            <Checkbox
+              id="isMeal"
+              checked={field.value}
+              onCheckedChange={(checked) => field.onChange(checked === true)}
+            />
+          )}
+        />
+        <Label htmlFor="isMeal">Meal?</Label>
+      </div>
+
+      {isMealChecked && (
+        <div>
+          <Label htmlFor="mealType">Meal Type:</Label>
+          <Controller
+            control={control}
+            name="mealType"
+            rules={{ required: "Please select a meal type" }}
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a meal" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="breakfast">Breakfast</SelectItem>
+                  <SelectItem value="brunch">Brunch</SelectItem>
+                  <SelectItem value="lunch">Lunch</SelectItem>
+                  <SelectItem value="snack">Snack</SelectItem>
+                  <SelectItem value="dinner">Dinner</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.mealType && (
+            <p className="text-sm text-red-500">{errors.mealType.message}</p>
+          )}
+        </div>
+      )}
 
       <div>
         <Label htmlFor="notes">Notes:</Label>

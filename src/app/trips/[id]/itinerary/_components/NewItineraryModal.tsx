@@ -28,11 +28,7 @@ function NewItineraryModal({ tripId, date }: ModalProps) {
         <DialogHeader>
           <DialogTitle>Add Itinerary Item for {formattedDate}</DialogTitle>
         </DialogHeader>
-        <Card>
-          <CardContent>
-            <ItineraryForm tripId={tripId} date={date} />
-          </CardContent>
-        </Card>
+        <ItineraryForm tripId={tripId} date={date} />
       </DialogContent>
     </Dialog>
   );
