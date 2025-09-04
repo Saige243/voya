@@ -119,6 +119,42 @@ const EditTripDetailsForm = ({
           <p className="text-sm text-red-500">{errors.destination.message}</p>
         )}
       </div>
+      <div className="flex flex-row gap-4">
+        <div>
+          <Label htmlFor="startDate">Start Date:</Label>
+          <Controller
+            control={control}
+            name="startDate"
+            rules={{ required: "Start date is required" }}
+            render={({ field }) => (
+              <DatePicker
+                value={field.value ? new Date(field.value) : undefined}
+                onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+              />
+            )}
+          />
+          {errors.startDate && (
+            <p className="text-sm text-red-500">{errors.startDate.message}</p>
+          )}
+        </div>
+        <div>
+          <Label htmlFor="endDate">End Date:</Label>
+          <Controller
+            control={control}
+            name="endDate"
+            rules={{ required: "End date is required" }}
+            render={({ field }) => (
+              <DatePicker
+                value={field.value ? new Date(field.value) : undefined}
+                onChange={(date) => field.onChange(date?.toISOString() ?? "")}
+              />
+            )}
+          />
+          {errors.endDate && (
+            <p className="text-sm text-red-500">{errors.endDate.message}</p>
+          )}
+        </div>
+      </div>
       <div>
         <Label htmlFor="description">Description:</Label>
         <Input
@@ -132,40 +168,7 @@ const EditTripDetailsForm = ({
           <p className="text-sm text-red-500">{errors.description.message}</p>
         )}
       </div>
-      <div>
-        <Label htmlFor="startDate">Start Date:</Label>
-        <Controller
-          control={control}
-          name="startDate"
-          rules={{ required: "Start date is required" }}
-          render={({ field }) => (
-            <DatePicker
-              value={field.value ? new Date(field.value) : undefined}
-              onChange={(date) => field.onChange(date?.toISOString() ?? "")}
-            />
-          )}
-        />
-        {errors.startDate && (
-          <p className="text-sm text-red-500">{errors.startDate.message}</p>
-        )}
-      </div>
-      <div>
-        <Label htmlFor="endDate">End Date:</Label>
-        <Controller
-          control={control}
-          name="endDate"
-          rules={{ required: "End date is required" }}
-          render={({ field }) => (
-            <DatePicker
-              value={field.value ? new Date(field.value) : undefined}
-              onChange={(date) => field.onChange(date?.toISOString() ?? "")}
-            />
-          )}
-        />
-        {errors.endDate && (
-          <p className="text-sm text-red-500">{errors.endDate.message}</p>
-        )}
-      </div>
+
       <Button type="submit" className="mt-4">
         Save Trip Details
       </Button>

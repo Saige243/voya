@@ -116,7 +116,7 @@ export default async function TripDetailsPage({
           )}
           <div className="mt-2 flex justify-end">
             <CardMenu>
-              {editTripButton(tripId)}
+              {editTripDetailsButton(tripId)}
               <DeleteAccommodationButton accId={accommodation.id} />
             </CardMenu>
           </div>
@@ -125,11 +125,11 @@ export default async function TripDetailsPage({
     );
   };
 
-  const editTripButton = (tripId: number) => (
+  const editTripDetailsButton = (tripId: number) => (
     <a href={`/trips/${tripId}/edit`}>
       <Button variant="ghost" className="w-full justify-start">
         <Icon name="Pencil" className="text-black dark:text-white" size="20" />
-        Edit Trip
+        Edit Trip Details
       </Button>
     </a>
   );
@@ -175,7 +175,7 @@ export default async function TripDetailsPage({
         <div className="mt-8 flex justify-end">
           {trip?.id && (
             <CardMenu>
-              {editTripButton(trip.id)}
+              {editTripDetailsButton(trip.id)}
               <DeleteTripButton id={trip.id} />
             </CardMenu>
           )}

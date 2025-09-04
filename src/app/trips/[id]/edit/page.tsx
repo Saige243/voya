@@ -5,7 +5,6 @@ import { getServerAuthSession } from "~/server/auth";
 import EditTripForm from "~/app/trips/_components/EditTripForm";
 import AddAccommodationsForm from "../add-accommodation/_components/AddAccommodationsForm";
 import AccommodationsForm from "../add-accommodation/_components/AccommodationsForm";
-import ItineraryForm from "../itinerary/_components/ItineraryForm";
 import { type Accommodation } from "@prisma/client";
 import ShowAccommodationFormButton from "../add-accommodation/_components/ShowAccommodationFormButton";
 
@@ -84,25 +83,13 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
     </Card>
   );
 
-  const itineraryForm = (
-    <Card className="lg:w-1/3">
-      <CardContent>
-        <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
-          Add Itinerary Item:
-        </h2>
-        <ItineraryForm trip={trip} />
-      </CardContent>
-    </Card>
-  );
-
   return (
     <div className="w-full">
       {header}
-      <main className="flex min-h-screen flex-col">
-        <div className="flex flex-col gap-4 lg:flex-row">
+      <main className="flex min-h-screen w-full flex-col items-center ">
+        <div className="flex w-full flex-col justify-center gap-8 lg:flex-row">
           {tripDetailsForm}
           {accommodationForm}
-          {itineraryForm}
         </div>
       </main>
     </div>
