@@ -94,7 +94,6 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const handleDeleteItem = async (id: number) => {
     try {
       await deleteItineraryItem.mutateAsync({ id });
-      // router.refresh();
     } catch (err) {
       console.error("Failed to delete:", err);
     }
@@ -148,7 +147,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
           itineraryId: selectedItineraryItem?.itineraryId ?? 0,
         },
       });
-      router.refresh();
+      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
     } catch (err) {
       console.error("Failed to update:", err);
     }
