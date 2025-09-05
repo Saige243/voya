@@ -1,5 +1,4 @@
-import React from "react";
-import ItineraryForm from "./ItineraryForm";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,17 +8,77 @@ import {
 } from "~/components/ui/dialog";
 import { Button } from "~/_components/ui/button";
 import { format } from "date-fns";
+import { Checkbox } from "~/_components/ui/checkbox";
+import { Label } from "~/_components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "~/_components/ui/select";
+import { Input } from "~/_components/ui/input";
+import { Controller, useForm } from "react-hook-form";
+import { DatePicker } from "~/_components/ui/datepicker";
 
 interface ModalProps {
-  tripId: number;
   date: Date;
+  onConfirm: (data: ItineraryFormValues) => void | Promise<void>;
 }
 
-function NewItineraryModal({ tripId, date }: ModalProps) {
+type ItineraryFormValues = {
+  title: string;
+  date: Date;
+  time: string;
+  location: string;
+  notes: string;
+  isMeal: boolean;
+  mealType?: string;
+};
+
+function NewItineraryModal({ date, onConfirm }: ModalProps) {
   const formattedDate = format(date, "MMMM d");
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<ItineraryFormValues>({
+    defaultValues: {
+      title: "",
+      date: date,
+      time: "",
+      location: "",
+      notes: "",
+      isMeal: false,
+      mealType: undefined,
+    },
+  });
+
+  const isMealChecked = watch("isMeal");
+
+  const onSubmit = async (data: ItineraryFormValues) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await onConfirm(data);
+      setOpen(false);
+    } catch (err) {
+      setError("Couldn't submit item. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Add Item for {formattedDate}</Button>
       </DialogTrigger>
@@ -27,7 +86,124 @@ function NewItineraryModal({ tripId, date }: ModalProps) {
         <DialogHeader>
           <DialogTitle>Add Itinerary Item for {formattedDate}</DialogTitle>
         </DialogHeader>
-        <ItineraryForm tripId={tripId} date={date} />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 text-black"
+        >
+          <div>
+            <Label htmlFor="title">Title:</Label>
+            <Input
+              id="title"
+              placeholder="Gondola Ride"
+              {...register("title", { required: "Title is required" })}
+            />
+            {errors.title && (
+              <p className="text-sm text-red-500">{errors.title.message}</p>
+            )}
+          </div>
+
+          <Label htmlFor="datetime">Date and Time:</Label>
+          <div className="flex flex-row items-center gap-2">
+            <div className="w-1/2">
+              <Controller
+                control={control}
+                name="date"
+                rules={{ required: "Date and time are required" }}
+                render={({ field }) => (
+                  <DatePicker
+                    disabled
+                    value={field.value ? new Date(field.value) : undefined}
+                    onChange={(date) =>
+                      field.onChange(date?.toISOString() ?? null)
+                    }
+                  />
+                )}
+              />
+              {errors.date && (
+                <p className="text-sm text-red-500">{errors.date.message}</p>
+              )}
+            </div>
+
+            <div className="w-1/2">
+              <Input
+                id="time"
+                type="time"
+                className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                {...register("time")}
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="location">Location:</Label>
+            <Input
+              id="location"
+              placeholder="Location of the activity"
+              {...register("location")}
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Controller
+              control={control}
+              name="isMeal"
+              render={({ field }) => (
+                <Checkbox
+                  id="isMeal"
+                  checked={field.value}
+                  onCheckedChange={(checked) =>
+                    field.onChange(checked === true)
+                  }
+                />
+              )}
+            />
+            <Label htmlFor="isMeal">Meal?</Label>
+          </div>
+
+          {isMealChecked && (
+            <div>
+              <Label htmlFor="mealType">Meal Type:</Label>
+              <Controller
+                control={control}
+                name="mealType"
+                rules={{ required: "Please select a meal type" }}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a meal" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="breakfast">Breakfast</SelectItem>
+                      <SelectItem value="brunch">Brunch</SelectItem>
+                      <SelectItem value="lunch">Lunch</SelectItem>
+                      <SelectItem value="snack">Snack</SelectItem>
+                      <SelectItem value="dinner">Dinner</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.mealType && (
+                <p className="text-sm text-red-500">
+                  {errors.mealType.message}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div>
+            <Label htmlFor="notes">Notes:</Label>
+            <Input
+              id="notes"
+              placeholder="Any additional notes"
+              {...register("notes")}
+            />
+          </div>
+
+          <Button type="submit" className="mt-4">
+            {loading ? "Adding..." : "Add Item"}
+          </Button>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+        </form>
       </DialogContent>
     </Dialog>
   );

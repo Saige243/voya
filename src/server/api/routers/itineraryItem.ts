@@ -22,27 +22,29 @@ export const itineraryItemRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }): Promise<ItineraryItem> => {
-      const { tripId, date, time, ...rest } = input;
-      console.log("Creating itinerary item with data:", input);
-
       let itinerary = await ctx.db.itinerary.findFirst({
-        where: { tripId, date: date },
+        where: { tripId: input.tripId, date: input.date },
       });
 
       if (!itinerary) {
         itinerary = await ctx.db.itinerary.create({
           data: {
-            tripId,
-            date: date,
+            tripId: input.tripId,
+            date: input.date,
           },
         });
       }
 
       return ctx.db.itineraryItem.create({
         data: {
-          ...rest,
           itineraryId: itinerary.id,
-          time: time,
+          title: input.title,
+          description: input.description ?? null,
+          time: input.time,
+          location: input.location,
+          isMeal: input.isMeal ?? false,
+          mealType: input.mealType ?? null,
+          notes: input.notes ?? null,
         },
       });
     }),

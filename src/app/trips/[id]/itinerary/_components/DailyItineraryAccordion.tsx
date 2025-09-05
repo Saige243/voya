@@ -1,11 +1,11 @@
 "use client";
 
 import { format } from "date-fns";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Typography } from "~/_components/common/Typography";
 import { Button } from "~/_components/ui/button";
 import { useRouter } from "next/navigation";
-import { type ItineraryItem, type Itinerary, type Trip } from "@prisma/client";
+import { type ItineraryItem, type Trip } from "@prisma/client";
 import CardMenu from "~/_components/common/CardMenu";
 import { Icon } from "~/_components/common/Icon";
 import { Input } from "~/_components/ui/input";
@@ -22,10 +22,21 @@ import {
 import { Card } from "~/_components/ui/card";
 import NewItineraryModal from "./NewItineraryModal";
 import ConfirmationModal from "../../../_components/ConfirmationModal";
+import { set } from "date-fns";
 
 interface DailyItineraryAccordionProps {
   trip: Trip;
 }
+
+type ItineraryFormValues = {
+  title: string;
+  date: Date;
+  time: string;
+  location: string;
+  notes: string;
+  isMeal: boolean;
+  mealType?: string;
+};
 
 function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const router = useRouter();
@@ -71,16 +82,53 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     setEditFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const createItineraryItem = api.itineraryItem.create.useMutation({
+    onSuccess: async () => {
+      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
+    },
+    onError: (err) => {
+      console.error("Error creating itinerary item:", err);
+    },
+  });
+
   const handleDeleteItem = async (id: number) => {
     try {
       await deleteItineraryItem.mutateAsync({ id });
-      router.refresh();
+      // router.refresh();
     } catch (err) {
       console.error("Failed to delete:", err);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const deleteItineraryItem = api.itineraryItem.delete.useMutation({
+    onSuccess: async () => {
+      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
+    },
+  });
+
+  const handleCreateItem = (data: ItineraryFormValues) => {
+    const [hours, minutes] = data.time.split(":").map(Number);
+
+    const combined = set(data.date, {
+      hours,
+      minutes,
+      seconds: 0,
+      milliseconds: 0,
+    });
+
+    createItineraryItem.mutate({
+      tripId,
+      title: data.title,
+      date: data.date,
+      time: combined,
+      location: data.location,
+      notes: data.notes,
+      isMeal: data.isMeal,
+      mealType: data.mealType,
+    });
+  };
+
+  const handleSubmitEditItem = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateItineraryItem({
@@ -107,12 +155,6 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     setEditingId(null);
     setEditFormData({});
   };
-
-  const deleteItineraryItem = api.itineraryItem.delete.useMutation({
-    onSuccess: async () => {
-      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
-    },
-  });
 
   return (
     <Card className="w-full">
@@ -158,7 +200,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                     editingId === item.id ? (
                       <form
                         key={item.id}
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmitEditItem}
                         className="mb-4 border-b pb-4"
                       >
                         <Input
@@ -209,62 +251,89 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                     ) : (
                       <div
                         key={item.id}
-                        className="mb-4 ml-8 flex flex-row items-center border-b pb-2"
+                        className="mb-4 ml-8 flex items-center justify-between border-b pb-2"
                       >
                         <div className="pr-2">
-                          <Icon
-                            name="Clock"
-                            className="text-black dark:text-white"
-                            size="15"
-                          />
-                        </div>
-                        <div className="flex w-full justify-between">
-                          <div>
-                            <Typography className="text-base font-medium">
-                              {item.title}
-                            </Typography>
+                          <Typography className="text-base font-medium underline">
+                            {item.title}
+                          </Typography>
+                          <div className="flex flex-row items-center">
+                            <Icon
+                              name="Clock"
+                              className="pr-2 text-black dark:text-white"
+                              size="24"
+                            />
                             <Typography className="text-sm text-gray-600">
-                              {formatTime(item.time)} — {item.location}
+                              {formatTime(item.time)}
                             </Typography>
-                            {item.notes && (
-                              <Typography className="mt-1 text-sm text-muted-foreground">
+                          </div>
+                          <div className="flex flex-row items-center">
+                            <Icon
+                              name="MapPin"
+                              className="pr-2 text-black dark:text-white"
+                              size="24"
+                            />
+                            <Typography className="text-sm text-gray-600">
+                              {item.location}
+                            </Typography>
+                          </div>
+                          {item.notes && (
+                            <div className="flex flex-row items-center">
+                              <Icon
+                                name="MessageCircleMore"
+                                className="pr-2 text-black dark:text-white"
+                                size="24"
+                              />
+                              <Typography className="text-sm text-gray-600">
                                 {item.notes}
                               </Typography>
-                            )}
-                          </div>
-                          <div>
-                            <CardMenu>
-                              <>
-                                <Button
-                                  variant="ghost"
-                                  className="w-full justify-start"
-                                  onClick={() => handleEditClick(item)}
-                                >
-                                  <Icon
-                                    name="Pencil"
-                                    className="text-black dark:text-white"
-                                    size="20"
-                                  />
-                                  Edit Item
-                                </Button>
-                                <ConfirmationModal
-                                  buttonText="Delete Item"
-                                  icon="Trash"
-                                  iconColor="red-500"
-                                  text="Are you sure you want to delete this itinerary item?"
-                                  confirmation="Delete"
-                                  onConfirm={() => handleDeleteItem(item.id)}
+                            </div>
+                          )}
+                          {item.isMeal && (
+                            <div className="flex flex-row items-center">
+                              <Icon
+                                name="Utensils"
+                                className="pr-2 text-green-700 dark:text-white"
+                                size="24"
+                              />
+                              <Typography className="text-sm text-green-700">
+                                {item.mealType?.toUpperCase()}
+                              </Typography>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <CardMenu>
+                            <>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start"
+                                onClick={() => handleEditClick(item)}
+                              >
+                                <Icon
+                                  name="Pencil"
+                                  className="text-black dark:text-white"
+                                  size="20"
                                 />
-                              </>
-                            </CardMenu>
-                          </div>
+                                Edit Item
+                              </Button>
+                              <ConfirmationModal
+                                buttonText="Delete Item"
+                                icon="Trash"
+                                iconColor="red-500"
+                                text="Are you sure you want to delete this itinerary item?"
+                                confirmation="Delete"
+                                onConfirm={() => handleDeleteItem(item.id)}
+                              />
+                            </>
+                          </CardMenu>
                         </div>
                       </div>
                     ),
                   )
                 )}
                 <div className="flex w-full justify-center">
-                  <NewItineraryModal tripId={tripId} date={date} />
+                  <NewItineraryModal date={date} onConfirm={handleCreateItem} />
                 </div>
               </AccordionContent>
             </AccordionItem>
