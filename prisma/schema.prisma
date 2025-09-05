@@ -48,6 +48,8 @@ model ItineraryItem {
   description String?
   time        DateTime?
   location    String?
+  isMeal      Boolean    @default(false)
+  mealType    String?
   notes       String?
   createdAt   DateTime   @default(now())
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
