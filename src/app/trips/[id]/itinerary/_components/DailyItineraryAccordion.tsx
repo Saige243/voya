@@ -21,6 +21,7 @@ import {
 } from "~/_components/ui/accordion";
 import { Card } from "~/_components/ui/card";
 import NewItineraryModal from "./NewItineraryModal";
+import ConfirmationModal from "../../../_components/ConfirmationModal";
 
 interface DailyItineraryAccordionProps {
   trip: Trip;
@@ -89,6 +90,9 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
             ? new Date(editFormData.time)
             : (selectedItineraryItem?.time ?? null),
           notes: editFormData.notes ?? selectedItineraryItem?.notes ?? "",
+          isMeal: editFormData.isMeal ?? selectedItineraryItem?.isMeal ?? false,
+          mealType:
+            editFormData.mealType ?? selectedItineraryItem?.mealType ?? null,
           description: selectedItineraryItem?.description ?? null,
           itineraryId: selectedItineraryItem?.itineraryId ?? 0,
         },
@@ -101,16 +105,11 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     setEditFormData({});
   };
 
-  const editItineraryItemMenu = (item: ItineraryItem) => (
-    <Button
-      variant="ghost"
-      className="w-full justify-start"
-      onClick={() => handleEditClick(item)}
-    >
-      <Icon name="Pencil" className="text-black dark:text-white" size="20" />
-      Edit Itinerary Item
-    </Button>
-  );
+  const deleteItineraryItem = api.itineraryItem.delete.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   return (
     <Card className="w-full">
@@ -231,7 +230,34 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                             )}
                           </div>
                           <div>
-                            <CardMenu>{editItineraryItemMenu(item)}</CardMenu>
+                            <CardMenu>
+                              <>
+                                <Button
+                                  variant="ghost"
+                                  className="w-full justify-start"
+                                  onClick={() => handleEditClick(item)}
+                                >
+                                  <Icon
+                                    name="Pencil"
+                                    className="text-black dark:text-white"
+                                    size="20"
+                                  />
+                                  Edit Item
+                                </Button>
+                                <ConfirmationModal
+                                  buttonText="Delete Item"
+                                  icon="Trash"
+                                  iconColor="red-500"
+                                  text="Are you sure you want to delete this itinerary item?"
+                                  confirmation="Delete"
+                                  onConfirm={async () => {
+                                    await deleteItineraryItem.mutateAsync({
+                                      id: item.id,
+                                    });
+                                  }}
+                                />
+                              </>
+                            </CardMenu>
                           </div>
                         </div>
                       </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Card, CardContent } from "~/_components/ui/card";
 import ItineraryForm from "./ItineraryForm";
 import {
   Dialog,

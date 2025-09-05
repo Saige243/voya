@@ -17,6 +17,8 @@ export const itineraryItemRouter = createTRPCRouter({
         description: z.string().nullable().optional(),
         location: z.string(),
         notes: z.string().optional(),
+        isMeal: z.boolean().optional(),
+        mealType: z.string().optional(),
       }),
     )
     .mutation(async ({ input, ctx }): Promise<ItineraryItem> => {
