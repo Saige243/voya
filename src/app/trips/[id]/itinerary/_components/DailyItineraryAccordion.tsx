@@ -29,26 +29,20 @@ interface DailyItineraryAccordionProps {
 
 function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const router = useRouter();
+  const utils = api.useUtils();
 
-  const [itineraryItems, setItineraryItems] = useState<
-    (Itinerary & { itineraryItems: ItineraryItem[] })[]
-  >([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
   const [selectedItineraryItem, setSelectedItineraryItem] =
     useState<ItineraryItem | null>(null);
   const [openItems, setOpenItems] = useState<string[]>([]);
 
-  const { data } = api.itinerary.getAll.useQuery(
+  const { data: itineraryItems } = api.itinerary.getAll.useQuery(
     { tripId: trip?.id },
     { enabled: !!trip?.id },
   );
 
   const tripId = trip?.id;
-
-  useEffect(() => {
-    if (data) setItineraryItems(data);
-  }, [data]);
 
   const dates = useMemo(() => {
     const startDate = trip?.startDate ? new Date(trip.startDate) : new Date();
@@ -75,6 +69,15 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   ) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDeleteItem = async (id: number) => {
+    try {
+      await deleteItineraryItem.mutateAsync({ id });
+      router.refresh();
+    } catch (err) {
+      console.error("Failed to delete:", err);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,8 +109,8 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   };
 
   const deleteItineraryItem = api.itineraryItem.delete.useMutation({
-    onSuccess: () => {
-      router.refresh();
+    onSuccess: async () => {
+      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
     },
   });
 
@@ -124,7 +127,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
         className="flex flex-col space-y-4"
       >
         {dates.map((date) => {
-          const dayItinerary = itineraryItems.find(
+          const dayItinerary = itineraryItems?.find(
             (it) => new Date(it.date).toDateString() === date.toDateString(),
           );
           const dayItineraries = dayItinerary?.itineraryItems ?? [];
@@ -250,11 +253,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                                   iconColor="red-500"
                                   text="Are you sure you want to delete this itinerary item?"
                                   confirmation="Delete"
-                                  onConfirm={async () => {
-                                    await deleteItineraryItem.mutateAsync({
-                                      id: item.id,
-                                    });
-                                  }}
+                                  onConfirm={() => handleDeleteItem(item.id)}
                                 />
                               </>
                             </CardMenu>
