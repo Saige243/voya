@@ -172,6 +172,12 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
             (it) => new Date(it.date).toDateString() === date.toDateString(),
           );
           const dayItineraries = dayItinerary?.itineraryItems ?? [];
+          const orderedItineraries = dayItineraries.sort((a, b) => {
+            if (a.time && b.time) {
+              return new Date(a.time).getTime() - new Date(b.time).getTime();
+            }
+            return 0;
+          });
 
           return (
             <AccordionItem key={date.toISOString()} value={date.toISOString()}>
@@ -195,7 +201,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                     No itinerary items planned for this day.
                   </Typography>
                 ) : (
-                  dayItineraries.map((item) =>
+                  orderedItineraries.map((item) =>
                     editingId === item.id ? (
                       <form
                         key={item.id}
@@ -289,13 +295,13 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                             </div>
                           )}
                           {item.isMeal && (
-                            <div className="flex flex-row items-center">
+                            <div className="flex w-fit flex-row items-center rounded-lg bg-green-400 pr-2">
                               <Icon
                                 name="Utensils"
-                                className="pr-2 text-green-700 dark:text-white"
+                                className="pl-2 text-white dark:text-white"
                                 size="24"
                               />
-                              <Typography className="text-sm text-green-700">
+                              <Typography className="pl-2 text-sm font-bold text-white">
                                 {item.mealType?.toUpperCase()}
                               </Typography>
                             </div>
