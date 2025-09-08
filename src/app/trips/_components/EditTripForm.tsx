@@ -91,7 +91,7 @@ const EditTripDetailsForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-3 text-black"
+      className="flex w-fit flex-col gap-3 text-black"
     >
       <div>
         <Label htmlFor="title">Title:</Label>

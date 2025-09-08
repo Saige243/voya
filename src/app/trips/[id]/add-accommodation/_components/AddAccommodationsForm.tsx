@@ -48,7 +48,6 @@ const AddAccommodationsForm = ({
               const checkInDate = new Date(value);
               const tripStart = new Date(trip.startDate);
 
-              // normalize to ignore time
               checkInDate.setHours(0, 0, 0, 0);
               tripStart.setHours(0, 0, 0, 0);
 

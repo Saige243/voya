@@ -44,7 +44,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const tripDetailsForm = (
-    <Card className="lg:w-1/3">
+    <Card className="w-fit">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Trip Details:
@@ -55,7 +55,7 @@ export default async function EditTrip({ params }: { params: { id: string } }) {
   );
 
   const accommodationForm = (
-    <Card className="lg:w-1/3">
+    <Card className="w-1/3">
       <CardContent>
         <h2 className="pb-2 text-xl font-bold text-black dark:text-white">
           Edit Accommodations:
