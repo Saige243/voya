@@ -1,37 +1,32 @@
+"use client";
+
 import { Button } from "~/_components/ui/button";
-import { type Trip, type Accommodation } from "@prisma/client";
-import { redirect } from "next/navigation";
-import getTrip from "../actions/getTrip";
-import getAccommodations from "../actions/getAccommodations";
+import { type Accommodation } from "@prisma/client";
 import DailyItineraryCard from "./itinerary/_components/DailyItineraryAccordion";
 import PackingList from "./packing-list/_components/PackingList";
 import TripDetailsCard from "./itinerary/_components/TripDetailsCard";
 import AccommodationsCard from "./itinerary/_components/AccommodationsCard";
+import { api } from "~/trpc/react";
 
 type AccommodationListProps = {
   accommodations: Accommodation[];
   tripId: number;
 };
 
-export default async function TripDetailsPage({
+export default function TripDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  let trip: Trip | null = null;
-  let accommodations: Accommodation[] = [];
+  const { data: trip, isLoading } = api.trip.getById.useQuery({
+    id: parseInt(params.id),
+  });
+  const { data: accommodations } = api.accommodation.getAll.useQuery({
+    tripId: parseInt(params.id),
+  });
 
-  try {
-    [trip, accommodations] = await Promise.all([
-      getTrip(params.id),
-      getAccommodations(params.id),
-    ]);
-  } catch (error) {
-    console.error(error);
-    redirect("/trips");
-  }
-
-  if (!trip) redirect("/trips");
+  if (isLoading) return <div>Loading...</div>;
+  if (!trip) return <div>Trip not found</div>;
 
   const AccommodationList = ({
     accommodations,
@@ -66,7 +61,10 @@ export default async function TripDetailsPage({
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 ">
         <div className="flex flex-col gap-4">
           <TripDetailsCard trip={trip} />
-          <AccommodationList tripId={trip.id} accommodations={accommodations} />
+          <AccommodationList
+            tripId={trip.id}
+            accommodations={accommodations ?? []}
+          />
           <PackingList
             params={{
               id: trip.id,

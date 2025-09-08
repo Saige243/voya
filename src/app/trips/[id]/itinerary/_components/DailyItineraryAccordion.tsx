@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { Typography } from "~/_components/common/Typography";
 import { Button } from "~/_components/ui/button";
-import { useRouter } from "next/navigation";
 import { type ItineraryItem, type Trip } from "@prisma/client";
 import CardMenu from "~/_components/common/CardMenu";
 import { Icon } from "~/_components/common/Icon";
@@ -48,7 +47,6 @@ type ItineraryFormValues = {
 };
 
 function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
-  const router = useRouter();
   const utils = api.useUtils();
 
   const [editingId, setEditingId] = useState<number | null>(null);
