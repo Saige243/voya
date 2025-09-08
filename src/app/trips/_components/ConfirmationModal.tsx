@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "~/_components/ui/dialog";
 import { Button } from "~/_components/ui/button";
 import { Input } from "~/_components/ui/input";
 import { Icon } from "~/_components/common/Icon";

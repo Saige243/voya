@@ -281,6 +281,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                                 <SelectItem value="breakfast">
                                   Breakfast
                                 </SelectItem>
+                                <SelectItem value="coffee">Coffee</SelectItem>
                                 <SelectItem value="brunch">Brunch</SelectItem>
                                 <SelectItem value="lunch">Lunch</SelectItem>
                                 <SelectItem value="snack">Snack</SelectItem>
@@ -351,11 +352,19 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           )}
                           {item.isMeal && (
                             <div className="flex w-fit flex-row items-center rounded-lg bg-green-400 pr-2">
-                              <Icon
-                                name="Utensils"
-                                className="pl-2 text-white dark:text-white"
-                                size="24"
-                              />
+                              {item.mealType === "coffee" ? (
+                                <Icon
+                                  name="Coffee"
+                                  className="pl-2 text-white dark:text-white"
+                                  size="24"
+                                />
+                              ) : (
+                                <Icon
+                                  name="Utensils"
+                                  className="pl-2 text-white dark:text-white"
+                                  size="24"
+                                />
+                              )}
                               <Typography className="pl-2 text-sm font-bold text-white">
                                 {item.mealType?.toUpperCase()}
                               </Typography>

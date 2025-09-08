@@ -171,6 +171,7 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
                   <SelectValue placeholder="Select a meal" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="coffee">Coffee</SelectItem>
                   <SelectItem value="breakfast">Breakfast</SelectItem>
                   <SelectItem value="brunch">Brunch</SelectItem>
                   <SelectItem value="lunch">Lunch</SelectItem>

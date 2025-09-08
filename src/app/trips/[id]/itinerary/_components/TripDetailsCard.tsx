@@ -108,7 +108,7 @@ function TripDetailsCard({ trip }: { trip: Trip }) {
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button type="submit">Save</Button>
+              <Button type="submit">Save Details</Button>
               <Button
                 type="button"
                 variant="ghost"
@@ -133,11 +133,9 @@ function TripDetailsCard({ trip }: { trip: Trip }) {
                 <div className="flex">
                   <Typography variant="body">
                     {trip?.startDate
-                      ? formatInTimeZone(trip.startDate, "UTC", "MMMM d, yyyy")
-                      : "N/A"}{" "}
-                    -{" "}
-                  </Typography>
-                  <Typography variant="body">
+                      ? formatInTimeZone(trip.startDate, "UTC", "MMMM d")
+                      : "N/A"}
+                    {" - "}
                     {trip?.endDate
                       ? formatInTimeZone(trip.endDate, "UTC", "MMMM d, yyyy")
                       : "N/A"}
