@@ -1,5 +1,4 @@
 import { Button } from "~/_components/ui/button";
-import { Icon } from "~/_components/common/Icon";
 import { type Trip, type Accommodation } from "@prisma/client";
 import { redirect } from "next/navigation";
 import getTrip from "../actions/getTrip";
@@ -23,8 +22,10 @@ export default async function TripDetailsPage({
   let accommodations: Accommodation[] = [];
 
   try {
-    trip = await getTrip(params.id);
-    accommodations = await getAccommodations(params.id);
+    [trip, accommodations] = await Promise.all([
+      getTrip(params.id),
+      getAccommodations(params.id),
+    ]);
   } catch (error) {
     console.error(error);
     redirect("/trips");
@@ -72,11 +73,7 @@ export default async function TripDetailsPage({
             }}
           />
         </div>
-        {trip && (
-          <div className="w-full">
-            <DailyItineraryCard trip={trip} />
-          </div>
-        )}
+        <DailyItineraryCard trip={trip} />
       </div>
     </main>
   );
