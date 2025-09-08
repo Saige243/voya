@@ -75,6 +75,8 @@ export const itineraryItemRouter = createTRPCRouter({
         time: z.union([z.string().datetime(), z.date()]).optional(),
         description: z.string().nullable().optional(),
         location: z.string().optional(),
+        isMeal: z.boolean().optional(),
+        mealType: z.string().nullable().optional(),
         notes: z.string().optional(),
       }),
     )

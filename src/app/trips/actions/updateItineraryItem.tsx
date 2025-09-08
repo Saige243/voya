@@ -13,6 +13,8 @@ export async function updateItineraryItem({
     title: yup.string().required("Title is required"),
     location: yup.string().required("Location is required"),
     description: yup.string().nullable(),
+    isMeal: yup.boolean(),
+    mealType: yup.string().nullable(),
     notes: yup.string(),
     time: yup.date().required("Time is required"),
   });
@@ -20,13 +22,13 @@ export async function updateItineraryItem({
   try {
     await validationSchema.validate(formData, { abortEarly: false });
 
-    console.log("EDIT ITINERARY ITEM", formData);
-
     const updatedItineraryItem = await api.itineraryItem.update({
       id: formData.id,
       title: formData.title ?? undefined,
       location: formData.location ?? undefined,
       description: formData.description ?? null,
+      isMeal: formData.isMeal ?? undefined,
+      mealType: formData.mealType ?? null,
       notes: formData.notes ?? undefined,
       time: formData.time ?? undefined,
     });

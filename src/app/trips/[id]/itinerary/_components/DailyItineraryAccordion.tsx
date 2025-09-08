@@ -23,6 +23,15 @@ import { Card } from "~/_components/ui/card";
 import NewItineraryModal from "./NewItineraryModal";
 import ConfirmationModal from "../../../_components/ConfirmationModal";
 import { set } from "date-fns";
+import { Label } from "~/_components/ui/label";
+import { Checkbox } from "~/_components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/_components/ui/select";
 
 interface DailyItineraryAccordionProps {
   trip: Trip;
@@ -208,6 +217,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                         onSubmit={handleSubmitEditItem}
                         className="mb-4 border-b pb-4"
                       >
+                        <Label htmlFor="title">Title</Label>
                         <Input
                           name="title"
                           value={editFormData.title ?? ""}
@@ -215,6 +225,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           placeholder="Title"
                           className="mb-2"
                         />
+                        <Label htmlFor="time">Time</Label>
                         <Input
                           name="time"
                           type="datetime-local"
@@ -228,6 +239,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           onChange={handleChange}
                           className="mb-2"
                         />
+                        <Label htmlFor="location">Location</Label>
                         <Input
                           name="location"
                           value={editFormData.location ?? ""}
@@ -235,6 +247,51 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           placeholder="Location"
                           className="mb-2"
                         />
+                        <div className="mb-2 flex items-center gap-2">
+                          <Checkbox
+                            id="isMeal"
+                            checked={editFormData.isMeal ?? false}
+                            onCheckedChange={(checked) =>
+                              setEditFormData((prev) => ({
+                                ...prev,
+                                isMeal: checked === true,
+                                mealType: checked
+                                  ? (prev.mealType ?? "")
+                                  : null,
+                              }))
+                            }
+                          />
+                          <Label htmlFor="isMeal">Meal?</Label>
+                        </div>
+
+                        {editFormData.isMeal && (
+                          <div className="mb-2">
+                            <Label htmlFor="mealType">Meal Type</Label>
+                            <Select
+                              onValueChange={(value) =>
+                                setEditFormData((prev) => ({
+                                  ...prev,
+                                  mealType: value,
+                                }))
+                              }
+                              value={editFormData.mealType ?? ""}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a meal" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="breakfast">
+                                  Breakfast
+                                </SelectItem>
+                                <SelectItem value="brunch">Brunch</SelectItem>
+                                <SelectItem value="lunch">Lunch</SelectItem>
+                                <SelectItem value="snack">Snack</SelectItem>
+                                <SelectItem value="dinner">Dinner</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+                        <Label htmlFor="notes">Notes</Label>
                         <Textarea
                           name="notes"
                           value={editFormData.notes ?? ""}
@@ -320,10 +377,10 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                                   className="text-black dark:text-white"
                                   size="20"
                                 />
-                                Edit Item
+                                Edit
                               </Button>
                               <ConfirmationModal
-                                buttonText="Delete Item"
+                                buttonText="Delete"
                                 icon="Trash"
                                 iconColor="red-500"
                                 text="Are you sure you want to delete this itinerary item?"
