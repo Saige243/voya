@@ -55,7 +55,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     useState<ItineraryItem | null>(null);
   const [openItems, setOpenItems] = useState<string[]>([]);
 
-  const { data: itineraryItems } = api.itinerary.getAll.useQuery(
+  const { data: itineraryItems } = api.itineraryItem.getAll.useQuery(
     { tripId: trip?.id },
     { enabled: !!trip?.id },
   );
@@ -91,7 +91,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
 
   const createItineraryItem = api.itineraryItem.create.useMutation({
     onSuccess: async () => {
-      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
+      await utils.itineraryItem.getAll.invalidate({ tripId: trip.id });
     },
     onError: (err) => {
       console.error("Error creating itinerary item:", err);
@@ -108,7 +108,7 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
 
   const deleteItineraryItem = api.itineraryItem.delete.useMutation({
     onSuccess: async () => {
-      await utils.itinerary.getAll.invalidate({ tripId: trip.id });
+      await utils.itineraryItem.getAll.invalidate({ tripId: trip.id });
     },
   });
 
@@ -175,10 +175,12 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
         className="flex flex-col space-y-4"
       >
         {dates.map((date) => {
-          const dayItinerary = itineraryItems?.find(
-            (it) => new Date(it.date).toDateString() === date.toDateString(),
+          const dayItineraries = (itineraryItems ?? []).filter(
+            (it) =>
+              it.time &&
+              new Date(it.time).toDateString() === date.toDateString(),
           );
-          const dayItineraries = dayItinerary?.itineraryItems ?? [];
+
           const orderedItineraries = dayItineraries.sort((a, b) => {
             if (a.time && b.time) {
               return new Date(a.time).getTime() - new Date(b.time).getTime();
