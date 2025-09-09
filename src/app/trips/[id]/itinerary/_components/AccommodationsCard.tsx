@@ -12,6 +12,20 @@ import { Button } from "~/_components/ui/button";
 import { Icon } from "~/_components/common/Icon";
 import { Input } from "~/_components/ui/input";
 import { api } from "~/trpc/react";
+import { DatePicker } from "~/_components/ui/datepicker";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+type FormData = {
+  name: string;
+  location: string;
+  checkIn: Date;
+  checkOut: Date;
+  notes?: string;
+  phoneNumber?: string;
+  website?: string;
+};
 
 function AccommodationsCard({
   accommodation,
@@ -20,16 +34,37 @@ function AccommodationsCard({
   tripId: number;
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] =
-    useState<Partial<Accommodation>>(accommodation);
   const utils = api.useUtils();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const validationSchema = yup.object({
+    name: yup.string().required("Name is required"),
+    location: yup.string().required("Location is required"),
+    checkIn: yup.date().required("Check-In date is required"),
+    checkOut: yup
+      .date()
+      .required("Check-Out date is required")
+      .min(yup.ref("checkIn"), "Check-Out cannot be before Check-In"),
+    phoneNumber: yup.string().optional(),
+    website: yup.string().url("Must be a valid URL").optional(),
+    notes: yup.string().optional(),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      name: accommodation.name,
+      location: accommodation.location,
+      checkIn: new Date(accommodation.checkIn),
+      checkOut: new Date(accommodation.checkOut),
+      phoneNumber: accommodation.phoneNumber ?? "",
+      website: accommodation.website ?? "",
+      notes: accommodation.notes ?? "",
+    },
+    resolver: yupResolver(validationSchema),
+  });
 
   const updateAccommodation = api.accommodation.update.useMutation({
     onSuccess: async () => {
@@ -40,8 +75,7 @@ function AccommodationsCard({
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (formData: FormData) => {
     if (!accommodation.id) return;
 
     updateAccommodation.mutate({
@@ -67,55 +101,68 @@ function AccommodationsCard({
     <Card>
       <CardContent>
         {isEditing ? (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
-                name="name"
-                value={formData.name ?? ""}
-                onChange={handleChange}
+                {...control.register("name", { value: accommodation.name })}
               />
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name.message}</p>
+              )}
             </div>
 
             <div>
               <Label htmlFor="location">Location</Label>
               <Input
                 id="location"
-                name="location"
-                value={formData.location ?? ""}
-                onChange={handleChange}
+                {...control.register("location", {
+                  value: accommodation.location,
+                })}
               />
             </div>
 
             <div className="flex gap-4">
               <div>
                 <Label htmlFor="checkIn">Check-In</Label>
-                <Input
-                  id="checkIn"
+                <Controller
+                  control={control}
                   name="checkIn"
-                  type="date"
-                  value={
-                    formData.checkIn
-                      ? new Date(formData.checkIn).toISOString().split("T")[0]
-                      : ""
-                  }
-                  onChange={handleChange}
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        field.onChange(date?.toISOString() ?? "");
+                      }}
+                    />
+                  )}
                 />
+                {errors.checkIn && (
+                  <p className="text-sm text-red-500">
+                    {errors.checkIn.message}
+                  </p>
+                )}
               </div>
               <div>
                 <Label htmlFor="checkOut">Check-Out</Label>
-                <Input
-                  id="checkOut"
+                <Controller
+                  control={control}
                   name="checkOut"
-                  type="date"
-                  value={
-                    formData.checkOut
-                      ? new Date(formData.checkOut).toISOString().split("T")[0]
-                      : ""
-                  }
-                  onChange={handleChange}
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        field.onChange(date?.toISOString() ?? "");
+                      }}
+                    />
+                  )}
                 />
+                {errors.checkOut && (
+                  <p className="text-sm text-red-500">
+                    {errors.checkOut.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -123,9 +170,9 @@ function AccommodationsCard({
               <Label htmlFor="phoneNumber">Phone</Label>
               <Input
                 id="phoneNumber"
-                name="phoneNumber"
-                value={formData.phoneNumber ?? ""}
-                onChange={handleChange}
+                {...control.register("phoneNumber", {
+                  value: accommodation.phoneNumber,
+                })}
               />
             </div>
 
@@ -133,9 +180,9 @@ function AccommodationsCard({
               <Label htmlFor="website">Website</Label>
               <Input
                 id="website"
-                name="website"
-                value={formData.website ?? ""}
-                onChange={handleChange}
+                {...control.register("website", {
+                  value: accommodation.website,
+                })}
               />
             </div>
 
@@ -143,9 +190,9 @@ function AccommodationsCard({
               <Label htmlFor="notes">Notes</Label>
               <Input
                 id="notes"
-                name="notes"
-                value={formData.notes ?? ""}
-                onChange={handleChange}
+                {...control.register("notes", {
+                  value: accommodation.notes ?? "",
+                })}
               />
             </div>
 
