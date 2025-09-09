@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { type Trip } from "@prisma/client";
 import { Label } from "~/_components/ui/label";

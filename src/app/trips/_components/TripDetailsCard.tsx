@@ -1,5 +1,3 @@
-"use client";
-
 import { type Trip } from "@prisma/client";
 import React, { useState } from "react";
 import CardMenu from "~/_components/common/CardMenu";

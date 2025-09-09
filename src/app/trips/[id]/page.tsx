@@ -4,7 +4,7 @@ import { Button } from "~/_components/ui/button";
 import { type Accommodation } from "@prisma/client";
 import DailyItineraryCard from "./itinerary/_components/ItineraryAccordion";
 import PackingList from "./packing-list/_components/PackingList";
-import TripDetailsCard from "./itinerary/_components/TripDetailsCard";
+import TripDetailsCard from "../_components/TripDetailsCard";
 import AccommodationsCard from "./itinerary/_components/AccommodationsCard";
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/_components/ui/skeleton";
