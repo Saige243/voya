@@ -13,18 +13,57 @@ import { Input } from "~/_components/ui/input";
 import { DeleteTripButton } from "~/app/trips/_components/DeleteTripButton";
 import { Label } from "~/_components/ui/label";
 import { api } from "~/trpc/react";
+import { DatePicker } from "~/_components/ui/datepicker";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+type FormData = {
+  title: string;
+  destination: string;
+  startDate: Date;
+  endDate: Date;
+};
 
 function TripDetailsCard({ trip }: { trip: Trip }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<Partial<Trip>>(trip);
   const utils = api.useUtils();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const validationSchema = yup.object({
+    title: yup.string().required("Title is required"),
+    destination: yup.string().required("Destination is required"),
+    startDate: yup.date().required("Start Date is required"),
+    endDate: yup
+      .date()
+      .required("End Date is required")
+      .min(yup.ref("startDate"), "End Date cannot be before Start Date")
+      .test(
+        "max-trip-length",
+        "Trip cannot be longer than 30 days",
+        function (value) {
+          const { startDate } = this.parent as { startDate?: Date };
+          if (!value || !startDate) return true;
+
+          const diff =
+            (value.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+          return diff <= 30;
+        },
+      ),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      title: trip.title,
+      destination: trip.destination,
+      startDate: trip.startDate,
+      endDate: trip.endDate,
+    },
+    resolver: yupResolver(validationSchema),
+  });
 
   const updateTripDetails = api.trip.update.useMutation({
     onSuccess: async () => {
@@ -35,8 +74,7 @@ function TripDetailsCard({ trip }: { trip: Trip }) {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (formData: FormData) => {
     if (!trip?.id) return;
 
     updateTripDetails.mutate({
@@ -55,55 +93,61 @@ function TripDetailsCard({ trip }: { trip: Trip }) {
     <Card className="w-full rounded-lg border bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-800">
       <CardContent>
         {isEditing ? (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                name="title"
-                value={formData.title ?? ""}
-                onChange={handleChange}
-              />
+              <Input id="title" {...control.register("title")} />
+            </div>
+            <div>
+              <Label htmlFor="destination">Destination</Label>
+              <Input id="destination" {...control.register("destination")} />
             </div>
 
             <div>
               <Label htmlFor="destination">Destination</Label>
-              <Input
-                id="destination"
-                name="destination"
-                value={formData.destination ?? ""}
-                onChange={handleChange}
-              />
+              <Input id="destination" {...control.register("destination")} />
             </div>
 
             <div className="flex gap-4">
               <div>
                 <Label htmlFor="startDate">Start Date</Label>
-                <Input
-                  id="startDate"
+                <Controller
+                  control={control}
                   name="startDate"
-                  type="date"
-                  value={
-                    formData.startDate
-                      ? new Date(formData.startDate).toISOString().split("T")[0]
-                      : ""
-                  }
-                  onChange={handleChange}
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        field.onChange(date?.toISOString() ?? "");
+                      }}
+                    />
+                  )}
                 />
+                {errors.startDate && (
+                  <p className="text-sm text-red-500">
+                    {errors.startDate.message}
+                  </p>
+                )}
               </div>
               <div>
                 <Label htmlFor="endDate">End Date</Label>
-                <Input
-                  id="endDate"
+                <Controller
+                  control={control}
                   name="endDate"
-                  type="date"
-                  value={
-                    formData.endDate
-                      ? new Date(formData.endDate).toISOString().split("T")[0]
-                      : ""
-                  }
-                  onChange={handleChange}
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        field.onChange(date?.toISOString() ?? "");
+                      }}
+                    />
+                  )}
                 />
+                {errors.endDate && (
+                  <p className="text-sm text-red-500">
+                    {errors.endDate.message}
+                  </p>
+                )}
               </div>
             </div>
 
