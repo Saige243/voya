@@ -46,7 +46,7 @@ type ItineraryFormValues = {
   mealType?: string;
 };
 
-function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
+function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const utils = api.useUtils();
 
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -415,4 +415,4 @@ function DailyItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   );
 }
 
-export default DailyItineraryAccordion;
+export default ItineraryAccordion;

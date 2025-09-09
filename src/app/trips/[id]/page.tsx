@@ -2,7 +2,7 @@
 
 import { Button } from "~/_components/ui/button";
 import { type Accommodation } from "@prisma/client";
-import DailyItineraryCard from "./itinerary/_components/DailyItineraryAccordion";
+import DailyItineraryCard from "./itinerary/_components/ItineraryAccordion";
 import PackingList from "./packing-list/_components/PackingList";
 import TripDetailsCard from "./itinerary/_components/TripDetailsCard";
 import AccommodationsCard from "./itinerary/_components/AccommodationsCard";

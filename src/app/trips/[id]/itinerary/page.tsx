@@ -4,7 +4,7 @@ import { Typography } from "~/_components/common/Typography";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import { redirect } from "next/navigation";
-import DailyItineraryAccordion from "~/app/trips/[id]/itinerary/_components/DailyItineraryAccordion";
+import DailyItineraryAccordion from "~/app/trips/[id]/itinerary/_components/ItineraryAccordion";
 
 export default function ItineraryPage() {
   const { trip } = useTrip();
