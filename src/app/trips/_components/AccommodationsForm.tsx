@@ -39,7 +39,13 @@ function AccommodationsForm({
       .date()
       .required("Check-Out date is required")
       .min(yup.ref("checkIn"), "Check-Out cannot be before Check-In"),
-    phoneNumber: yup.string().optional(),
+    phoneNumber: yup
+      .string()
+      .optional()
+      .matches(
+        /^(\+?\d{1,4}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?[\d\-.\s]{7,10}$/,
+        "Must be a valid phone number",
+      ),
     website: yup.string().url("Must be a valid URL").optional(),
     notes: yup.string().optional(),
   });
