@@ -15,11 +15,11 @@ type DetailItemProps = {
 function DetailItem({ icon, label, children }: DetailItemProps) {
   return (
     <div>
-      <Label className="mb-1 flex items-center">
+      <Typography variant="label" className="mb-1 flex items-center">
         <Icon name={icon} className="mr-1 inline" size="16" />
         {label}
-      </Label>
-      <Typography variant="body">{children}</Typography>
+      </Typography>
+      <Typography>{children}</Typography>
     </div>
   );
 }

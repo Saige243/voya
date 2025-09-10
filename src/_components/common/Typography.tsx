@@ -11,8 +11,8 @@ type TypographyProps = {
 const variantStyles = {
   heading1: "text-2xl font-bold dark:text-white",
   heading2: "text-xl font-bold dark:text-white",
-  body: "text-gray-500 dark:text-white",
-  label: "text-sm font-semibold dark:text-gray-400",
+  body: "text-black dark:text-white",
+  label: "text-sm text-gray-500 font-semibold dark:text-gray-400 mb-1",
   caption: "text-xs text-gray-500",
 };
 
