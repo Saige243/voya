@@ -172,12 +172,12 @@ function ItineraryView({
           </CardMenu>
         </div>
       </div>
-      <div className="flex w-full justify-center">
+      {/* <div className="flex w-full justify-center">
         <NewItineraryModal
           date={item.time ?? new Date()}
           onConfirm={handleCreateItem}
         />
-      </div>
+      </div> */}
     </>
   );
 }
