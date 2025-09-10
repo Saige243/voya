@@ -44,12 +44,13 @@ model Itinerary {
 model ItineraryItem {
   id          Int        @id @default(autoincrement())
   itineraryId Int
-  title       String?
+  title       String
   description String?
   time        DateTime?
   location    String?
   isMeal      Boolean    @default(false)
   mealType    String?
+  link        String?
   notes       String?
   createdAt   DateTime   @default(now())
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)

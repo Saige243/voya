@@ -20,9 +20,10 @@ import {
 import { Input } from "~/_components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "~/_components/ui/datepicker";
+import { Icon } from "~/_components/common/Icon";
 
 interface ModalProps {
-  date: Date;
+  date?: Date | null;
   onConfirm: (data: ItineraryFormValues) => void | Promise<void>;
 }
 
@@ -34,10 +35,11 @@ type ItineraryFormValues = {
   notes: string;
   isMeal: boolean;
   mealType?: string;
+  link: string;
 };
 
 function NewItineraryModal({ date, onConfirm }: ModalProps) {
-  const formattedDate = format(date, "MMMM d");
+  const formattedDate = format(date ?? new Date(), "MMMM d");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -51,12 +53,13 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
   } = useForm<ItineraryFormValues>({
     defaultValues: {
       title: "",
-      date: date,
+      date: date ? date : new Date(),
       time: "",
       location: "",
       notes: "",
       isMeal: false,
       mealType: undefined,
+      link: "",
     },
   });
 
@@ -80,7 +83,10 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Item for {formattedDate}</Button>
+        <Button>
+          <Icon name="Plus" className="inline" size="16" />
+          Add Item for {formattedDate}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -190,6 +196,15 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
               )}
             </div>
           )}
+
+          <div>
+            <Label htmlFor="link">Link:</Label>
+            <Input
+              id="link"
+              placeholder="Link to more info"
+              {...register("link")}
+            />
+          </div>
 
           <div>
             <Label htmlFor="notes">Notes:</Label>

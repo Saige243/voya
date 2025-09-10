@@ -15,23 +15,29 @@ import {
 } from "~/_components/ui/select";
 import { Controller, useForm } from "react-hook-form";
 import { set } from "date-fns";
+import { type ItineraryItem } from "@prisma/client";
+import { format } from "date-fns";
 
 interface FormProps {
   tripId: number;
   date: Date;
+  item?: ItineraryItem;
+  onCancel: () => void;
 }
 
 type ItineraryFormValues = {
   title: string;
   date: Date;
-  time: string;
+  time: Date;
   location: string;
   notes: string;
   isMeal: boolean;
   mealType?: string;
+  link: string;
 };
 
-const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
+const ItineraryForm = ({ tripId, date, item, onCancel }: FormProps) => {
+  const utils = api.useUtils();
   const {
     register,
     handleSubmit,
@@ -41,13 +47,14 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
     reset,
   } = useForm<ItineraryFormValues>({
     defaultValues: {
-      title: "",
+      title: item?.title ?? "",
       date: date,
-      time: "",
-      location: "",
-      notes: "",
-      isMeal: false,
-      mealType: undefined,
+      time: item?.time ? format(item.time, "HH:mm") : "",
+      location: item?.location ?? "",
+      notes: item?.notes ?? "",
+      isMeal: item?.isMeal ?? false,
+      mealType: item?.mealType ?? "",
+      link: item?.link ?? "",
     },
   });
 
@@ -63,28 +70,41 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
     },
   });
 
+  const updateItineraryItem = api.itineraryItem.update.useMutation({
+    onSuccess: async () => {
+      await utils.itineraryItem.getAll.invalidate({ tripId });
+      reset();
+      onCancel();
+    },
+  });
+
   const onSubmit = (data: ItineraryFormValues) => {
     const [hours, minutes] = data.time.split(":").map(Number);
 
-    const combined = set(data.date, {
+    const combinedTime = set(data.date, {
       hours,
       minutes,
       seconds: 0,
       milliseconds: 0,
     });
 
-    console.log("Submitting local datetime", combined);
-
-    createItineraryItem.mutate({
+    const payload = {
       tripId,
       title: data.title,
       date: data.date,
-      time: combined,
+      time: combinedTime,
       location: data.location,
       notes: data.notes,
       isMeal: data.isMeal,
-      mealType: data.mealType,
-    });
+      mealType: data.mealType || null,
+      link: data.link || null,
+    };
+
+    if (item?.id) {
+      updateItineraryItem.mutate({ id: item.id, ...payload });
+    } else {
+      createItineraryItem.mutate(payload);
+    }
   };
 
   return (
@@ -188,6 +208,23 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
       )}
 
       <div>
+        <Label htmlFor="link">Link:</Label>
+        <Input
+          id="link"
+          placeholder="https://example.com"
+          {...register("link", {
+            pattern: {
+              value: /^https?:\/\/[^\s/$.?#].[^\s]*$/i,
+              message: "Please enter a valid URL",
+            },
+          })}
+        />
+        {errors.link && (
+          <p className="text-sm text-red-500">{errors.link.message}</p>
+        )}
+      </div>
+
+      <div>
         <Label htmlFor="notes">Notes:</Label>
         <Input
           id="notes"
@@ -196,11 +233,14 @@ const AddItineraryItemForm = ({ tripId, date }: FormProps) => {
         />
       </div>
 
-      <Button type="submit" className="mt-4">
-        Save Itinerary
-      </Button>
+      <div className="flex items-center  justify-center gap-2">
+        <Button type="submit">Save Itinerary</Button>
+        <Button type="button" onClick={() => onCancel()} variant="secondary">
+          Cancel
+        </Button>
+      </div>
     </form>
   );
 };
 
-export default AddItineraryItemForm;
+export default ItineraryForm;

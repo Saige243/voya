@@ -30,7 +30,13 @@ function AccommodationsView({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <Typography variant="heading1">{accommodation.name}</Typography>
+        <Typography
+          variant="heading1"
+          className="flex items-center underline underline-offset-4"
+        >
+          <Icon name="Building" className="mr-1 inline" size="24" />
+          {accommodation.name}
+        </Typography>
       </div>
 
       <Typography variant="label" className="flex items-center">
@@ -69,7 +75,7 @@ function AccommodationsView({
             href={accommodation.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center text-blue-500 hover:underline"
+            className="flex w-fit items-center text-blue-500 hover:underline"
           >
             {accommodation.name} Website
             <Icon name="ExternalLink" className="ml-1 inline" size="14" />

@@ -19,6 +19,7 @@ export const itineraryItemRouter = createTRPCRouter({
         notes: z.string().optional(),
         isMeal: z.boolean().optional(),
         mealType: z.string().optional(),
+        link: z.string().url().optional(),
       }),
     )
     .mutation(async ({ input, ctx }): Promise<ItineraryItem> => {
@@ -45,6 +46,7 @@ export const itineraryItemRouter = createTRPCRouter({
           isMeal: input.isMeal ?? false,
           mealType: input.mealType ?? null,
           notes: input.notes ?? null,
+          link: input.link ?? null,
         },
       });
     }),
@@ -77,6 +79,7 @@ export const itineraryItemRouter = createTRPCRouter({
         location: z.string().optional(),
         isMeal: z.boolean().optional(),
         mealType: z.string().nullable().optional(),
+        link: z.string().url().nullable().optional(),
         notes: z.string().optional(),
       }),
     )

@@ -4,7 +4,6 @@ import React from "react";
 import { Typography } from "~/_components/common/Typography";
 import { type Trip } from "@prisma/client";
 import { Icon } from "~/_components/common/Icon";
-import { Label } from "~/_components/ui/label";
 
 type DetailItemProps = {
   icon: string;
