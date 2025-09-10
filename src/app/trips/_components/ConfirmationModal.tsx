@@ -16,7 +16,8 @@ interface ConfirmationModalProps {
   confirmation: string;
   icon?: string;
   iconColor?: string;
-  onConfirm: () => Promise<void>; // async now
+  onConfirm: () => Promise<void>;
+  showInput?: boolean;
 }
 
 function ConfirmationModal({
@@ -25,6 +26,7 @@ function ConfirmationModal({
   confirmation,
   icon,
   iconColor = "black",
+  showInput = true,
   onConfirm,
 }: ConfirmationModalProps) {
   const [inputValue, setInputValue] = useState("");
@@ -68,15 +70,17 @@ function ConfirmationModal({
         </DialogHeader>
 
         <div className="flex flex-col items-center justify-center space-y-5">
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder={`Type "${confirmation}" to confirm`}
-            disabled={loading}
-          />
+          {showInput && (
+            <Input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder={`Type "${confirmation}" to confirm`}
+              disabled={loading}
+            />
+          )}
           <Button
             variant="destructive"
-            disabled={!isMatch || loading}
+            disabled={showInput ? !isMatch || loading : loading}
             onClick={handleConfirm}
           >
             {icon && <Icon name={icon} size="20" />}

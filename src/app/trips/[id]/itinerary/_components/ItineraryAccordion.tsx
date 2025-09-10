@@ -392,8 +392,9 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                                 buttonText="Delete"
                                 icon="Trash"
                                 iconColor="red-500"
-                                text="Are you sure you want to delete this itinerary item?"
+                                text="Are you sure you want to delete this item?"
                                 confirmation="Delete"
+                                showInput={false}
                                 onConfirm={() => handleDeleteItem(item.id)}
                               />
                             </>
