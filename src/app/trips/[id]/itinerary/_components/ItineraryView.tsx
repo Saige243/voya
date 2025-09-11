@@ -34,6 +34,7 @@ function ItineraryView({
   const utils = api.useUtils();
   const formatTime = (timeDate: Date | null) =>
     !timeDate ? "All day" : format(timeDate, "h:mm a");
+  const isGoogleMapsLink = item.link?.includes("google.com/maps");
 
   const createItineraryItem = api.itineraryItem.create.useMutation({
     onSuccess: async () => {
@@ -118,7 +119,7 @@ function ItineraryView({
               />
               <a href={item.link} target="_blank" rel="noopener noreferrer">
                 <Typography className="text-sm text-gray-600">
-                  {item.title}
+                  {isGoogleMapsLink ? "📍 Google Maps Link" : item.link}
                 </Typography>
               </a>
             </div>

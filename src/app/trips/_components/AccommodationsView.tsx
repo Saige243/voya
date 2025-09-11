@@ -39,7 +39,7 @@ function AccommodationsView({
         </Typography>
       </div>
 
-      <Typography variant="label" className="flex items-center">
+      <Typography variant="body" className="flex items-center text-lg">
         <Icon name="MapPin" className="mr-1 inline" size="16" />
         {accommodation.location}
       </Typography>

@@ -9,6 +9,7 @@ import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/_components/ui/skeleton";
+import { Icon } from "~/_components/common/Icon";
 
 type Props = {
   params: { id?: string };
@@ -58,7 +59,10 @@ function PackingListPage({ params }: Props) {
   const listView = (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <Label className="text-lg">Unpacked</Label>
+        <Label className="flex items-center pb-1 text-lg">
+          <Icon name="List" className="mr-2 inline" size="20" />
+          Unpacked
+        </Label>
         <ul className="rounded-md bg-slate-200 p-2 pb-4">
           <div className="m-2 flex flex-row items-center justify-between rounded-md p-2 text-black">
             <Label>Item</Label>
@@ -91,7 +95,10 @@ function PackingListPage({ params }: Props) {
         </ul>
       </div>
       <div>
-        <Label className="text-lg">Packed</Label>
+        <Label className="flex items-center pb-1 text-lg">
+          <Icon name="ListChecks" className="mr-2 inline" size="20" />
+          Packed
+        </Label>
         <ul className="rounded-md bg-green-200 p-2 pb-4">
           <div className="m-2 flex flex-row items-center justify-between rounded-md p-2 text-black">
             <Label>Item</Label>

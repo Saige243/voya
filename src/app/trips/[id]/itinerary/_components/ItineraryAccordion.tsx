@@ -72,6 +72,8 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const allValues = dates.map((date) => date.toISOString());
   const allOpen = openItems.length === allValues.length;
 
+  const isGoogleMapsLink = (link: string) => link?.includes("google.com/maps");
+
   const toggleAll = () => setOpenItems(allOpen ? [] : allValues);
 
   const formatTime = (timeDate: Date | null) =>
@@ -343,7 +345,7 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           </div>
                           <div className="flex flex-row items-center">
                             <Icon
-                              name="MapPin"
+                              name="Map"
                               className="pr-2 text-black dark:text-white"
                               size="24"
                             />
@@ -366,7 +368,11 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           {item.link && (
                             <div className="mb-3 flex flex-row items-center">
                               <Icon
-                                name="Link"
+                                name={
+                                  isGoogleMapsLink(item.link)
+                                    ? "MapPin"
+                                    : "Link"
+                                }
                                 className="pr-2 text-black dark:text-white"
                                 size="24"
                               />
@@ -375,9 +381,11 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                                   href={item.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="underline hover:text-blue-600"
+                                  className="underline-offset-5 underline hover:text-blue-600"
                                 >
-                                  {item.title}
+                                  {isGoogleMapsLink(item.link)
+                                    ? "Google Maps Link"
+                                    : item.title}
                                 </a>
                               </Typography>
                             </div>

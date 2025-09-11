@@ -28,7 +28,8 @@ function TripDetailsView({ trip }: { trip: Trip }) {
 
   return (
     <div>
-      <Typography variant="heading1" className="mb-4">
+      <Typography variant="heading1" className="mb-6 flex items-center">
+        <Icon name="Text" className="mr-2 inline" size="24" />
         {trip?.title}
       </Typography>
       <div className="mb-2 flex justify-between">
