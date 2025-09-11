@@ -17,6 +17,7 @@ export async function updateItineraryItem({
     mealType: yup.string().nullable(),
     notes: yup.string(),
     time: yup.date().required("Time is required"),
+    link: yup.string().url("Link must be a valid URL").nullable(),
   });
 
   try {

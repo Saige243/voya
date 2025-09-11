@@ -101,6 +101,15 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     },
   });
 
+  const updateItineraryItem = api.itineraryItem.update.useMutation({
+    onSuccess: async () => {
+      await utils.itineraryItem.getAll.invalidate({ tripId: trip.id });
+    },
+    onError: (err) => {
+      console.error("Error updating itinerary item:", err);
+    },
+  });
+
   const handleDeleteItem = async (id: number) => {
     try {
       await deleteItineraryItem.mutateAsync({ id });
@@ -141,25 +150,19 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
   const handleSubmitEditItem = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateItineraryItem({
-        formData: {
-          id: editFormData.id!,
-          title: editFormData.title ?? selectedItineraryItem?.title ?? "",
-          location:
-            editFormData.location ?? selectedItineraryItem?.location ?? "",
-          time: editFormData.time
-            ? new Date(editFormData.time)
-            : (selectedItineraryItem?.time ?? null),
-          notes: editFormData.notes ?? selectedItineraryItem?.notes ?? "",
-          isMeal: editFormData.isMeal ?? selectedItineraryItem?.isMeal ?? false,
-          mealType:
-            editFormData.mealType ?? selectedItineraryItem?.mealType ?? null,
-          description: selectedItineraryItem?.description ?? null,
-          itineraryId: selectedItineraryItem?.itineraryId ?? 0,
-          link: selectedItineraryItem?.link ?? null,
-        },
-      });
-      await utils.itineraryItem.getAll.invalidate({ tripId: trip.id });
+      if (editingId && editFormData) {
+        await updateItineraryItem.mutateAsync({
+          id: editingId,
+          title: editFormData.title ?? "",
+          location: editFormData.location ?? "",
+          description: editFormData.description ?? null,
+          isMeal: editFormData.isMeal ?? false,
+          mealType: editFormData.isMeal ? (editFormData.mealType ?? "") : null,
+          notes: editFormData.notes ?? "",
+          time: editFormData.time ?? new Date(),
+          link: editFormData.link ?? null,
+        });
+      }
     } catch (err) {
       console.error("Failed to update:", err);
     }
@@ -327,116 +330,133 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                     ) : (
                       <div
                         key={item.id}
-                        className="mb-4 ml-8 flex items-center justify-between border-b pb-2"
+                        className="mb-4 ml-8 flex flex-row border-b pb-2"
                       >
-                        <div className="pr-2">
-                          <Typography className="text-base font-medium underline">
-                            {item.title}
-                          </Typography>
-                          <div className="flex flex-row items-center">
+                        <div
+                          className={`mr-2 flex h-fit flex-row rounded-full py-1 pr-2 ${
+                            item.isMeal
+                              ? "bg-green-500"
+                              : "bg-gray-400 dark:bg-gray-700"
+                          }`}
+                        >
+                          {item.isMeal && item.mealType === "coffee" ? (
                             <Icon
-                              name="Clock"
-                              className="pr-2 text-black dark:text-white"
+                              name="Coffee"
+                              className="pl-2 text-white"
                               size="24"
                             />
-                            <Typography className="text-sm text-gray-600">
-                              {formatTime(item.time)}
-                            </Typography>
-                          </div>
-                          <div className="flex flex-row items-center">
+                          ) : item.isMeal ? (
                             <Icon
-                              name="Map"
-                              className="pr-2 text-black dark:text-white"
+                              name="Utensils"
+                              className="pl-2 text-white"
                               size="24"
                             />
-                            <Typography className="text-sm text-gray-600">
-                              {item.location}
-                            </Typography>
-                          </div>
-                          {item.notes && (
-                            <div className="flex flex-row items-center">
-                              <Icon
-                                name="MessageCircleMore"
-                                className="pr-2 text-black dark:text-white"
-                                size="24"
-                              />
-                              <Typography className="text-sm text-gray-600">
-                                {item.notes}
-                              </Typography>
-                            </div>
-                          )}
-                          {item.link && (
-                            <div className="mb-3 flex flex-row items-center">
-                              <Icon
-                                name={
-                                  isGoogleMapsLink(item.link)
-                                    ? "MapPin"
-                                    : "Link"
-                                }
-                                className="pr-2 text-black dark:text-white"
-                                size="24"
-                              />
-                              <Typography className="text-sm text-gray-600">
-                                <a
-                                  href={item.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="underline-offset-5 underline hover:text-blue-600"
-                                >
-                                  {isGoogleMapsLink(item.link)
-                                    ? "Google Maps Link"
-                                    : item.title}
-                                </a>
-                              </Typography>
-                            </div>
-                          )}
-                          {item.isMeal && (
-                            <div className="flex w-fit flex-row items-center rounded-lg bg-green-400 pr-2">
-                              {item.mealType === "coffee" ? (
-                                <Icon
-                                  name="Coffee"
-                                  className="pl-2 text-white dark:text-white"
-                                  size="24"
-                                />
-                              ) : (
-                                <Icon
-                                  name="Utensils"
-                                  className="pl-2 text-white dark:text-white"
-                                  size="24"
-                                />
-                              )}
-                              <Typography className="pl-2 text-sm font-bold text-white">
-                                {item.mealType?.toUpperCase()}
-                              </Typography>
-                            </div>
+                          ) : (
+                            <Icon
+                              name="Text"
+                              className="pl-2 text-white"
+                              size="24"
+                            />
                           )}
                         </div>
-                        <div>
-                          <CardMenu>
-                            <>
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start"
-                                onClick={() => handleEditClick(item)}
-                              >
+                        <div className="w-full pr-2">
+                          <Typography className="flex flex-row items-center gap-1 text-base font-medium">
+                            {item.title}
+                            {item.isMeal && (
+                              <Typography className="rounded-full border border-green-500 px-2 text-sm font-bold text-green-500 decoration-2">
+                                {item.mealType?.toUpperCase()}
+                              </Typography>
+                            )}
+                          </Typography>
+                          <div className="flex  flex-row justify-between">
+                            <div>
+                              <div className="flex flex-row items-center">
                                 <Icon
-                                  name="Pencil"
-                                  className="text-black dark:text-white"
-                                  size="20"
+                                  name="Clock"
+                                  className="pr-2 text-black dark:text-white"
+                                  size="24"
                                 />
-                                Edit Item
-                              </Button>
-                              <ConfirmationModal
-                                buttonText="Delete"
-                                icon="Trash"
-                                iconColor="red-500"
-                                text="Are you sure you want to delete this item?"
-                                confirmation="Delete Item"
-                                showInput={false}
-                                onConfirm={() => handleDeleteItem(item.id)}
-                              />
-                            </>
-                          </CardMenu>
+                                <Typography className="text-sm text-gray-600">
+                                  {formatTime(item.time)}
+                                </Typography>
+                              </div>
+                              <div className="flex flex-row items-center">
+                                {/* TODO: make google maps dropdown location finder */}
+                                <Icon
+                                  name="Map"
+                                  className="pr-2 text-black dark:text-white"
+                                  size="24"
+                                />
+                                <Typography className="text-sm text-gray-600">
+                                  {item.location}
+                                </Typography>
+                              </div>
+                              {item.notes && (
+                                <div className="flex flex-row items-center">
+                                  <Icon
+                                    name="MessageCircleMore"
+                                    className="shrink-0 pr-2 text-black dark:text-white"
+                                    size="24"
+                                  />
+                                  <Typography className="text-sm text-gray-600">
+                                    {item.notes}
+                                  </Typography>
+                                </div>
+                              )}
+                              {item.link && (
+                                <div className="mb-3 flex flex-row items-center">
+                                  <Icon
+                                    name={
+                                      isGoogleMapsLink(item.link)
+                                        ? "MapPin"
+                                        : "Link"
+                                    }
+                                    className="pr-2 text-black dark:text-white"
+                                    size="24"
+                                  />
+                                  <Typography className="text-sm text-gray-600">
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="underline-offset-5 underline hover:text-blue-600"
+                                    >
+                                      {isGoogleMapsLink(item.link)
+                                        ? "Google Maps Link"
+                                        : item.title}
+                                    </a>
+                                  </Typography>
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <CardMenu>
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    className="w-full justify-start"
+                                    onClick={() => handleEditClick(item)}
+                                  >
+                                    <Icon
+                                      name="Pencil"
+                                      className="text-black dark:text-white"
+                                      size="20"
+                                    />
+                                    Edit Item
+                                  </Button>
+                                  <ConfirmationModal
+                                    buttonText="Delete"
+                                    icon="Trash"
+                                    iconColor="red-500"
+                                    text="Are you sure you want to delete this item?"
+                                    confirmation="Delete Item"
+                                    showInput={false}
+                                    onConfirm={() => handleDeleteItem(item.id)}
+                                  />
+                                </>
+                              </CardMenu>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ),
