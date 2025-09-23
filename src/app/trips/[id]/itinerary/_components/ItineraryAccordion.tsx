@@ -9,7 +9,6 @@ import CardMenu from "~/_components/common/CardMenu";
 import { Icon } from "~/_components/common/Icon";
 import { Input } from "~/_components/ui/input";
 import { Textarea } from "~/_components/ui/textarea";
-import { updateItineraryItem } from "~/app/trips/actions/updateItineraryItem";
 import { api } from "~/trpc/react";
 import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 import {
@@ -31,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/_components/ui/select";
+import { DatePicker } from "~/_components/ui/datepicker";
 
 interface DailyItineraryAccordionProps {
   trip: Trip;
@@ -52,8 +52,6 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<ItineraryItem>>({});
-  const [selectedItineraryItem, setSelectedItineraryItem] =
-    useState<ItineraryItem | null>(null);
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const { data: itineraryItems } = api.itineraryItem.getAll.useQuery(
@@ -80,7 +78,6 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
     !timeDate ? "All day" : format(timeDate, "h:mm a");
 
   const handleEditClick = (item: ItineraryItem) => {
-    setSelectedItineraryItem(item);
     setEditingId(item.id);
     setEditFormData(item);
   };
@@ -233,19 +230,39 @@ function ItineraryAccordion({ trip }: DailyItineraryAccordionProps) {
                           placeholder="Title"
                           className="mb-2"
                         />
+                        <Label htmlFor="date">Date</Label>
+                        <DatePicker
+                          disabled
+                          value={editFormData.time ?? undefined}
+                        />
                         <Label htmlFor="time">Time</Label>
                         <Input
+                          id="time"
+                          type="time"
+                          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                           name="time"
-                          type="datetime-local"
                           value={
                             editFormData.time
-                              ? new Date(editFormData.time)
-                                  .toISOString()
-                                  .slice(0, 16)
+                              ? format(new Date(editFormData.time), "HH:mm")
                               : ""
                           }
-                          onChange={handleChange}
-                          className="mb-2"
+                          onChange={(e) =>
+                            setEditFormData((prev) => ({
+                              ...prev,
+                              time: e.target.value
+                                ? set(new Date(), {
+                                    hours: parseInt(
+                                      e.target.value.split(":")[0] ?? "0",
+                                    ),
+                                    minutes: parseInt(
+                                      e.target.value.split(":")[1] ?? "0",
+                                    ),
+                                    seconds: 0,
+                                    milliseconds: 0,
+                                  })
+                                : null,
+                            }))
+                          }
                         />
                         <Label htmlFor="location">Location</Label>
                         <Input
