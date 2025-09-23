@@ -48,11 +48,11 @@ export function AppSidebar() {
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${trip?.id}`, icon: Home },
-    {
-      title: "Packing List",
-      url: `/trips/${trip?.id}/packing-list`,
-      icon: Briefcase,
-    },
+    // {
+    //   title: "Packing List",
+    //   url: `/trips/${trip?.id}/packing-list`,
+    //   icon: Briefcase,
+    // },
   ];
 
   const itineraryItems = [
