@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button, buttonVariants } from "~/_components/ui/button";
-import { cn } from "~/lib/utils";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
@@ -11,6 +8,7 @@ import { api } from "~/trpc/react";
 import { Skeleton } from "~/_components/ui/skeleton";
 import { Card } from "~/_components/ui/card";
 import { Icon } from "~/_components/common/Icon";
+import NewPackingItemModal from "./NewPackingItemModal";
 
 type Props = {
   params: { id?: number };
@@ -34,6 +32,10 @@ function PackingList({ params }: Props) {
       void utils.packingList.getById.invalidate({ tripId });
     },
   });
+
+  const handleItemAdded = () => {
+    void utils.packingList.getById.invalidate({ tripId });
+  };
 
   if (isLoading) {
     return (
@@ -138,17 +140,9 @@ function PackingList({ params }: Props) {
     <Card className="flex flex-col items-center justify-center">
       {listItems.length === 0 && emptyList}
       {listItems.length > 0 && listView}
-      <Button className="btn btn-primary my-4" asChild>
-        <Link
-          className={cn(
-            buttonVariants({ variant: "link" }),
-            "mt-4 no-underline hover:no-underline",
-          )}
-          href={`/trips/${tripId}/packing-list/add-item`}
-        >
-          Add Item
-        </Link>
-      </Button>
+      <div className="my-4">
+        <NewPackingItemModal tripId={tripId} onConfirm={handleItemAdded} />
+      </div>
     </Card>
   );
 }
