@@ -22,6 +22,7 @@ import { SelectGroup } from "@radix-ui/react-select";
 import { Card, CardContent } from "~/_components/ui/card";
 import { Checkbox } from "~/_components/ui/checkbox";
 import { Label } from "~/_components/ui/label";
+import { Typography } from "~/_components/common/Typography";
 import { Icon } from "~/_components/common/Icon";
 import { api } from "~/trpc/react";
 
@@ -170,106 +171,205 @@ function NewPackingItemModal({ tripId, onConfirm }: ModalProps) {
         <DialogHeader>
           <DialogTitle>Add Packing List Items</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="mt-4 w-full space-y-4">
-          <Card>
+        <form onSubmit={handleSubmit} className="mt-4 w-full space-y-6">
+          {/* Items List */}
+          <div className="space-y-4">
             {items.map((item, index) => (
-              <CardContent key={index} className="space-y-2 pt-4">
-                <div className="grid w-full grid-cols-1 items-center gap-4 sm:grid-cols-12">
-                  <div className="sm:col-span-6">
-                    <Label htmlFor={`name-${index}`}>Item Name</Label>
-                    <Input
-                      id={`name-${index}`}
-                      className="w-full dark:bg-white"
-                      placeholder="Item name"
-                      value={item.name}
-                      onChange={(e) =>
-                        handleItemChange(index, "name", e.target.value)
-                      }
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <Label htmlFor={`quantity-${index}`}>Quantity</Label>
-                    <Input
-                      id={`quantity-${index}`}
-                      className="w-full dark:bg-white"
-                      type="number"
-                      placeholder="Quantity"
-                      value={item.quantity}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value);
-                        handleItemChange(
-                          index,
-                          "quantity",
-                          isNaN(val) ? 1 : val,
-                        );
-                      }}
-                    />
-                  </div>
-
-                  <div className="sm:col-span-3">
-                    <Label htmlFor={`category-${index}`}>Category</Label>
-                    <Select
-                      value={item.categoryId.toString()}
-                      onValueChange={(value) =>
-                        handleItemChange(index, "categoryId", parseInt(value))
-                      }
-                    >
-                      <SelectTrigger
-                        id={`category-${index}`}
-                        className="w-full"
+              <Card key={index} className="border-l-4 border-l-blue-500">
+                <CardContent className="p-2">
+                  <div className="mb-3 flex items-center justify-between">
+                    <Typography className="text-sm font-medium text-gray-600">
+                      Item {index + 1}
+                    </Typography>
+                    {items.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          const newItems = items.filter((_, i) => i !== index);
+                          setItems(
+                            newItems.length > 0
+                              ? newItems
+                              : [
+                                  {
+                                    categoryId: 0,
+                                    name: "",
+                                    quantity: 1,
+                                    isPacked: false,
+                                  },
+                                ],
+                          );
+                        }}
+                        className="text-red-500 hover:text-red-700"
                       >
-                        <SelectValue placeholder="Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {packingCategories.map((category) => (
-                            <SelectItem
-                              key={category.id}
-                              value={category.id.toString()}
-                            >
-                              {category.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                        <Icon name="X" size="16" />
+                      </Button>
+                    )}
                   </div>
 
-                  <div className="sm:col-span-1">
-                    <div className="flex flex-col items-center justify-center space-y-2">
-                      <Label htmlFor={`packed-${index}`}>Packed?</Label>
-                      <Checkbox
-                        id={`packed-${index}`}
-                        checked={item.isPacked}
-                        onCheckedChange={(checked) =>
-                          handleItemChange(index, "isPacked", checked === true)
+                  <div className="grid w-full grid-cols-1 items-start gap-4 sm:grid-cols-12">
+                    <div className="sm:col-span-6">
+                      <Label
+                        htmlFor={`name-${index}`}
+                        className="text-sm font-medium"
+                      >
+                        Item Name *
+                      </Label>
+                      <Input
+                        id={`name-${index}`}
+                        className="mt-1"
+                        placeholder="e.g., Toothbrush, Camera, Passport"
+                        value={item.name}
+                        onChange={(e) =>
+                          handleItemChange(index, "name", e.target.value)
                         }
+                        required
                       />
                     </div>
+
+                    <div className="sm:col-span-2">
+                      <Label
+                        htmlFor={`quantity-${index}`}
+                        className="text-sm font-medium"
+                      >
+                        Quantity
+                      </Label>
+                      <Input
+                        id={`quantity-${index}`}
+                        className="mt-1"
+                        type="number"
+                        min="1"
+                        placeholder="1"
+                        value={item.quantity}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value);
+                          handleItemChange(
+                            index,
+                            "quantity",
+                            isNaN(val) ? 1 : val,
+                          );
+                        }}
+                      />
+                    </div>
+
+                    <div className="sm:col-span-3">
+                      <Label
+                        htmlFor={`category-${index}`}
+                        className="text-sm font-medium"
+                      >
+                        Category
+                      </Label>
+                      <Select
+                        value={item.categoryId.toString()}
+                        onValueChange={(value) =>
+                          handleItemChange(index, "categoryId", parseInt(value))
+                        }
+                      >
+                        <SelectTrigger
+                          id={`category-${index}`}
+                          className="mt-1"
+                        >
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {packingCategories.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.id.toString()}
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="sm:col-span-1">
+                      <div className="flex flex-col items-center space-y-2">
+                        <Label
+                          htmlFor={`packed-${index}`}
+                          className="text-sm font-medium"
+                        >
+                          Packed?
+                        </Label>
+                        <Checkbox
+                          id={`packed-${index}`}
+                          checked={item.isPacked}
+                          onCheckedChange={(checked) =>
+                            handleItemChange(
+                              index,
+                              "isPacked",
+                              checked === true,
+                            )
+                          }
+                          className="h-5 w-5"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
+                </CardContent>
+              </Card>
             ))}
-          </Card>
+          </div>
 
-          <Button type="button" className="w-full" onClick={handleAddMore}>
-            <Icon size="sm" name="Plus" /> Add Another Item
-          </Button>
+          {/* Action Buttons */}
+          <div className="flex flex-col space-y-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAddMore}
+              className="w-full"
+            >
+              <Icon name="Plus" size="16" className="mr-2" />
+              Add Another Item
+            </Button>
 
-          <Button
-            className="w-full text-black"
-            type="submit"
-            variant="outline"
-            disabled={loading}
-          >
-            {loading
-              ? "Saving..."
-              : items.length > 1
-                ? "Save Items"
-                : "Save Item"}
-          </Button>
-          {error && <p className="text-sm text-red-500">{error}</p>}
+            <div className="flex space-x-3">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setOpen(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading} className="flex-1">
+                {loading ? (
+                  <>
+                    <Icon
+                      name="Loader"
+                      size="16"
+                      className="mr-2 animate-spin"
+                    />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Icon name="Save" size="16" className="mr-2" />
+                    {items.length > 1 ? "Save Items" : "Save Item"}
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {error && (
+            <div className="rounded-md bg-red-50 p-3 dark:bg-red-950">
+              <div className="flex items-center">
+                <Icon
+                  name="AlertCircle"
+                  className="mr-2 text-red-500"
+                  size="16"
+                />
+                <p className="text-sm text-red-700 dark:text-red-300">
+                  {error}
+                </p>
+              </div>
+            </div>
+          )}
         </form>
       </DialogContent>
     </Dialog>
