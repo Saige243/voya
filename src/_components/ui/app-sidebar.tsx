@@ -6,15 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "~/_components/ui/dropdown-menu";
-import {
-  Binoculars,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Home,
-  Plus,
-  Briefcase,
-} from "lucide-react";
+import { Binoculars, Home } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,19 +20,14 @@ import {
 } from "~/_components/ui/sidebar";
 import NavAvatarMenu from "../common/NavAvatarMenu";
 import { Separator } from "./separator";
-import { Accordion, AccordionContent, AccordionItem } from "./accordion";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
-import React from "react";
 import { useTrip } from "~/app/trips/contexts/TripContext";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { Button } from "~/_components/ui/button";
-// import formatStartAndEndDates from "~/utils/formatStartandEndDates";
 
 export function AppSidebar() {
   const { trip } = useTrip();
   const tripUrl = `/trips/${trip?.id}/itinerary`;
-  const [chevronDown, setChevronDown] = React.useState(false);
 
   const handleSignOut = async () => {
     await signOut({ callbackUrl: "/" });
@@ -48,20 +35,7 @@ export function AppSidebar() {
 
   const items = [
     { title: "Trip Dashboard", url: `/trips/${trip?.id}`, icon: Home },
-    // {
-    //   title: "Packing List",
-    //   url: `/trips/${trip?.id}/packing-list`,
-    //   icon: Briefcase,
-    // },
-  ];
-
-  const itineraryItems = [
     { title: "Daily Itinerary", url: tripUrl, icon: Binoculars },
-    {
-      title: "Add Itinerary Item",
-      url: `${tripUrl}/add-itinerary-item`,
-      icon: Plus,
-    },
   ];
 
   return (
@@ -82,46 +56,6 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {trip && (
-                <SidebarMenuItem>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem
-                      value="daily-itinerary"
-                      className="cursor-pointer border-none"
-                    >
-                      <AccordionTrigger asChild>
-                        <SidebarMenuButton
-                          asChild
-                          onClick={() => setChevronDown(!chevronDown)}
-                        >
-                          <div className="flex w-full items-center gap-2">
-                            <Calendar />
-                            <span>Daily Itinerary</span>
-                            {chevronDown ? (
-                              <ChevronUp className="ml-auto" />
-                            ) : (
-                              <ChevronDown className="ml-auto" />
-                            )}
-                          </div>
-                        </SidebarMenuButton>
-                      </AccordionTrigger>
-
-                      <AccordionContent className="flex flex-col gap-2 pl-8">
-                        {itineraryItems.map((item) => (
-                          <a
-                            key={item.title}
-                            href={item.url}
-                            className="flex items-center gap-1 py-1 text-sm"
-                          >
-                            <item.icon height={18} className="text-gray-500" />
-                            <span>{item.title}</span>
-                          </a>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </SidebarMenuItem>
-              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
