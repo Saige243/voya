@@ -61,6 +61,7 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
     control,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<ItineraryFormValues>({
     defaultValues: {
@@ -102,6 +103,17 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
     try {
       await onConfirm(data);
       setOpen(false);
+      reset({
+        title: "",
+        date: date ? date : new Date(),
+        time: "",
+        location: "",
+        notes: "",
+        isMeal: false,
+        mealType: undefined,
+        link: "",
+        locationData: undefined,
+      });
     } catch (err) {
       setError("Couldn't submit item. Please try again.");
       console.error(err);
