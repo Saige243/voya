@@ -21,6 +21,7 @@ import { Input } from "~/_components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "~/_components/ui/datepicker";
 import { Icon } from "~/_components/common/Icon";
+import { CustomLocationAutocomplete } from "~/_components/ui/custom-location-autocomplete";
 
 interface ModalProps {
   date?: Date | null;
@@ -36,6 +37,16 @@ type ItineraryFormValues = {
   isMeal: boolean;
   mealType?: string;
   link: string;
+  locationData?: {
+    name: string;
+    placeId: string;
+    formattedAddress: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+    googleMapsUrl: string;
+  };
 };
 
 function NewItineraryModal({ date, onConfirm }: ModalProps) {
@@ -49,6 +60,7 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<ItineraryFormValues>({
     defaultValues: {
@@ -60,10 +72,28 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
       isMeal: false,
       mealType: undefined,
       link: "",
+      locationData: undefined,
     },
   });
 
   const isMealChecked = watch("isMeal");
+  const locationValue = watch("location");
+
+  const handleLocationSelect = (locationData: {
+    name: string;
+    placeId: string;
+    formattedAddress: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+    googleMapsUrl: string;
+  }) => {
+    setValue("locationData", locationData);
+    if (locationData.googleMapsUrl) {
+      setValue("link", locationData.googleMapsUrl);
+    }
+  };
 
   const onSubmit = async (data: ItineraryFormValues) => {
     setLoading(true);
@@ -142,10 +172,18 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
 
           <div>
             <Label htmlFor="location">Location:</Label>
-            <Input
-              id="location"
-              placeholder="Location of the activity"
-              {...register("location")}
+            <Controller
+              control={control}
+              name="location"
+              render={({ field }) => (
+                <CustomLocationAutocomplete
+                  id="location"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onLocationSelect={handleLocationSelect}
+                  placeholder="Search for a location (e.g., Le Crocodile, Brooklyn)"
+                />
+              )}
             />
           </div>
 
@@ -201,9 +239,14 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
             <Label htmlFor="link">Link:</Label>
             <Input
               id="link"
-              placeholder="Link to more info"
+              placeholder="Link to more info (auto-filled if location is found)"
               {...register("link")}
             />
+            {locationValue && watch("locationData")?.googleMapsUrl && (
+              <p className="mt-1 text-sm text-green-600">
+                ✓ Google Maps link automatically added
+              </p>
+            )}
           </div>
 
           <div>

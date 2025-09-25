@@ -14,6 +14,7 @@ if (!process.env.DISCORD_CLIENT_ID || !process.env.DISCORD_CLIENT_SECRET) {
 export const env = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 };
@@ -30,6 +31,7 @@ if (process.env.SKIP_ENV_VALIDATION !== "true") {
           DISCORD_CLIENT_SECRET: z.string(),
           GOOGLE_CLIENT_ID: z.string(),
           GOOGLE_CLIENT_SECRET: z.string(),
+          GOOGLE_MAPS_API_KEY: z.string(),
         },
         client: {},
         runtimeEnv: {
@@ -40,6 +42,7 @@ if (process.env.SKIP_ENV_VALIDATION !== "true") {
           DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
           GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
           GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+          GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
         },
       });
     })
