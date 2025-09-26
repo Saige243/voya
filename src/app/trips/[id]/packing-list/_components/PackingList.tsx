@@ -33,6 +33,12 @@ function PackingList({ params }: Props) {
     },
   });
 
+  const deleteItem = api.packingList.delete.useMutation({
+    onSuccess: () => {
+      void utils.packingList.getById.invalidate({ tripId });
+    },
+  });
+
   const handleItemAdded = () => {
     void utils.packingList.getById.invalidate({ tripId });
   };
@@ -101,13 +107,26 @@ function PackingList({ params }: Props) {
               {item.name}
             </Typography>
             <Typography className="text-sm text-gray-500">
-              Quantity: {item.quantity}
+              Quantity {item.quantity}
             </Typography>
           </div>
         </div>
-        {item.isPacked && (
-          <Icon name="CircleCheck" className="text-green-500" size="20" />
-        )}
+        <div className="flex items-center space-x-2">
+          {item.isPacked && (
+            <Icon name="CircleCheck" className="text-green-500" size="20" />
+          )}
+          <button
+            onClick={() => {
+              if (!deleteItem.isError) {
+                deleteItem.mutate({ id: item.id });
+              }
+            }}
+            className="rounded-full p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+            title="Delete item"
+          >
+            <Icon name="Trash" size="16" />
+          </button>
+        </div>
       </CardContent>
     </Card>
   );

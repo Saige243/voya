@@ -47,10 +47,9 @@ export const packingListRouter = createTRPCRouter({
         });
       }
 
-      // 2. Create items with that packing list ID
       const createdItems = await ctx.db.packingListItem.createMany({
         data: items.map((item) => ({
-          packingListId: packingList.id,
+          packingListId: packingList?.id ?? 0,
           categoryId: item.categoryId,
           name: item.name,
           quantity: item.quantity ?? 1,
