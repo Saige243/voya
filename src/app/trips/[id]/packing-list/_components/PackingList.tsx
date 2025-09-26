@@ -96,9 +96,9 @@ function PackingList({ params }: Props) {
             }
             className="h-5 w-5"
           />
-          <div className="flex-1">
+          <div>
             <Typography
-              className={`font-medium ${
+              className={`text-sm font-medium ${
                 item.isPacked
                   ? "text-gray-500 line-through"
                   : "text-gray-900 dark:text-white"
@@ -106,8 +106,8 @@ function PackingList({ params }: Props) {
             >
               {item.name}
             </Typography>
-            <Typography className="text-sm text-gray-500">
-              Quantity {item.quantity}
+            <Typography className="text-xs text-gray-500">
+              Quantity: {item.quantity}
             </Typography>
           </div>
         </div>
