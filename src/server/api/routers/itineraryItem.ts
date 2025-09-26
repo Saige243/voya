@@ -19,7 +19,12 @@ export const itineraryItemRouter = createTRPCRouter({
         notes: z.string().optional(),
         isMeal: z.boolean().optional(),
         mealType: z.string().optional(),
-        link: z.string().url().optional(),
+        link: z
+          .string()
+          .optional()
+          .refine((val) => !val || z.string().url().safeParse(val).success, {
+            message: "Link must be a valid URL or empty",
+          }),
       }),
     )
     .mutation(async ({ input, ctx }): Promise<ItineraryItem> => {
@@ -79,7 +84,13 @@ export const itineraryItemRouter = createTRPCRouter({
         location: z.string().optional(),
         isMeal: z.boolean().optional(),
         mealType: z.string().nullable().optional(),
-        link: z.string().url().nullable().optional(),
+        link: z
+          .string()
+          .nullable()
+          .optional()
+          .refine((val) => !val || z.string().url().safeParse(val).success, {
+            message: "Link must be a valid URL or empty",
+          }),
         notes: z.string().optional(),
       }),
     )

@@ -183,7 +183,7 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
           </div>
 
           <div>
-            <Label htmlFor="location">Location:</Label>
+            <Label htmlFor="location">Location (optional):</Label>
             <Controller
               control={control}
               name="location"
@@ -193,7 +193,7 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
                   value={field.value}
                   onChange={field.onChange}
                   onLocationSelect={handleLocationSelect}
-                  placeholder="Search for a location (e.g., Le Crocodile, Brooklyn)"
+                  placeholder="Search for a location (optional)"
                 />
               )}
             />
