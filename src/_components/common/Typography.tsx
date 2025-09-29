@@ -17,7 +17,7 @@ const variantStyles = {
 };
 
 export const Typography: React.FC<TypographyProps> = ({
-  as: Component = "p",
+  as: Component = "span",
   variant = "body",
   className,
   children,

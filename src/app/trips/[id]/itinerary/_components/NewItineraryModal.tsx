@@ -125,7 +125,7 @@ function NewItineraryModal({ date, onConfirm }: ModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="mt-3">
           <Icon name="Plus" className="inline" size="16" />
           Add Item for {formattedDate}
         </Button>
