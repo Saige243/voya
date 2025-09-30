@@ -19,11 +19,11 @@ export default function ItineraryPage() {
 
   return (
     <div>
-      <div>
+      <div className="mb-4">
         <Typography variant="heading2" className="text-black dark:text-white">
           Daily Itinerary
         </Typography>
-        <Typography className="pb-2 text-gray-700 dark:text-gray-400">
+        <Typography className="pb-2 pl-2 text-gray-700 dark:text-gray-400">
           {dates.length} day{dates.length > 1 ? "s" : ""}
         </Typography>
       </div>
